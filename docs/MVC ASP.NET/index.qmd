@@ -1,52 +1,54 @@
 ---
 title: "ASP.NET (MVC e-commerce)"
-subtitle: "React - LINQ - Entity Frame Work - MS SqlServer"
+subtitle: "Introduction à la programmation web basée sur le '_pattern_' MVC."
+
 author: "Patrik Kenfack"
 format: 
   revealjs:
     auto-stretch: false
+    theme: simple
 ---
-## Plan 
+## Plan du cours
 
 - Rappel sur la programmation web
 - L'architecture MVC 
   - Motivations
-  - Model-Vue-Contrôleur
-  - Mise en place
-- Technologies utilisées
+  - Composants de architecture MVC
+  - Exemple de mise en œuvre
+- Rôle des technologies utilisées au dans ce cours
   - ASP.NET; Entity FrameWork (EF); MS SQLServer; React; API web
-
-# Objectifs du cours
 --- 
+
+## Objectifs
 
 <h5> À l'issue de ce cours l'étudiant doit être capable de: </h5>
  
 - Comprendre les avantages et inconvénients de l'architecture MVC.
 - Connaître le rôle de chaque composant du MVC (Model, View, Contoller).
-- Connaître les normes et contraintes du modèle MVC dans le développement web.  
+- Connaître les normes et contraintes de l'architecture MVC dans le développement web. 
+- Identifier le rôle de différentes technologies dans l'architecture MVC.  
 
-
-# La programmation web 
+ 
 ---
 
-<h5> La programmation web </h5> 
+## La programmation web (rappel)
 
 - Analyse du système
 - Interfaces utilisateur et interactions (design)
 - Structure de la base de données
-- Code coté serveur (logic métier)
-- Code coté client (logic métier) 
+- Code coté serveur (logique métier)
+- Code coté client (logique métier) 
 
 --- 
 
-<h5> La programmation web </h5>
-![](./images/Overview_web_programming-Page-2.png){.absolute top="95" left="270" width="490"}
+### La programmation web
+![](./images/Overview_web_programming-Page-2.webp){.absolute top="95" left="270" width="490"}
  
 
 --- 
 
-<h5> La programmation web </h5>
-![](./images/Overview_web_programming-Page-1.png){.absolute top="95" right="28" width="1400"} 
+### La programmation web
+![](./images/Overview_web_programming-Page-1.webp){.absolute top="95" right="28" width="1400"} 
 
 ## Prérequis
 
@@ -55,7 +57,7 @@ format:
 - Programmation orientée objets
 - Manupilation des bases de données relationnelles
 
-# Architecture MVC
+# Motivations de l'architecture MVC.
 
 ## Example
 
@@ -159,7 +161,7 @@ public partial class _Default : System.Web.UI.Page
 
 ---
 
-### Quelles sont les limites de cette approche? 
+### Quels sont les inconvénients de cette approche ? 
 
 ::: {.incremental}
 
@@ -173,9 +175,9 @@ public partial class _Default : System.Web.UI.Page
   - La complexité des fichiers augmente  et rend l'application plus difficile à faire évoluer.
 :::
 
-# MVC (Model - Vue - Contrôleur)
+# Le pattern MVC
 
-## MVC
+## Le pattern MVC
 
 - Le pattern MVC est une *architecture logicielle* qui sépare **l'interface utilisateur**, le **stockage des données** et la **logique métier** en trois composants distincts:
   - Le Modèle
@@ -198,21 +200,21 @@ public partial class _Default : System.Web.UI.Page
 
 ---
 
-### Le contrôleur
+### Le Contrôleur
 
 - Se trouve entre la vue et le modèle.
 - Reçoit et traite les requêtes des utilisateurs.
 ---
 
 
-### Vue globale
+### Une vue globale
 
-![](./images/Overview_web_programming-Page-4.webp){.absolute top="5" left="200"} 
+![](./images/Overview_web_programming-Page-4.webp){.absolute top="75" left="200"} 
 
 ---
-### Exemple avec le MVC
+### MCV: exemple de mise en oeuvre 
 
-Le model : Structure de donnée
+Le model : la structure de données
 
 ```c#
 public class Product
@@ -225,7 +227,7 @@ public class Product
 > Product.cs
 ---
 
-Le model: Couche d'accès aux données
+Le model: couche d'accès aux données
 
 ```c#
 using System.Collections.Generic;
@@ -315,7 +317,9 @@ public class ProductsController : Controller
 }
 ```
 >ProductsController.cs
+
 --- 
+
 La vue 
 
 ```c#
@@ -359,3 +363,6 @@ La vue
 </html>
 ```
 >Index.cshtml
+
+---
+<h4>À la lumière de l'exemple de mise en œuvre, identifiez 3 avantages et 3 inconvénients de l'architecture MVC.</h4>

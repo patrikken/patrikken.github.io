@@ -392,7 +392,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">ASP.NET (MVC e-commerce)</h1>
-  <p class="subtitle">React - LINQ - Entity Frame Work - MS SqlServer</p>
+  <p class="subtitle">Introduction à la programmation web basée sur le ‘<em>pattern</em>’ MVC.</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -403,69 +403,53 @@ Patrik Kenfack
 </div>
 
 </section>
-<section id="plan" class="slide level2">
-<h2>Plan</h2>
+<section id="plan-du-cours" class="slide level2">
+<h2>Plan du cours</h2>
 <ul>
 <li>Rappel sur la programmation web</li>
 <li>L’architecture MVC
 <ul>
 <li>Motivations</li>
-<li>Model-Vue-Contrôleur</li>
-<li>Mise en place</li>
+<li>Composants de architecture MVC</li>
+<li>Exemple de mise en œuvre</li>
 </ul></li>
-<li>Technologies utilisées
+<li>Rôle des technologies utilisées au dans ce cours
 <ul>
 <li>ASP.NET; Entity FrameWork (EF); MS SQLServer; React; API web</li>
 </ul></li>
 </ul>
 </section>
-<section>
-<section id="objectifs-du-cours" class="title-slide slide level1 center">
-<h1>Objectifs du cours</h1>
-
-</section>
-<section class="slide level2">
-
+<section id="objectifs" class="slide level2">
+<h2>Objectifs</h2>
 <h5>
 À l’issue de ce cours l’étudiant doit être capable de:
 </h5>
 <ul>
 <li>Comprendre les avantages et inconvénients de l’architecture MVC.</li>
 <li>Connaître le rôle de chaque composant du MVC (Model, View, Contoller).</li>
-<li>Connaître les normes et contraintes du modèle MVC dans le développement web.</li>
+<li>Connaître les normes et contraintes de l’architecture MVC dans le développement web.</li>
+<li>Identifier le rôle de différentes technologies dans l’architecture MVC.</li>
 </ul>
-</section></section>
-<section>
-<section id="la-programmation-web" class="title-slide slide level1 center">
-<h1>La programmation web</h1>
-
 </section>
-<section class="slide level2">
-
-<h5>
-La programmation web
-</h5>
+<section id="la-programmation-web-rappel" class="slide level2">
+<h2>La programmation web (rappel)</h2>
 <ul>
 <li>Analyse du système</li>
 <li>Interfaces utilisateur et interactions (design)</li>
 <li>Structure de la base de données</li>
-<li>Code coté serveur (logic métier)</li>
-<li>Code coté client (logic métier)</li>
+<li>Code coté serveur (logique métier)</li>
+<li>Code coté client (logique métier)</li>
 </ul>
 </section>
 <section class="slide level2">
 
-<h5>
-La programmation web
-</h5>
-<p><img data-src="./images/Overview_web_programming-Page-2.png" class="absolute" style="top: 95px; left: 270px; width: 490px; "></p>
+<h3 id="la-programmation-web">La programmation web</h3>
+<p><img data-src="./images/Overview_web_programming-Page-2.webp" class="absolute" style="top: 95px; left: 270px; width: 490px; "></p>
 </section>
 <section class="slide level2">
 
-<h5>
-La programmation web
-</h5>
-<p><img data-src="./images/Overview_web_programming-Page-1.png" class="absolute" style="top: 95px; right: 28px; width: 1400px; "></p>
+<h3 id="la-programmation-web-1">La programmation web</h3>
+<p><img data-src="./images/Overview_web_programming-Page-1.webp" class="absolute" style="top: 95px; right: 28px; width: 1400px; "></p>
 </section>
 <section id="prérequis" class="slide level2">
 <h2>Prérequis</h2>
@@ -475,10 +459,10 @@ La programmation web
 <li>Programmation orientée objets</li>
 <li>Manupilation des bases de données relationnelles</li>
 </ul>
-</section></section>
+</section>
 <section>
-<section id="architecture-mvc" class="title-slide slide level1 center">
-<h1>Architecture MVC</h1>
+<section id="motivations-de-larchitecture-mvc." class="title-slide slide level1 center">
+<h1>Motivations de l’architecture MVC.</h1>
 
 </section>
 <section id="example" class="slide level2">
@@ -582,7 +566,7 @@ La programmation web
 </section>
 <section class="slide level2">
 
-<h3 id="quelles-sont-les-limites-de-cette-approche">Quelles sont les limites de cette approche?</h3>
+<h3 id="quels-sont-les-inconvénients-de-cette-approche">Quels sont les inconvénients de cette approche ?</h3>
 <div>
 <ul>
 <li class="fragment">Code fortement couplé
@@ -605,12 +589,12 @@ La programmation web
 </div>
 </section></section>
 <section>
-<section id="mvc-model---vue---contrôleur" class="title-slide slide level1 center">
-<h1>MVC (Model - Vue - Contrôleur)</h1>
+<section id="le-pattern-mvc" class="title-slide slide level1 center">
+<h1>Le pattern MVC</h1>
 
 </section>
-<section id="mvc" class="slide level2">
-<h2>MVC</h2>
+<section id="le-pattern-mvc-1" class="slide level2">
+<h2>Le pattern MVC</h2>
 <ul>
 <li>Le pattern MVC est une <em>architecture logicielle</em> qui sépare <strong>l’interface utilisateur</strong>, le <strong>stockage des données</strong> et la <strong>logique métier</strong> en trois composants distincts:
 <ul>
@@ -639,7 +623,7 @@ La programmation web
 </section>
 <section class="slide level2">
 
-<h3 id="le-contrôleur">Le contrôleur</h3>
+<h3 id="le-contrôleur">Le Contrôleur</h3>
 <ul>
 <li>Se trouve entre la vue et le modèle.</li>
 <li>Reçoit et traite les requêtes des utilisateurs.</li>
@@ -647,13 +631,13 @@ La programmation web
 </section>
 <section class="slide level2">
 
-<h3 id="vue-globale">Vue globale</h3>
-<p><img data-src="./images/Overview_web_programming-Page-4.webp" class="absolute" style="top: 5px; left: 200px; "></p>
+<h3 id="une-vue-globale">Une vue globale</h3>
+<p><img data-src="./images/Overview_web_programming-Page-4.webp" class="absolute" style="top: 75px; left: 200px; "></p>
 </section>
 <section class="slide level2">
 
-<h3 id="exemple-avec-le-mvc">Exemple avec le MVC</h3>
-<p>Le model : Structure de donnée</p>
+<h3 id="mcv-exemple-de-mise-en-oeuvre">MCV: exemple de mise en oeuvre</h3>
+<p>Le model : la structure de données</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode numberSource c# number-lines code-with-copy"><code class="sourceCode cs"><span id="cb3-1"><a href=""></a><span class="kw">public</span> <span class="kw">class</span> Product</span>
 <span id="cb3-2"><a href=""></a><span class="op">{</span></span>
 <span id="cb3-3"><a href=""></a>    <span class="kw">public</span> <span class="dt">int</span> ProductID <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
@@ -666,7 +650,7 @@ La programmation web
 </section>
 <section class="slide level2">
 
-<p>Le model: Couche d’accès aux données</p>
+<p>Le model: couche d’accès aux données</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode numberSource c# number-lines code-with-copy"><code class="sourceCode cs"><span id="cb4-1"><a href=""></a><span class="kw">using</span> System<span class="op">.</span><span class="fu">Collections</span><span class="op">.</span><span class="fu">Generic</span><span class="op">;</span></span>
 <span id="cb4-2"><a href=""></a><span class="kw">using</span> System<span class="op">.</span><span class="fu">Data</span><span class="op">;</span></span>
 <span id="cb4-3"><a href=""></a><span class="kw">using</span> System<span class="op">.</span><span class="fu">Data</span><span class="op">.</span><span class="fu">SqlClient</span><span class="op">;</span></span>
@@ -799,6 +783,12 @@ La programmation web
 <blockquote>
 <p>Index.cshtml</p>
 </blockquote>
+</section>
+<section class="slide level2">
+
+<h4>
+À la lumière de l’exemple de mise en œuvre, identifiez 3 avantages et 3 inconvénients de l’architecture MVC.
+</h4>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 

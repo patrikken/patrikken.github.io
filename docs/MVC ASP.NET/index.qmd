@@ -15,7 +15,7 @@ format:
 - Rappel sur la programmation web
 - L'architecture MVC 
   - Motivations
-  - Composants de architecture MVC
+  - Composants de l'architecture MVC
   - Exemple de mise en œuvre
 - Rôle des technologies utilisées au dans ce cours
   - ASP.NET; Entity FrameWork (EF); MS SQLServer; React; API web

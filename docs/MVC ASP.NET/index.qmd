@@ -212,9 +212,13 @@ public partial class _Default : System.Web.UI.Page
 ![](./images/Overview_web_programming-Page-4.webp){.absolute top="75" left="200"} 
 
 ---
-### MCV: exemple de mise en oeuvre 
 
-Le model : la structure de données
+# MCV: exemple de mise en œuvre 
+
+---
+
+### Le Modèle 
+La structure de données
 
 ```c#
 public class Product
@@ -227,7 +231,8 @@ public class Product
 > Product.cs
 ---
 
-Le model: couche d'accès aux données
+### Le Modèle 
+La couche d'accès aux données
 
 ```c#
 using System.Collections.Generic;
@@ -282,7 +287,7 @@ public class ProductRepository
 
 ---
 
-Le contrôleur
+### Le Contrôleur
 
 ```c#
 using System.Collections.Generic;
@@ -320,10 +325,10 @@ public class ProductsController : Controller
 
 --- 
 
-La vue 
+### La Vue 
 
 ```c#
-@model List<Product>
+@modèle List<Product>
 
 <!DOCTYPE html>
 <html lang="en">

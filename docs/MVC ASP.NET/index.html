@@ -636,8 +636,16 @@ Patrik Kenfack
 </section>
 <section class="slide level2">
 
-<h3 id="mcv-exemple-de-mise-en-oeuvre">MCV: exemple de mise en oeuvre</h3>
-<p>Le model : la structure de données</p>
+</section></section>
+<section>
+<section id="mcv-exemple-de-mise-en-œuvre" class="title-slide slide level1 center">
+<h1>MCV: exemple de mise en œuvre</h1>
+
+</section>
+<section class="slide level2">
+
+<h3 id="le-modèle-1">Le Modèle</h3>
+<p>La structure de données</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode numberSource c# number-lines code-with-copy"><code class="sourceCode cs"><span id="cb3-1"><a href=""></a><span class="kw">public</span> <span class="kw">class</span> Product</span>
 <span id="cb3-2"><a href=""></a><span class="op">{</span></span>
 <span id="cb3-3"><a href=""></a>    <span class="kw">public</span> <span class="dt">int</span> ProductID <span class="op">{</span> <span class="kw">get</span><span class="op">;</span> <span class="kw">set</span><span class="op">;</span> <span class="op">}</span></span>
@@ -650,7 +658,8 @@ Patrik Kenfack
 </section>
 <section class="slide level2">
 
-<p>Le model: couche d’accès aux données</p>
+<h3 id="le-modèle-2">Le Modèle</h3>
+<p>La couche d’accès aux données</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode numberSource c# number-lines code-with-copy"><code class="sourceCode cs"><span id="cb4-1"><a href=""></a><span class="kw">using</span> System<span class="op">.</span><span class="fu">Collections</span><span class="op">.</span><span class="fu">Generic</span><span class="op">;</span></span>
 <span id="cb4-2"><a href=""></a><span class="kw">using</span> System<span class="op">.</span><span class="fu">Data</span><span class="op">;</span></span>
 <span id="cb4-3"><a href=""></a><span class="kw">using</span> System<span class="op">.</span><span class="fu">Data</span><span class="op">.</span><span class="fu">SqlClient</span><span class="op">;</span></span>
@@ -704,7 +713,7 @@ Patrik Kenfack
 </section>
 <section class="slide level2">
 
-<p>Le contrôleur</p>
+<h3 id="le-contrôleur-1">Le Contrôleur</h3>
 <div class="sourceCode" id="cb5"><pre class="sourceCode numberSource c# number-lines code-with-copy"><code class="sourceCode cs"><span id="cb5-1"><a href=""></a><span class="kw">using</span> System<span class="op">.</span><span class="fu">Collections</span><span class="op">.</span><span class="fu">Generic</span><span class="op">;</span></span>
 <span id="cb5-2"><a href=""></a><span class="kw">using</span> System<span class="op">.</span><span class="fu">Web</span><span class="op">.</span><span class="fu">Mvc</span><span class="op">;</span></span>
 <span id="cb5-3"><a href=""></a></span>
@@ -741,8 +750,8 @@ Patrik Kenfack
 </section>
 <section class="slide level2">
 
-<p>La vue</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource c# number-lines code-with-copy"><code class="sourceCode cs"><span id="cb6-1"><a href=""></a>@model List<span class="op">&lt;</span>Product<span class="op">&gt;</span></span>
+<h3 id="la-vue-1">La Vue</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource c# number-lines code-with-copy"><code class="sourceCode cs"><span id="cb6-1"><a href=""></a>@modèle List<span class="op">&lt;</span>Product<span class="op">&gt;</span></span>
 <span id="cb6-2"><a href=""></a></span>
 <span id="cb6-3"><a href=""></a><span class="op">&lt;!</span>DOCTYPE html<span class="op">&gt;</span></span>
 <span id="cb6-4"><a href=""></a><span class="op">&lt;</span>html lang<span class="op">=</span><span class="st">"en"</span><span class="op">&gt;</span></span>

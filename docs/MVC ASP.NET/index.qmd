@@ -7,6 +7,8 @@ format:
   revealjs:
     auto-stretch: false
     theme: simple
+    controls-layout: bottom-right
+    controls-tutorial: true
 ---
 ## Plan du cours
 
@@ -42,13 +44,13 @@ format:
 --- 
 
 ### La programmation web
-![](./images/Overview_web_programming-Page-2.webp){.absolute top="95" left="270" width="490"}
+![](./images/Overview_web_programming-Page-2.webp){.nostretch fig-align="center" width="500"}
  
 
 --- 
 
 ### La programmation web
-![](./images/Overview_web_programming-Page-1.webp){.absolute top="95" right="28" width="1400"} 
+![](./images/Overview_web_programming-Page-1.webp){.nostretch fig-align="center" width="1390"} 
 
 ## Prérequis
 
@@ -165,14 +167,10 @@ public partial class _Default : System.Web.UI.Page
 
 ::: {.incremental}
 
-- Code fortement couplé
-  - Peu réutilisable, duplication de code.
-- Difficile à maintenir 
-  - La modification de l'affichage/recherche de produits peut engendrer  des effets secondaires imprévus (Modification du même fichier). 
-- Test unitaire difficile 
-  - Il faut lire toute la page pour tester une fonctionnalité spécifique.
-- Difficulté de mise à l'échelle 
-  - La complexité des fichiers augmente  et rend l'application plus difficile à faire évoluer.
+- Code fortement couplé: Les scripts peu réutilisable, duplication de code.
+- Difficile à maintenir: La modification de l'affichage/recherche de produits peut engendrer  des effets secondaires imprévus (modification du même fichier). 
+- Test unitaire difficile: Il faut lire toute la page pour tester une fonctionnalité spécifique.
+- Difficulté de mise à l'échelle : La complexité des fichiers augmente et rend l'application plus difficile à faire évoluer.
 :::
 
 # Le pattern MVC
@@ -207,13 +205,13 @@ public partial class _Default : System.Web.UI.Page
 ---
 
 
-### Une vue globale
+### MVC: Une vue d'ensemble
 
-![](./images/Overview_web_programming-Page-4.webp){.absolute top="75" left="200"} 
+![](./images/Overview_web_programming-Page-4.webp){.nostretch fig-align="center" width="800"} 
 
 ---
 
-# MCV: exemple de mise en œuvre 
+# Exemple de mise en œuvre 
 
 ---
 
@@ -370,4 +368,4 @@ public class ProductsController : Controller
 >Index.cshtml
 
 ---
-<h4>À la lumière de l'exemple de mise en œuvre, identifiez 3 avantages et 3 inconvénients de l'architecture MVC.</h4>
+#### À la lumière de l'exemple de mise en œuvre, identifiez 3 avantages et 3 inconvénients de l'architecture MVC. {.center}

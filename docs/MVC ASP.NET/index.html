@@ -444,12 +444,20 @@ Patrik Kenfack
 <section class="slide level2">
 
 <h3 id="la-programmation-web">La programmation web</h3>
-<p><img data-src="./images/Overview_web_programming-Page-2.webp" class="absolute" style="top: 95px; left: 270px; width: 490px; "></p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="./images/Overview_web_programming-Page-2.webp" class="quarto-figure quarto-figure-center" width="500"></p>
+</figure>
+</div>
 </section>
 <section class="slide level2">
 
 <h3 id="la-programmation-web-1">La programmation web</h3>
-<p><img data-src="./images/Overview_web_programming-Page-1.webp" class="absolute" style="top: 95px; right: 28px; width: 1400px; "></p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="./images/Overview_web_programming-Page-1.webp" class="quarto-figure quarto-figure-center" width="1390"></p>
+</figure>
+</div>
 </section>
 <section id="prérequis" class="slide level2">
 <h2>Prérequis</h2>
@@ -569,22 +577,10 @@ Patrik Kenfack
 <h3 id="quels-sont-les-inconvénients-de-cette-approche">Quels sont les inconvénients de cette approche ?</h3>
 <div>
 <ul>
-<li class="fragment">Code fortement couplé
-<ul>
-<li class="fragment">Peu réutilisable, duplication de code.</li>
-</ul></li>
-<li class="fragment">Difficile à maintenir
-<ul>
-<li class="fragment">La modification de l’affichage/recherche de produits peut engendrer des effets secondaires imprévus (Modification du même fichier).</li>
-</ul></li>
-<li class="fragment">Test unitaire difficile
-<ul>
-<li class="fragment">Il faut lire toute la page pour tester une fonctionnalité spécifique.</li>
-</ul></li>
-<li class="fragment">Difficulté de mise à l’échelle
-<ul>
-<li class="fragment">La complexité des fichiers augmente et rend l’application plus difficile à faire évoluer.</li>
-</ul></li>
+<li class="fragment">Code fortement couplé: Les scripts peu réutilisable, duplication de code.</li>
+<li class="fragment">Difficile à maintenir: La modification de l’affichage/recherche de produits peut engendrer des effets secondaires imprévus (modification du même fichier).</li>
+<li class="fragment">Test unitaire difficile: Il faut lire toute la page pour tester une fonctionnalité spécifique.</li>
+<li class="fragment">Difficulté de mise à l’échelle : La complexité des fichiers augmente et rend l’application plus difficile à faire évoluer.</li>
 </ul>
 </div>
 </section></section>
@@ -631,15 +627,19 @@ Patrik Kenfack
 </section>
 <section class="slide level2">
 
-<h3 id="une-vue-globale">Une vue globale</h3>
-<p><img data-src="./images/Overview_web_programming-Page-4.webp" class="absolute" style="top: 75px; left: 200px; "></p>
+<h3 id="mvc-une-vue-densemble">MVC: Une vue d’ensemble</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="./images/Overview_web_programming-Page-4.webp" class="quarto-figure quarto-figure-center" width="800"></p>
+</figure>
+</div>
 </section>
 <section class="slide level2">
 
 </section></section>
 <section>
-<section id="mcv-exemple-de-mise-en-œuvre" class="title-slide slide level1 center">
-<h1>MCV: exemple de mise en œuvre</h1>
+<section id="exemple-de-mise-en-œuvre" class="title-slide slide level1 center">
+<h1>Exemple de mise en œuvre</h1>
 
 </section>
 <section class="slide level2">
@@ -795,9 +795,7 @@ Patrik Kenfack
 </section>
 <section class="slide level2">
 
-<h4>
-À la lumière de l’exemple de mise en œuvre, identifiez 3 avantages et 3 inconvénients de l’architecture MVC.
-</h4>
+<h4 class="center" id="à-la-lumière-de-lexemple-de-mise-en-œuvre-identifiez-3-avantages-et-3-inconvénients-de-larchitecture-mvc.">À la lumière de l’exemple de mise en œuvre, identifiez 3 avantages et 3 inconvénients de l’architecture MVC.</h4>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
@@ -842,10 +840,10 @@ Patrik Kenfack
 
         // Help the user learn the controls by providing hints, for example by
         // bouncing the down arrow when they first encounter a vertical slide
-        controlsTutorial: false,
+        controlsTutorial: true,
 
         // Determines where controls appear, "edges" or "bottom-right"
-        controlsLayout: 'edges',
+        controlsLayout: 'bottom-right',
 
         // Visibility rule for backwards navigation arrows; "faded", "hidden"
         // or "visible"

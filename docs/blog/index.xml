@@ -204,7 +204,7 @@ The illustration above tells you what account you can use on a given cluster. Fo
 </section>
 </section>
 <section id="putting-it-all-together" class="level2">
-<h2 class="anchored" data-anchor-id="putting-it-all-together"><strong>Putting it all together</strong></h2>
+<h2 class="anchored" data-anchor-id="putting-it-all-together">Putting it all together</h2>
 <p>Here is an example of a job script that you can use to submit your job:</p>
 <div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
 background-color: null;

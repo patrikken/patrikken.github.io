@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>patrikken.github.com/index.html</loc>
-    <lastmod>2025-05-22T22:35:15.401Z</lastmod>
+    <lastmod>2025-05-22T22:35:55.398Z</lastmod>
+  </url>
+  <url>
+    <loc>patrikken.github.com/blog/index.html</loc>
+    <lastmod>2025-05-22T14:11:08.036Z</lastmod>
+  </url>
+  <url>
+    <loc>patrikken.github.com/blog/posts/Getting Started with Compute Clusters/index.html</loc>
+    <lastmod>2025-05-22T22:36:22.819Z</lastmod>
   </url>
 </urlset>

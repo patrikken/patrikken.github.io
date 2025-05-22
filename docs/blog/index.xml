@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Patrik Kenfack</title>
+<link>patrikken.github.com/blog/</link>
+<atom:link href="patrikken.github.com/blog/index.xml" rel="self" type="application/rss+xml"/>
+<description>Patrik Kenfack is PhD Candidate in Computer Science at Mila/ÉTS Montréal.</description>
+<generator>quarto-1.5.42</generator>
+<lastBuildDate>Thu, 22 May 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Getting Started with Compute Clusters</title>
+  <dc:creator>Patrik Kenfack</dc:creator>
+  <link>patrikken.github.com/blog/posts/Getting Started with Compute Clusters/</link>
+  <description><![CDATA[ 
+
+
+
+
+<p><img src="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/compute_cluster2.png" class="img-fluid" alt="ChatGPT generated image"> ## Digital Research Alliance of Canada</p>
+<p><a href="https://alliancecan.ca/en">Digital Research Alliance of Canada</a> is a national research infrastructure that provides high-performance computing resources to researchers across Canada. It is a partnership between the Canadian government and the private sector.</p>
+<p>If you don’t have an account, you can sign up <a href="https://alliancecan.ca/en/register">here</a>. You will need to get sponsored by your supervisor to get your account approved.</p>
+<section id="login-to-compute-canada" class="level2">
+<h2 class="anchored" data-anchor-id="login-to-compute-canada">Login to Compute Canada</h2>
+<p>Once you have an account, you can login via <code>ssh</code> to the cluster. In case you don’t have <code>ssh</code> installed on your computer, you should follow the instructions <a href="https://docs.alliancecan.ca/wiki/doku.php?id=start:ssh">here</a> to install it.</p>
+<p>Compute Canada has several compute clusters located across Canada. Here is short list of those clusters:</p>
+<ul>
+<li><a href="">Graham</a></li>
+<li><a href="">Cedar</a></li>
+<li><a href="">Narval</a></li>
+<li><a href="">Beluga</a></li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Cluster Names
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The names of the clusters are chosen based some facts about the location of the cluster. For example, <code>Beluga</code>, located at <a href="https://www.etsmtl.ca/">École de technologie supérieure</a> in Montreal, is named after the Beluga whale, which is found in the St.&nbsp;Lawrence River.</p>
+</div>
+</div>
+<p>The name of the cluster is used to login to a specific cluster. For example, to login to the <code>Beluga</code> cluster, you can use the following command:</p>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ssh</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span>your_username<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span>@beluga.alliancecan.ca</span></code></pre></div>
+</section>
+<section id="login-nodes-vs-compute-nodes" class="level2">
+<h2 class="anchored" data-anchor-id="login-nodes-vs-compute-nodes">Login nodes vs Compute nodes</h2>
+<p>Unlike other cloud providers, login via <code>ssh</code> to a node does not give direct access to a compute machine. Instead, you will be on a <code>login node</code> from which you can submit jobs to the <code>compute nodes</code>.</p>
+<section id="login-nodes" class="level3">
+<h3 class="anchored" data-anchor-id="login-nodes">Login nodes</h3>
+<p>Once you are logged in to the cluster, you will be on a login node. Login nodes are meant for interactive use and are not meant for running your large programs.</p>
+<p>Things you can do on the login nodes:</p>
+<ul>
+<li>Git clone your repository</li>
+<li>Run small interactive jobs (will be discussed below)</li>
+<li>Edit and submit jobs using a text editor</li>
+<li>View the status of your jobs</li>
+<li>Transfer files to and from the cluster</li>
+<li>Create virtual environments and install packages</li>
+<li>Submit jobs to the cluster (will be assigned to a compute node)</li>
+</ul>
+<p>Things you cannot do on the login nodes:</p>
+<ul>
+<li>Run large jobs</li>
+<li>Use a lot of memory</li>
+<li>Use a lot of CPU</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="login_node.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Example of ssh session on a login node. Login nodes generally have hostnames like beluga1, beluga2, etc."><img src="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/login_node.png" class="img-fluid figure-img" alt="Example of ssh session on a login node. Login nodes generally have hostnames like beluga1, beluga2, etc."></a></p>
+<figcaption>Example of ssh session on a login node. Login nodes generally have hostnames like beluga1, beluga2, etc.</figcaption>
+</figure>
+</div>
+</section>
+<section id="compute-nodes" class="level3">
+<h3 class="anchored" data-anchor-id="compute-nodes">Compute nodes</h3>
+<p>Compute nodes are meant for running large jobs. They have more memory and CPU than <code>login nodes</code>, and they have GPUs.</p>
+<p>Things you can do on the compute nodes:</p>
+<ul>
+<li>Run large jobs</li>
+<li>Use a lot of memory</li>
+<li>Use a lot of CPU and GPU</li>
+</ul>
+<p>When you submit a job, it is assigned to a compute node with the requested resources. We will get back to this below. Before that, let’s discuss file systems and where you should copy files for your project.</p>
+</section>
+</section>
+<section id="file-system" class="level2">
+<h2 class="anchored" data-anchor-id="file-system">File System</h2>
+<p>One of the most important thing to know about Compute Canada is the file system. There are three types of file systems with different properties and limitations: <code>home</code>, <code>project</code>, <code>scratch</code></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/file_system.png" class="img-fluid figure-img"></p>
+<figcaption>Directory structure on Beluga</figcaption>
+</figure>
+</div>
+<p>The <code>home</code> directory has small quota, a fixed number of filesystem objects and smaller storage space (generally up to 25 GB) and has dearly backups. The <code>project</code> directory is meant for long-term storage of data that is shared across users linked to a sponsor. The <code>scratch</code> directory is meant for temporary storage of data and has a larger fixed quota per user and a larger storage space (generally above to 2 PB of space).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you are actively working on a project, I recommend that you copy your data (source code, datasets, etc.) to the <code>scratch</code> directory. This will save you time, and you don’t need to worry about the storage space. You can copy your data back to the <code>project</code> directory after your project is done or paused.</p>
+</div>
+</div>
+<p>Note that only the unused files on the <code>scratch</code> directory are deleted after 30 or 60 days, depending on the cluster. So if you are actively working on your project, you can use scratch and run everything as on your local machine, with logs files and results saved in your project directory.</p>
+<p>A better approach is to have your source code and data in the <code>project</code> directory and make sure your logs (e.g., training logs and models’ checkpoints) and results are saved in the <code>scratch</code> directory. This way you can keep your project directory clean and you can have better control of your data. In another post, we will discuss how to speed up jobs using <code>$SLURM_TMPDIR</code>.</p>
+</section>
+<section id="job-submission" class="level2">
+<h2 class="anchored" data-anchor-id="job-submission">Job Submission</h2>
+<p>Once you have your data in the <code>scratch</code> directory, you can submit a job to the cluster.</p>
+<section id="module-loading" class="level3">
+<h3 class="anchored" data-anchor-id="module-loading">Module loading</h3>
+<p>Before running any job, you need to load the modules for the software you need. For example, if you need to use <code>Python 3.10</code>, you need to load the <code>Python</code> module with the following command.</p>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">module</span> load python/3.10</span></code></pre></div>
+<p>After loading the module, you can check if it is loaded correctly by running <code>module list</code>. Note that from here on, all the dependencies you install, with <code>pip install</code> for example, will be installed for this specific version of Python and will be available in your environment every time you load the module.</p>
+</section>
+<section id="virtual-environment" class="level3">
+<h3 class="anchored" data-anchor-id="virtual-environment">Virtual environment</h3>
+<p>After loading the module, you can also create a virtual environment for project-specific dependencies.</p>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">python</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-m</span> venv .venv</span>
+<span id="cb3-2"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">source</span> .venv/bin/activate</span></code></pre></div>
+</section>
+<section id="submitting-a-job" class="level3">
+<h3 class="anchored" data-anchor-id="submitting-a-job">Submitting a job</h3>
+<p>At this point, you should have your data in the <code>scratch</code> directory, installed the dependencies in your loaded module and created a virtual environment for project-specific dependencies.</p>
+<p>Now you can submit a job to the cluster.</p>
+<p>Let’s assume you have a Python script (<code>my_script.py</code>) that you want to run on the cluster, and you can pass some arguments to it, for example, the number of epochs and the dataset to use, etc. Normally, on your local machine, you run this script as follows:</p>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">python</span> my_script.py <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--num_epochs</span> 60 <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--dataset</span> mnist</span></code></pre></div>
+<p>To submit this job to the cluster, you need to create a <code>job script</code> that will be used to submit the job. A job script is a bash program that will load the necessary modules and specify the resources your Python program needs (number of nodes, number of cores, amount of memory, type and number of GPUs, etc.).</p>
+<section id="job-script-directives" class="level4">
+<h4 class="anchored" data-anchor-id="job-script-directives">Job script directives</h4>
+<p>The header of the job script contains directives to specify the resources your Python program needs. Here is an example of a job script header:</p>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#!/bin/bash</span></span>
+<span id="cb5-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#SBATCH --account=def-someuser</span></span>
+<span id="cb5-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#SBATCH --gpus-per-node=1         # Number of GPU(s) per node</span></span>
+<span id="cb5-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#SBATCH --node=1         # Number of GPU(s) per node</span></span>
+<span id="cb5-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#SBATCH --cpus-per-task=4         # CPU cores/threads</span></span>
+<span id="cb5-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#SBATCH --time=00:15:00           # Time limit in hh:mm:ss </span></span>
+<span id="cb5-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#SBATCH --mem=1024M</span></span></code></pre></div>
+<ul>
+<li><code>#SBATCH --account=def-someuser</code> is the account of your supervisor. To obtain what account you have access to, you can login to <a href="https://ccdb.alliancecan.ca/security/login">CCDB</a> and click on <strong>My Account -&gt; My Resources and Allocations</strong></li>
+</ul>
+<dl>
+<dt><img src="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/rap_account.png" class="img-fluid" alt="This tells you what account you can use on a given cluster. For examples, on Cedar I can submit jobs using #SBATCH --account=def-ebrahimi."></dt>
+<dd>
+The illustration above tells you what account you can use on a given cluster. For example, on <code>Cedar</code>, I can submit jobs using <code>#SBATCH --account=def-ebrahimi</code>.
+</dd>
+</dl>
+<ul>
+<li><p><code>#SBATCH --gpus-per-node=1</code> is the number of GPUs per node, in general, you set up 4 GPUs per node. And <code>#SBATCH --node=1</code> specifies the number of nodes you want to use.</p></li>
+<li><p>If you want to use 2 GPUs per node, you can set <code>#SBATCH --gpus-per-node=2</code> and <code>#SBATCH --node=1</code></p></li>
+<li><p>If you want to use 2 nodes with 4 GPUs per node, you can set <code>#SBATCH --gpus-per-node=4</code> and <code>#SBATCH --node=2</code>, i.e., your job will be using 8 GPUs in total.</p></li>
+<li><p><code>#SBATCH --cpus-per-task=4</code> is the number of CPU cores per task. This is the number of CPU cores your program will use.</p></li>
+<li><p><code>#SBATCH --time=00:15:00</code> is the time limit for your job. This is the maximum time your job can run. In general, you don’t know exactly how long your job will run, so you should set a time limit that is long enough to run your job and adjust it later.</p></li>
+<li><p><code>#SBATCH --mem=1024M</code> is the amount of memory your job will use. This is the maximum amount of memory your job can use. You can set it in GB as <code>--mem=32G</code> you request 32 GB of memory. If you are not sure how much memory your job will use, you can set it to a large value and adjust it later.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="putting-it-all-together" class="level2">
+<h2 class="anchored" data-anchor-id="putting-it-all-together">Putting it all together</h2>
+<p>Here is an example of a job script that you can use to submit your job:</p>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#!/bin/bash</span></span>
+<span id="cb6-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#SBATCH --account=def-ebrahimi</span></span>
+<span id="cb6-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#SBATCH --gpus-per-node=1         # Number of GPU(s) per node</span></span>
+<span id="cb6-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#SBATCH --node=1         # Number of GPU(s) per node</span></span>
+<span id="cb6-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#SBATCH --cpus-per-task=4         # CPU cores/threads</span></span>
+<span id="cb6-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#SBATCH --time=00:15:00           # Time limit in hh:mm:ss </span></span>
+<span id="cb6-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#SBATCH --mem=1024M</span></span>
+<span id="cb6-8"></span>
+<span id="cb6-9"></span>
+<span id="cb6-10"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">module</span> load python/3.10 <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Load the Python module version</span></span>
+<span id="cb6-11"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">source</span> .venv/bin/activate <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Activate the virtual environment</span></span>
+<span id="cb6-12"></span>
+<span id="cb6-13"></span>
+<span id="cb6-14"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">python</span> my_script.py <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--num_epochs</span> 60 <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--dataset</span> mnist</span></code></pre></div>
+<p>Finally, you can submit your job by running the following command:</p>
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">sbatch</span> my_script.sh <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># You will see a job ID in the output.</span></span></code></pre></div>
+<p>Depending on the cluster and the resources you requested, your job will be assigned to a compute node and will start running. A log file, named <code>slurm-&lt;job_id&gt;.out</code>, will be created in the main directory of your project.</p>
+<p>You can check the status of your jobs by running the following command:</p>
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">squeue</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-u</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span>your_username<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span></span></code></pre></div>
+<p>In case you want to cancel your job, you can run the following command:</p>
+<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">scancel</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span>job_id<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span></span></code></pre></div>
+<p>If you want to cancel all your jobs, you can run the following command:</p>
+<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">scancel</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-u</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span>your_username<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span></span></code></pre></div>
+</section>
+<section id="interactive-jobs" class="level2">
+<h2 class="anchored" data-anchor-id="interactive-jobs">Interactive jobs</h2>
+<p>Sometimes you want to run a job interactively, for example, to debug your code or to run a small test. You can do this by running the following command:</p>
+<div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">salloc</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--time</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>00:30:00 <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--account</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>def-ebrahimi <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--mem</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>48000 <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--gpus-per-node</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>4 <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--cpus-per-task</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>1</span></code></pre></div>
+<p>Similarly to job scripts, parameters of the <code>salloc</code> command specify the resources you need for your interactive job session.</p>
+<p>The illustration below shows an interactive job session on the <code>Beluga</code> cluster.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/beluga_interactive.png" class="img-fluid figure-img"></p>
+<figcaption>Interactive job session on the Beluga cluster</figcaption>
+</figure>
+</div>
+<p>You can see that <code>salloc</code> moved us from a login node (<code>beluga3</code>) to a compute node (<code>bg12103</code>). This compute node has requested resources, i.e., 4 GPUs, 1 CPU core, 48 GB of memory and 30 minutes of time. However, before running your Python program interactively, you need to type commands to load the module and activate the virtual environment.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interactive jobs
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The more you request resources (time, GPUs, CPU cores, memory), the longer you will wait to get an interactive compute node. You can use them to test your code before submitting a job script.</p>
+</div>
+</div>
+<p>In the next post, we will discuss how to speed up jobs using <code>$SLURM_TMPDIR</code>.</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>In this post, we have covered the basics of compute clusters, including how to log in to the cluster, how to submit jobs, and how to use interactive jobs. I believe that from here on, you can navigate the <a href="https://docs.alliancecan.ca/wiki/Running_jobs">documentation of the compute cluster</a> to learn more options and best practices when using the cluster.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>compute</category>
+  <category>cluster</category>
+  <category>training</category>
+  <guid>patrikken.github.com/blog/posts/Getting Started with Compute Clusters/</guid>
+  <pubDate>Thu, 22 May 2025 04:00:00 GMT</pubDate>
+  <media:content url="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/compute_cluster.png" medium="image" type="image/png" height="96" width="144"/>
+</item>
+</channel>
+</rss>

@@ -78,9 +78,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-categories"],
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -171,7 +171,7 @@ window.Quarto = {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(0)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cluster">cluster <span class="quarto-category-count">(1)</span></div><div class="category" data-category="compute">compute <span class="quarto-category-count">(1)</span></div><div class="category" data-category="training">training <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
 
@@ -194,16 +194,51 @@ window.Quarto = {
 </header>
 
 
-<blockquote class="blockquote">
-<p>Coming soon..</p>
-</blockquote>
 
 
 
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-
+<div class="quarto-post image-right" data-index="0" data-categories="compute,cluster,training" data-listing-date-sort="1747886400000" data-listing-file-modified-sort="1747952183836" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1780">
+<div class="thumbnail">
+<p><a href="../blog/posts/Getting Started with Compute Clusters/index.html" class="no-external"></a></p><a href="../blog/posts/Getting Started with Compute Clusters/index.html" class="no-external">
+<p><img loading="lazy" src="../blog/posts/Getting Started with Compute Clusters/compute_cluster.png" class="thumbnail-image"></p>
+</a><p><a href="../blog/posts/Getting Started with Compute Clusters/index.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/posts/Getting Started with Compute Clusters/index.html" class="no-external">Getting Started with Compute Clusters</a>
+</h3>
+<div class="listing-subtitle">
+<a href="../blog/posts/Getting Started with Compute Clusters/index.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('compute'); return false;">
+compute
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('cluster'); return false;">
+cluster
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('training'); return false;">
+training
+</div>
+</div>
+<div class="listing-description">
+<a href="../blog/posts/Getting Started with Compute Clusters/index.html" class="no-external">In this post, I will walk you through the steps to get started with compute clusters, with a focus on Compute Canada.</a>
+</div>
+</div>
+<div class="metadata">
+<a href="../blog/posts/Getting Started with Compute Clusters/index.html" class="no-external">
+<div class="listing-date">
+May 22, 2025
+</div>
+<div class="listing-author">
+Patrik Kenfack
+</div>
+</a>
+</div>
+</div>
 </div>
 <div class="listing-no-matching d-none">
 No matching items

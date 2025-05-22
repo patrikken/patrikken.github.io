@@ -1,5 +1,68 @@
 [
   {
+    "objectID": "blog/index.html",
+    "href": "blog/index.html",
+    "title": "Blog",
+    "section": "",
+    "text": "Getting Started with Compute Clusters\n\n\n\n\n\n\ncompute\n\n\ncluster\n\n\ntraining\n\n\n\nIn this post, I will walk you through the steps to get started with compute clusters, with a focus on Compute Canada.\n\n\n\n\n\nMay 22, 2025\n\n\nPatrik Kenfack\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "blog/posts/Getting Started with Compute Clusters/index.html",
+    "href": "blog/posts/Getting Started with Compute Clusters/index.html",
+    "title": "Getting Started with Compute Clusters",
+    "section": "",
+    "text": "## Digital Research Alliance of Canada\nDigital Research Alliance of Canada is a national research infrastructure that provides high-performance computing resources to researchers across Canada. It is a partnership between the Canadian government and the private sector.\nIf you don’t have an account, you can sign up here. You will need to get sponsored by your supervisor to get your account approved."
+  },
+  {
+    "objectID": "blog/posts/Getting Started with Compute Clusters/index.html#login-to-compute-canada",
+    "href": "blog/posts/Getting Started with Compute Clusters/index.html#login-to-compute-canada",
+    "title": "Getting Started with Compute Clusters",
+    "section": "Login to Compute Canada",
+    "text": "Login to Compute Canada\nOnce you have an account, you can login via ssh to the cluster. In case you don’t have ssh installed on your computer, you should follow the instructions here to install it.\nCompute Canada has several compute clusters located across Canada. Here is short list of those clusters:\n\nGraham\nCedar\nNarval\nBeluga\n\n\n\n\n\n\n\nCluster Names\n\n\n\nThe names of the clusters are chosen based some facts about the location of the cluster. For example, Beluga, located at École de technologie supérieure in Montreal, is named after the Beluga whale, which is found in the St. Lawrence River.\n\n\nThe name of the cluster is used to login to a specific cluster. For example, to login to the Beluga cluster, you can use the following command:\nssh &lt;your_username&gt;@beluga.alliancecan.ca"
+  },
+  {
+    "objectID": "blog/posts/Getting Started with Compute Clusters/index.html#login-nodes-vs-compute-nodes",
+    "href": "blog/posts/Getting Started with Compute Clusters/index.html#login-nodes-vs-compute-nodes",
+    "title": "Getting Started with Compute Clusters",
+    "section": "Login nodes vs Compute nodes",
+    "text": "Login nodes vs Compute nodes\nUnlike other cloud providers, login via ssh to a node does not give direct access to a compute machine. Instead, you will be on a login node from which you can submit jobs to the compute nodes.\n\nLogin nodes\nOnce you are logged in to the cluster, you will be on a login node. Login nodes are meant for interactive use and are not meant for running your large programs.\nThings you can do on the login nodes:\n\nGit clone your repository\nRun small interactive jobs (will be discussed below)\nEdit and submit jobs using a text editor\nView the status of your jobs\nTransfer files to and from the cluster\nCreate virtual environments and install packages\nSubmit jobs to the cluster (will be assigned to a compute node)\n\nThings you cannot do on the login nodes:\n\nRun large jobs\nUse a lot of memory\nUse a lot of CPU\n\n\n\n\nExample of ssh session on a login node. Login nodes generally have hostnames like beluga1, beluga2, etc.\n\n\n\n\nCompute nodes\nCompute nodes are meant for running large jobs. They have more memory and CPU than login nodes, and they have GPUs.\nThings you can do on the compute nodes:\n\nRun large jobs\nUse a lot of memory\nUse a lot of CPU and GPU\n\nWhen you submit a job, it is assigned to a compute node with the requested resources. We will get back to this below. Before that, let’s discuss file systems and where you should copy files for your project."
+  },
+  {
+    "objectID": "blog/posts/Getting Started with Compute Clusters/index.html#file-system",
+    "href": "blog/posts/Getting Started with Compute Clusters/index.html#file-system",
+    "title": "Getting Started with Compute Clusters",
+    "section": "File System",
+    "text": "File System\nOne of the most important thing to know about Compute Canada is the file system. There are three types of file systems with different properties and limitations: home, project, scratch\n\n\n\nDirectory structure on Beluga\n\n\nThe home directory has small quota, a fixed number of filesystem objects and smaller storage space (generally up to 25 GB) and has dearly backups. The project directory is meant for long-term storage of data that is shared across users linked to a sponsor. The scratch directory is meant for temporary storage of data and has the largest quota of up to 100 TB.\n\n\n\n\n\n\nTip\n\n\n\nIf you are actively working on a project, I recommend that you copy your data (source code, datasets, etc.) to the scratch directory. This will give you the best performance, and you don’t need to worry about the storage space. You can copy your data back to the project directory after your project is done or paused.\n\n\nNote that only the unused files on the scratch directory are deleted after 30 or 60 days, depending on the cluster. So if you are actively working on your project, you can use scratch and run everything on your local machine, with logs files and results saved in your project directory.\nA better approach is to have your source code and data in the project directory and make sure your logs and results are saved in the scratch directory. This way you can keep your project directory clean and you can have better control of your data. In another post, we will discuss how to speed up jobs using $SLURM_TMPDIR."
+  },
+  {
+    "objectID": "blog/posts/Getting Started with Compute Clusters/index.html#job-submission",
+    "href": "blog/posts/Getting Started with Compute Clusters/index.html#job-submission",
+    "title": "Getting Started with Compute Clusters",
+    "section": "Job Submission",
+    "text": "Job Submission\nOnce you have your data in the scratch directory, you can submit a job to the cluster.\n\nModule loading\nBefore running any job, you need to load the modules for the software you need. For example, if you need to use Python 3.10, you need to load the Python module with the following command.\nmodule load python/3.10\nAfter loading the module, you can check if it is loaded correctly by running module list. Note that from here on, all the dependencies you install, with pip install for example, will be installed for this specific version of Python and will be available in your environment every time you load the module.\n\n\nVirtual environment\nAfter loading the module, you can also create a virtual environment for project-specific dependencies.\npython -m venv .venv\nsource .venv/bin/activate\n\n\nSubmitting a job\nAt this point, you should have your data in the scratch directory, installed the dependencies in your loaded module and created a virtual environment for project-specific dependencies.\nNow you can submit a job to the cluster.\nLet’s assume you have a Python script (my_script.py) that you want to run on the cluster, and you can pass some arguments to it, for example, the number of epochs and the dataset to use, etc. Normally, on your local machine, you run this script as follows:\npython my_script.py --num_epochs 60 --dataset mnist\nTo submit this job to the cluster, you need to create a job script that will be used to submit the job. A job script is a bash program that will load the necessary modules and specify the resources your Python program needs (number of nodes, number of cores, amount of memory, type and number of GPUs, etc.).\n\nJob script directives\nThe header of the job script contains directives to specify the resources your Python program needs. Here is an example of a job script header:\n#!/bin/bash\n#SBATCH --account=def-someuser\n#SBATCH --gpus-per-node=1         # Number of GPU(s) per node\n#SBATCH --node=1         # Number of GPU(s) per node\n#SBATCH --cpus-per-task=4         # CPU cores/threads\n#SBATCH --time=00:15:00           # Time limit in hh:mm:ss \n#SBATCH --mem=1024M\n\n\n#SBATCH --account=def-someuser is the account of your supervisor. To obtain what account you have access to, you can login to CCDB and click on My Account -&gt; My Resources and Allocations\n\n\n\n\nThe illustration above tells you what account you can use on a given cluster. For example, on Cedar, I can submit jobs using #SBATCH --account=def-ebrahimi.\n\n\n\n#SBATCH --gpus-per-node=1 is the number of GPUs per node, in general, you set up 4 GPUs per node. And #SBATCH --node=1 specifies the number of nodes you want to use.\nIf you want to use 2 GPUs per node, you can set #SBATCH --gpus-per-node=2 and #SBATCH --node=1\nIf you want to use 2 nodes with 4 GPUs per node, you can set #SBATCH --gpus-per-node=4 and #SBATCH --node=2, i.e., your job will be using 8 GPUs in total.\n#SBATCH --cpus-per-task=4 is the number of CPU cores per task. This is the number of CPU cores your program will use.\n#SBATCH --time=00:15:00 is the time limit for your job. This is the maximum time your job can run. In general, you don’t know exactly how long your job will run, so you should set a time limit that is long enough to run your job and adjust it later.\n#SBATCH --mem=1024M is the amount of memory your job will use. This is the maximum amount of memory your job can use. You can set it in GB as --mem=32G you request 32 GB of memory. If you are not sure how much memory your job will use, you can set it to a large value and adjust it later."
+  },
+  {
+    "objectID": "blog/posts/Getting Started with Compute Clusters/index.html#putting-it-all-together",
+    "href": "blog/posts/Getting Started with Compute Clusters/index.html#putting-it-all-together",
+    "title": "Getting Started with Compute Clusters",
+    "section": "Putting it all together",
+    "text": "Putting it all together\nHere is an example of a job script that you can use to submit your job:\n#!/bin/bash\n#SBATCH --account=def-ebrahimi\n#SBATCH --gpus-per-node=1         # Number of GPU(s) per node\n#SBATCH --node=1         # Number of GPU(s) per node\n#SBATCH --cpus-per-task=4         # CPU cores/threads\n#SBATCH --time=00:15:00           # Time limit in hh:mm:ss \n#SBATCH --mem=1024M\n\n\nmodule load python/3.10 # Load the Python module version\nsource .venv/bin/activate # Activate the virtual environment\n\n\npython my_script.py --num_epochs 60 --dataset mnist\nFinally, you can submit your job by running the following command:\nsbatch my_script.sh # You will see a job ID in the output.\nDepending on the cluster and the resources you requested, your job will be assigned to a compute node and will start running. A log file, named slurm-&lt;job_id&gt;.out, will be created in the main directory of your project.\nYou can check the status of your jobs by running the following command:\nsqueue -u &lt;your_username&gt;\nIn case you want to cancel your job, you can run the following command:\nscancel &lt;job_id&gt;\nIf you want to cancel all your jobs, you can run the following command:\nscancel -u &lt;your_username&gt;"
+  },
+  {
+    "objectID": "blog/posts/Getting Started with Compute Clusters/index.html#interactive-jobs",
+    "href": "blog/posts/Getting Started with Compute Clusters/index.html#interactive-jobs",
+    "title": "Getting Started with Compute Clusters",
+    "section": "Interactive jobs",
+    "text": "Interactive jobs\nSometimes you want to run a job interactively, for example, to debug your code or to run a small test. You can do this by running the following command:\nsalloc --time=00:30:00 --account=def-ebrahimi --mem=48000 --gpus-per-node=4 --cpus-per-task=1\nSimilarly to job scripts, parameters of the salloc command specify the resources you need for your interactive job session.\nThe illustration below shows an interactive job session on the Beluga cluster.\n\n\n\nInteractive job session on the Beluga cluster\n\n\nYou can see that salloc moved us from a login node (beluga3) to a compute node (bg12103). This compute node has requested resources, i.e., 4 GPUs, 1 CPU core, 48 GB of memory and 30 minutes of time. However, before running your Python program interactively, you need to type commands to load the module and activate the virtual environment.\n\n\n\n\n\n\nInteractive jobs\n\n\n\nThe more you request resources (time, GPUs, CPU cores, memory), the longer you will wait to get an interactive compute node. You can use them to test your code before submitting a job script.\n\n\nIn the next post, we will discuss how to speed up jobs using $SLURM_TMPDIR."
+  },
+  {
+    "objectID": "blog/posts/Getting Started with Compute Clusters/index.html#conclusion",
+    "href": "blog/posts/Getting Started with Compute Clusters/index.html#conclusion",
+    "title": "Getting Started with Compute Clusters",
+    "section": "Conclusion",
+    "text": "Conclusion\nIn this post, we have covered the basics of compute clusters, including how to log in to the cluster, how to submit jobs, and how to use interactive jobs. I believe that from here on, you can navigate the documentation of the compute cluster to learn more options and best practices when using the cluster."
+  },
+  {
     "objectID": "teaching/index.html",
     "href": "teaching/index.html",
     "title": "Teaching",
@@ -19,12 +82,5 @@
     "title": "Patrik Kenfack",
     "section": "",
     "text": "I’m a PhD Candidate at ÉTS Montréal - Mila advised by Ulrich Aïvodji and Samira Ebrahimi Kahou. My thesis investigates bias mitigation in machine learning under various constraints on sensitive information. Before joining ÉTS Montréal, I was a research assistant at Machine Learning and Knowledge Representation Lab at Innopolis University, advised by Adil Khan. My work focused on studying fairness aspect of machine learning methods such as ensemble learning, GANs, continual learning, and representation learning.\nI graduated with a Master’s Degree in Computer Science and a Bachelor’s in Mathematics and CS at University of Dschang.\nResearch Interest:\n\nApplied Machine Learning\nAlgorithmic Fairness\nPrivacy-Preserving Machine Learning (PPML)\nResponsible AI"
-  },
-  {
-    "objectID": "blog/index.html",
-    "href": "blog/index.html",
-    "title": "Blog",
-    "section": "",
-    "text": "Coming soon..\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   }
 ]

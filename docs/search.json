@@ -1,19 +1,5 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Patrik Kenfack",
-    "section": "",
-    "text": "LinkedIn\n  \n  \n    \n     Github\n  \n  \n      Email\n  \n  \n      Google Scholar\n  \n\n      \n\n\nI’m a PhD Candidate at ÉTS Montréal - Mila advised by Ulrich Aïvodji and Samira Ebrahimi Kahou. My thesis investigates bias mitigation in machine learning under various constraints on sensitive information. Before joining ÉTS Montréal, I was a research assistant at Machine Learning and Knowledge Representation Lab at Innopolis University, advised by Adil Khan. My work focused on studying fairness aspect of machine learning methods such as ensemble learning, GANs, continual learning, and representation learning.\nI graduated with a Master’s Degree in Computer Science and a Bachelor’s in Mathematics and CS at University of Dschang.\nResearch Interest:\n\nApplied Machine Learning\nAlgorithmic Fairness\nPrivacy-Preserving Machine Learning (PPML)\nResponsible AI"
-  },
-  {
-    "objectID": "index.html#bio",
-    "href": "index.html#bio",
-    "title": "Patrik Kenfack",
-    "section": "",
-    "text": "I’m a PhD Candidate at ÉTS Montréal - Mila advised by Ulrich Aïvodji and Samira Ebrahimi Kahou. My thesis investigates bias mitigation in machine learning under various constraints on sensitive information. Before joining ÉTS Montréal, I was a research assistant at Machine Learning and Knowledge Representation Lab at Innopolis University, advised by Adil Khan. My work focused on studying fairness aspect of machine learning methods such as ensemble learning, GANs, continual learning, and representation learning.\nI graduated with a Master’s Degree in Computer Science and a Bachelor’s in Mathematics and CS at University of Dschang.\nResearch Interest:\n\nApplied Machine Learning\nAlgorithmic Fairness\nPrivacy-Preserving Machine Learning (PPML)\nResponsible AI"
-  },
-  {
     "objectID": "blog/index.html",
     "href": "blog/index.html",
     "title": "Blog",
@@ -39,7 +25,7 @@
     "href": "blog/posts/Getting Started with Compute Clusters/index.html#login-nodes-vs-compute-nodes",
     "title": "Getting Started with Compute Clusters",
     "section": "Login nodes vs Compute nodes",
-    "text": "Login nodes vs Compute nodes\nUnlike other cloud providers, login via ssh to a node does not give direct access to a compute machine. Instead, you will be on a login node from which you can submit jobs to the compute nodes.\n\nLogin nodes\nOnce you are logged in to the cluster, you will be on a login node. Login nodes are meant for interactive use and are not meant for running your large programs.\nThings you can do on the login nodes:\n\nGit clone your repository\nRun small interactive jobs (will be discussed below)\nEdit and submit jobs using a text editor\nView the status of your jobs\nTransfer files to and from the cluster\nCreate virtual environments and install packages\nSubmit jobs to the cluster (will be assigned to a compute node)\n\nThings you cannot do on the login nodes:\n\nRun large jobs\nUse a lot of memory\nUse a lot of CPU\n\n\n\n\nExample of ssh session on a login node. Login nodes generally have hostnames like beluga1, beluga2, etc.\n\n\n\n\nCompute nodes\nCompute nodes are meant for running large jobs. They have more memory and CPU than login nodes, and they have GPUs.\nThings you can do on the compute nodes:\n\nRun large jobs\nUse a lot of memory\nUse a lot of CPU and GPU\n\nWhen you submit a job, it is assigned to a compute node with the requested resources. We will get back to this below. Before that, let’s discuss file systems and where you should copy files for your project."
+    "text": "Login nodes vs Compute nodes\nUnlike other cloud providers, login via ssh to a node does not give direct access to a compute machine. Instead, you will be on a login node from which you can submit jobs to the compute nodes.\n\nLogin nodes\nOnce you are logged in to the cluster, you will be on a login node. Login nodes are meant for interactive use and are not meant for running your large programs.\nThings you can do on the login nodes:\n\nGit clone your repository\nRun small interactive jobs (will be discussed below)\nEdit and submit jobs using a text editor\nView the status of your jobs\nTransfer files to and from the cluster\nCreate virtual environments and install packages\nSubmit jobs to the cluster (will be assigned to a compute node)\n\nThings you cannot do on the login nodes:\n\nRun large jobs\nUse a lot of memory\nUse a lot of CPU\n\n\n\n\nExample of ssh session on a login node. Login nodes generally have hostnames like beluga1, beluga2, etc.\n\n\n\n\nCompute nodes\nCompute nodes are meant for running large jobs. They have more memory and CPU than login nodes, and they have GPUs.\nWhen you submit a job, it is assigned to a compute node with the requested resources. We will get back to this below. Before that, let’s discuss file systems and where you should copy the files for your project."
   },
   {
     "objectID": "blog/posts/Getting Started with Compute Clusters/index.html#file-system",
@@ -75,5 +61,19 @@
     "title": "Getting Started with Compute Clusters",
     "section": "Conclusion",
     "text": "Conclusion\nIn this post, we have covered the basics of compute clusters, including how to log in to the cluster, how to submit jobs, and how to use interactive jobs. I believe that from here on, you can navigate the documentation of the compute cluster to learn more options and best practices when using the cluster."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Patrik Kenfack",
+    "section": "",
+    "text": "LinkedIn\n  \n  \n    \n     Github\n  \n  \n      Email\n  \n  \n      Google Scholar\n  \n\n      \n\n\nI’m a PhD Candidate at ÉTS Montréal - Mila advised by Ulrich Aïvodji and Samira Ebrahimi Kahou. My thesis investigates bias mitigation in machine learning under various constraints on sensitive information. Before joining ÉTS Montréal, I was a research assistant at Machine Learning and Knowledge Representation Lab at Innopolis University, advised by Adil Khan. My work focused on studying fairness aspect of machine learning methods such as ensemble learning, GANs, continual learning, and representation learning.\nI graduated with a Master’s Degree in Computer Science and a Bachelor’s in Mathematics and CS at University of Dschang.\nResearch Interest:\n\nApplied Machine Learning\nAlgorithmic Fairness\nPrivacy-Preserving Machine Learning (PPML)\nResponsible AI"
+  },
+  {
+    "objectID": "index.html#bio",
+    "href": "index.html#bio",
+    "title": "Patrik Kenfack",
+    "section": "",
+    "text": "I’m a PhD Candidate at ÉTS Montréal - Mila advised by Ulrich Aïvodji and Samira Ebrahimi Kahou. My thesis investigates bias mitigation in machine learning under various constraints on sensitive information. Before joining ÉTS Montréal, I was a research assistant at Machine Learning and Knowledge Representation Lab at Innopolis University, advised by Adil Khan. My work focused on studying fairness aspect of machine learning methods such as ensemble learning, GANs, continual learning, and representation learning.\nI graduated with a Master’s Degree in Computer Science and a Bachelor’s in Mathematics and CS at University of Dschang.\nResearch Interest:\n\nApplied Machine Learning\nAlgorithmic Fairness\nPrivacy-Preserving Machine Learning (PPML)\nResponsible AI"
   }
 ]

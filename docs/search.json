@@ -11,7 +11,14 @@
     "href": "blog/posts/Getting Started with Compute Clusters/index.html",
     "title": "Getting Started with Compute Clusters",
     "section": "",
-    "text": "## Digital Research Alliance of Canada\nDigital Research Alliance of Canada is a national research infrastructure that provides high-performance computing resources to researchers across Canada. It is a partnership between the Canadian government and the private sector.\nIf you don’t have an account, you can sign up here. You will need to get sponsored by your supervisor to get your account approved."
+    "text": "ChatGPT generated image"
+  },
+  {
+    "objectID": "blog/posts/Getting Started with Compute Clusters/index.html#digital-research-alliance-of-canada",
+    "href": "blog/posts/Getting Started with Compute Clusters/index.html#digital-research-alliance-of-canada",
+    "title": "Getting Started with Compute Clusters",
+    "section": "Digital Research Alliance of Canada",
+    "text": "Digital Research Alliance of Canada\nDigital Research Alliance of Canada is a national research infrastructure that provides high-performance computing resources to researchers across Canada. It is a partnership between the Canadian government and the private sector.\nIf you don’t have an account, you can sign up here. You will need to get sponsored by your supervisor to get your account approved."
   },
   {
     "objectID": "blog/posts/Getting Started with Compute Clusters/index.html#login-to-compute-canada",
@@ -32,7 +39,7 @@
     "href": "blog/posts/Getting Started with Compute Clusters/index.html#file-system",
     "title": "Getting Started with Compute Clusters",
     "section": "File System",
-    "text": "File System\nOne of the most important thing to know about Compute Canada is the file system. There are three types of file systems with different properties and limitations: home, project, scratch\n\n\n\nDirectory structure on Beluga\n\n\nThe home directory has small quota, a fixed number of filesystem objects and smaller storage space (generally up to 25 GB) and has dearly backups. The project directory is meant for long-term storage of data that is shared across users linked to a sponsor. The scratch directory is meant for temporary storage of data and has a larger fixed quota per user and a larger storage space (generally above to 2 PB of space).\n\n\n\n\n\n\nTip\n\n\n\nIf you are actively working on a project, I recommend that you copy your data (source code, datasets, etc.) to the scratch directory. This will save you time, and you don’t need to worry about the storage space. You can copy your data back to the project directory after your project is done or paused.\n\n\nNote that only the unused files on the scratch directory are deleted after 30 or 60 days, depending on the cluster. So if you are actively working on your project, you can use scratch and run everything as on your local machine, with logs files and results saved in your project directory.\nA better approach is to have your source code and data in the project directory and make sure your logs (e.g., training logs and models’ checkpoints) and results are saved in the scratch directory. This way you can keep your project directory clean and you can have better control of your data. In another post, we will discuss how to speed up jobs using $SLURM_TMPDIR."
+    "text": "File System\nOne of the most important thing to know about Compute Canada is the file system. There are three types of file systems with different properties and limitations: home, project, scratch\n Directory structure on Beluga\nThe home directory has small quota, a fixed number of filesystem objects and smaller storage space (generally up to 25 GB) and has dearly backups. The project directory is meant for long-term storage of data that is shared across users linked to a sponsor. The scratch directory is meant for temporary storage of data and has a larger fixed quota per user and a larger storage space (generally above to 2 PB of space).\n\n\n\n\n\n\nTip\n\n\n\nIf you are actively working on a project, I recommend that you copy your data (source code, datasets, etc.) to the scratch directory. This will save you time, and you don’t need to worry about the storage space. You can copy your data back to the project directory after your project is done or paused.\n\n\nNote that only the unused files on the scratch directory are deleted after 30 or 60 days, depending on the cluster. So if you are actively working on your project, you can use scratch and run everything as on your local machine, with logs files and results saved in your project directory.\nA better approach is to have your source code and data in the project directory and make sure your logs (e.g., training logs and models’ checkpoints) and results are saved in the scratch directory. This way you can keep your project directory clean and you can have better control of your data. In another post, we will discuss how to speed up jobs using $SLURM_TMPDIR."
   },
   {
     "objectID": "blog/posts/Getting Started with Compute Clusters/index.html#job-submission",
@@ -53,7 +60,7 @@
     "href": "blog/posts/Getting Started with Compute Clusters/index.html#interactive-jobs",
     "title": "Getting Started with Compute Clusters",
     "section": "Interactive jobs",
-    "text": "Interactive jobs\nSometimes you want to run a job interactively, for example, to debug your code or to run a small test. You can do this by running the following command:\nsalloc --time=00:30:00 --account=def-ebrahimi --mem=48000 --gpus-per-node=4 --cpus-per-task=1\nSimilarly to job scripts, parameters of the salloc command specify the resources you need for your interactive job session.\nThe illustration below shows an interactive job session on the Beluga cluster.\n\n\n\nInteractive job session on the Beluga cluster\n\n\nYou can see that salloc moved us from a login node (beluga3) to a compute node (bg12103). This compute node has requested resources, i.e., 4 GPUs, 1 CPU core, 48 GB of memory and 30 minutes of time. However, before running your Python program interactively, you need to type commands to load the module and activate the virtual environment.\n\n\n\n\n\n\nInteractive jobs\n\n\n\nThe more you request resources (time, GPUs, CPU cores, memory), the longer you will wait to get an interactive compute node. You can use them to test your code before submitting a job script.\n\n\nIn the next post, we will discuss how to speed up jobs using $SLURM_TMPDIR."
+    "text": "Interactive jobs\nSometimes you want to run a job interactively, for example, to debug your code or to run a small test. You can do this by running the following command:\nsalloc --time=00:30:00 --account=def-ebrahimi --mem=48000 --gpus-per-node=4 --cpus-per-task=1\nSimilarly to job scripts, parameters of the salloc command specify the resources you need for your interactive job session.\nThe illustration below shows an interactive job session on the Beluga cluster.\n Interactive job session on the Beluga cluster\nYou can see that salloc moved us from a login node (beluga3) to a compute node (bg12103). This compute node has requested resources, i.e., 4 GPUs, 1 CPU core, 48 GB of memory and 30 minutes of time. However, before running your Python program interactively, you need to type commands to load the module and activate the virtual environment.\n\n\n\n\n\n\nInteractive jobs\n\n\n\nThe more you request resources (time, GPUs, CPU cores, memory), the longer you will wait to get an interactive compute node. You can use them to test your code before submitting a job script.\n\n\nIn the next post, we will discuss how to speed up jobs using $SLURM_TMPDIR."
   },
   {
     "objectID": "blog/posts/Getting Started with Compute Clusters/index.html#conclusion",
@@ -63,17 +70,10 @@
     "text": "Conclusion\nIn this post, we have covered the basics of compute clusters, including how to log in to the cluster, how to submit jobs, and how to use interactive jobs. I believe that from here on, you can navigate the documentation of the compute cluster to learn more options and best practices when using the cluster."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Patrik Kenfack",
+    "objectID": "teaching/index.html",
+    "href": "teaching/index.html",
+    "title": "Teaching",
     "section": "",
-    "text": "LinkedIn\n  \n  \n    \n     Github\n  \n  \n      Email\n  \n  \n      Google Scholar\n  \n\n      \n\n\nI’m a PhD Candidate at ÉTS Montréal - Mila advised by Ulrich Aïvodji and Samira Ebrahimi Kahou. My thesis investigates bias mitigation in machine learning under various constraints on sensitive information. Before joining ÉTS Montréal, I was a research assistant at Machine Learning and Knowledge Representation Lab at Innopolis University, advised by Adil Khan. My work focused on studying fairness aspect of machine learning methods such as ensemble learning, GANs, continual learning, and representation learning.\nI graduated with a Master’s Degree in Computer Science and a Bachelor’s in Mathematics and CS at University of Dschang.\nResearch Interest:\n\nApplied Machine Learning\nAlgorithmic Fairness\nPrivacy-Preserving Machine Learning (PPML)\nResponsible AI"
-  },
-  {
-    "objectID": "index.html#bio",
-    "href": "index.html#bio",
-    "title": "Patrik Kenfack",
-    "section": "",
-    "text": "I’m a PhD Candidate at ÉTS Montréal - Mila advised by Ulrich Aïvodji and Samira Ebrahimi Kahou. My thesis investigates bias mitigation in machine learning under various constraints on sensitive information. Before joining ÉTS Montréal, I was a research assistant at Machine Learning and Knowledge Representation Lab at Innopolis University, advised by Adil Khan. My work focused on studying fairness aspect of machine learning methods such as ensemble learning, GANs, continual learning, and representation learning.\nI graduated with a Master’s Degree in Computer Science and a Bachelor’s in Mathematics and CS at University of Dschang.\nResearch Interest:\n\nApplied Machine Learning\nAlgorithmic Fairness\nPrivacy-Preserving Machine Learning (PPML)\nResponsible AI"
+    "text": "Coming soon…"
   }
 ]

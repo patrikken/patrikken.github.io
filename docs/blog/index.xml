@@ -20,9 +20,12 @@
 
 
 
-<p><img src="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/compute_cluster2.png" class="img-fluid" alt="ChatGPT generated image"> ## Digital Research Alliance of Canada</p>
+<p><img src="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/compute_cluster2.png" class="img-fluid"> ChatGPT generated image</p>
+<section id="digital-research-alliance-of-canada" class="level2">
+<h2 class="anchored" data-anchor-id="digital-research-alliance-of-canada">Digital Research Alliance of Canada</h2>
 <p><a href="https://alliancecan.ca/en">Digital Research Alliance of Canada</a> is a national research infrastructure that provides high-performance computing resources to researchers across Canada. It is a partnership between the Canadian government and the private sector.</p>
 <p>If you don’t have an account, you can sign up <a href="https://alliancecan.ca/en/register">here</a>. You will need to get sponsored by your supervisor to get your account approved.</p>
+</section>
 <section id="login-to-compute-canada" class="level2">
 <h2 class="anchored" data-anchor-id="login-to-compute-canada">Login to Compute Canada</h2>
 <p>Once you have an account, you can login via <code>ssh</code> to the cluster. In case you don’t have <code>ssh</code> installed on your computer, you should follow the instructions <a href="https://docs.alliancecan.ca/wiki/doku.php?id=start:ssh">here</a> to install it.</p>
@@ -93,12 +96,7 @@ font-style: inherit;">&gt;</span>@beluga.alliancecan.ca</span></code></pre></div
 <section id="file-system" class="level2">
 <h2 class="anchored" data-anchor-id="file-system">File System</h2>
 <p>One of the most important thing to know about Compute Canada is the file system. There are three types of file systems with different properties and limitations: <code>home</code>, <code>project</code>, <code>scratch</code></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/file_system.png" class="img-fluid figure-img"></p>
-<figcaption>Directory structure on Beluga</figcaption>
-</figure>
-</div>
+<p><img src="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/file_system.png" class="img-fluid"> Directory structure on Beluga</p>
 <p>The <code>home</code> directory has small quota, a fixed number of filesystem objects and smaller storage space (generally up to 25 GB) and has dearly backups. The <code>project</code> directory is meant for long-term storage of data that is shared across users linked to a sponsor. The <code>scratch</code> directory is meant for temporary storage of data and has a larger fixed quota per user and a larger storage space (generally above to 2 PB of space).</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -305,12 +303,7 @@ background-color: null;
 font-style: inherit;">=</span>1</span></code></pre></div>
 <p>Similarly to job scripts, parameters of the <code>salloc</code> command specify the resources you need for your interactive job session.</p>
 <p>The illustration below shows an interactive job session on the <code>Beluga</code> cluster.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/beluga_interactive.png" class="img-fluid figure-img"></p>
-<figcaption>Interactive job session on the Beluga cluster</figcaption>
-</figure>
-</div>
+<p><img src="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/beluga_interactive.png" class="img-fluid"> Interactive job session on the Beluga cluster</p>
 <p>You can see that <code>salloc</code> moved us from a login node (<code>beluga3</code>) to a compute node (<code>bg12103</code>). This compute node has requested resources, i.e., 4 GPUs, 1 CPU core, 48 GB of memory and 30 minutes of time. However, before running your Python program interactively, you need to type commands to load the module and activate the virtual environment.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">

@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Patrik Kenfack">
+<meta name="dcterms.date" content="2025-06-05">
+<meta name="description" content="In this post, I will introduce in-context learning with tabular foundation models and how to use it to improve the performance of your models.">
 
-<title>Patrik Kenfack - PhD Candidate at Mila/ÉTS Montréal – Patrik Kenfack</title>
+<title>In-Context Learning with Tabular Data. – Patrik Kenfack</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,29 +23,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -73,15 +108,21 @@ ul.task-list li input[type="checkbox"] {
 <script type="application/ld+json">{"@context":"http://www.schema.org","@type":"person","name":"Patrik Kenfack","jobTitle":"PhD Candidate","gender":"male","description":"Patrik is a PhD Candidate at Mila working at the intersection of Privacy and Fairness.","url":"https://patrikken.github.com","image":"https://patrikken.github.com/img/IMG_0085.jpeg","address":{"@type":"PostalAddress","addressLocality":"Montréal","addressRegion":"QC","postalCode":"H3C0L7","addressCountry":"Canada"},"memberOf":[{"@type":"Organization","name":"ETS Montreal"},{"@type":"Organization","name":"Mila"}],"nationality":[{"@type":"Country","name":"Cameroon"},{"@type":"Country","name":"Cameroon"}]}</script>
 
 
-<meta property="og:title" content="Patrik Kenfack - PhD Candidate at Mila/ÉTS Montréal">
-<meta property="og:image" content="patrikken.github.com/img/IMG_00855.JPG">
+<meta property="og:title" content="In-Context Learning with Tabular Data. – Patrik Kenfack">
+<meta property="og:description" content="In this post, I will introduce in-context learning with tabular foundation models and how to use it to improve the performance of your models.">
+<meta property="og:image" content="patrikken.github.com/instance/In-Context-Learning/TabICL.png">
 <meta property="og:site_name" content="Patrik Kenfack">
-<meta name="twitter:title" content="Patrik Kenfack - PhD Candidate at Mila/ÉTS Montréal">
-<meta name="twitter:image" content="patrikken.github.com/img/IMG_00855.JPG">
+<meta property="og:image:height" content="1024">
+<meta property="og:image:width" content="1024">
+<meta name="twitter:title" content="In-Context Learning with Tabular Data. – Patrik Kenfack">
+<meta name="twitter:description" content="In this post, I will introduce in-context learning with tabular foundation models and how to use it to improve the performance of your models.">
+<meta name="twitter:image" content="patrikken.github.com/instance/In-Context-Learning/TabICL.png">
+<meta name="twitter:image-height" content="1024">
+<meta name="twitter:image-width" content="1024">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -94,7 +135,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -102,7 +143,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Publications</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./blog"> 
+    <a class="nav-link" href="../../blog"> 
 <span class="menu-text">Blog</span></a>
   </li>  
 </ul>
@@ -116,174 +157,109 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
-<!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
-
-
-
-
-<script type="application/ld+json">
-{"@context":"http://www.schema.org","@type":"person","name":"Patrik Kenfack","jobTitle":"Phd Student", "gender":"male","description":"","url":"https://patrikken.github.com","image":"img/IMG_0085.JPG", "birthPlace":"Cameroon, Hungary","memberOf":[{"@type":"Organization","name":"Mila"},{"@type":"Organization","name":"ÉTS Montréal"}],"nationality":[{"@type":"Country","name":"Cameroon"},{"@type":"Country","name":"Cameroon"}]}
-</script>
-<div class="quarto-about-solana column-body">
-  <div class="about-entity">
-    <div class="entity-contents">
-      <header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Patrik Kenfack</h1>
-</div>
-<div class="quarto-title-meta">
-  </div>
-</header> <div class="about-links">
-  <a href="https://www.linkedin.com/in/patrik-kenfack-30a8b933/" class="about-link" rel="" target="">
-    <i class="bi bi-linkedin"></i>
-     <span class="about-link-text">LinkedIn</span>
-  </a>
-  <a href="https://github.com/patrikken" class="about-link" rel="" target="">
-    <i class="bi bi-github"></i>
-     <span class="about-link-text">Github</span>
-  </a>
-  <a href="mailto:kenfackjoslin@gmail.com" class="about-link" rel="" target="">
-     <span class="about-link-text"><i class="fa-solid fa-envelope" aria-label="envelope"></i> Email</span>
-  </a>
-  <a href="https://scholar.google.com/citations?user=bWvJMcgAAAAJ&amp;hl=fr&amp;oi=ao" class="about-link" rel="" target="">
-     <span class="about-link-text"><i class="ai  ai-google-scholar"></i> Google Scholar</span>
-  </a>
-</div>
-      <div class="about-contents"><div id="Bio">
-<section id="bio" class="level2">
-<h2 data-anchor-id="bio">Bio</h2>
-<p>I’m a PhD Candidate at <a href="etsmtl.ca">ÉTS Montréal</a> - <a href="https://mila.quebec/">Mila</a> advised by <a href="https://aivodji.github.io/">Ulrich Aïvodji</a> and <a href="https://saebrahimi.github.io/">Samira Ebrahimi Kahou</a>. My thesis investigates bias mitigation in machine learning under various constraints on sensitive information. Before joining ÉTS Montréal, I was a research assistant at <em><a href="https://innopolis.university/en/mlkr">Machine Learning and Knowledge Representation Lab</a></em> at <a href="https://innopolis.university/en/">Innopolis University</a>, advised by <a href="https://www.hull.ac.uk/staff-directory/adil-khan">Adil Khan</a>. My work focused on studying fairness aspect of machine learning methods such as ensemble learning, GANs, continual learning, and representation learning.</p>
-<p>I graduated with a Master’s Degree in Computer Science and a Bachelor’s in Mathematics and CS at <a href="https://www.univ-dschang.org/">University of Dschang</a>.</p>
-<p>Research Interest:</p>
-<ul>
-<li>Applied Machine Learning</li>
-<li>Algorithmic Fairness</li>
-<li>Privacy-Preserving Machine Learning (PPML)</li>
-<li>Responsible AI</li>
-<li>Foundation Models for Structured Data</li>
-</ul>
-</section>
-<section id="news" class="level2">
-<h2 data-anchor-id="news">News</h2>
-<div style="max-height: 590px;margin-top: -36px; overflow-y: auto;">
-<table class="table-hover h-500 overflow-auto align-middle caption-top table">
-<colgroup>
-<col style="width: 14%">
-<col style="width: 16%">
-<col style="width: 71%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Date</th>
-<th style="text-align: left;">Type</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">June 2025</td>
-<td style="text-align: left;">📄 Paper</td>
-<td style="text-align: left;">Our paper <a href="https://arxiv.org/abs/2505.09503">Towards Fair In-Context Learning with Tabular Foundation Models</a> is accepted at ICML 2025 <a href="https://icml-structured-fm-workshop.github.io/">FMSD</a> workshop</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">May 2025</td>
-<td style="text-align: left;">📄 Paper</td>
-<td style="text-align: left;">Our recent paper <a href="https://arxiv.org/abs/2505.09503">Towards Fair In-Context Learning with Tabular Foundation Models</a> is out!</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Mar 2025</td>
-<td style="text-align: left;">🏆 Award</td>
-<td style="text-align: left;">Secured second place for the 3-Minute Research Presentation Contest at the <a href="https://caec.etsmtl.ca/">2025 ETS student researcher conference</a></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Mar 2025</td>
-<td style="text-align: left;">📄 Paper</td>
-<td style="text-align: left;">Two papers accepted at <a href="https://scslworkshop.github.io/">SCSL @ ICLR 2025</a>. 1. <a href="https://openreview.net/forum?id=WL9Sxi3iat">GradTune: Last-layer Fine-tuning for Group Robustness Without Group Annotation</a>. 2. <a href="https://openreview.net/forum?id=DBQ0b5JTxk">Towards personalized healthcare without harm via bias modulation</a></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Feb 2025</td>
-<td style="text-align: left;">🛠️ Service</td>
-<td style="text-align: left;">Reviewing for <a href="https://facctconference.org/2025/">FAcct</a>.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Oct 2024</td>
-<td style="text-align: left;">📄 Paper</td>
-<td style="text-align: left;">Our paper <a href="https://arxiv.org/abs/2411.14984">Adaptive Group Robust Ensemble Knowledge Distillation</a> was accepted at <a href="https://www.afciworkshop.org/">Neurips2024 AFME workshop</a>.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Aug 2024</td>
-<td style="text-align: left;">📄 Paper</td>
-<td style="text-align: left;">Our paper <a href="https://openreview.net/pdf?id=TB18G0w6Ld">Fairness Under Demographic Scarce Regime</a> was accepted at <a href="https://openreview.net/forum?id=TB18G0w6Ld">TMLR</a>.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Aug 2024</td>
-<td style="text-align: left;">🛠️ Service</td>
-<td style="text-align: left;">Invited to serve as a reviewer at <a href="https://iclr.cc/Conferences/2025">ICLR 2025</a>.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Jul 2024</td>
-<td style="text-align: left;">🛠️ Service</td>
-<td style="text-align: left;">Invited to provide an emergency review at <a href="https://neurips.cc/">Neurips 2024</a>.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Jun 2024</td>
-<td style="text-align: left;">📄 Paper</td>
-<td style="text-align: left;">Our <a href="https://openreview.net/pdf?id=3HE4vPNIfX">Survey on Fairness Without Demographics</a> was accepted at <a href="https://openreview.net/forum?id=3HE4vPNIfX">TMLR</a>.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Apr 2024</td>
-<td style="text-align: left;">🛠️ Service</td>
-<td style="text-align: left;">Selected to join the <a href="https://mila.quebec/">Mila</a> EDI committee.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Jan 2024</td>
-<td style="text-align: left;">🛠️ Service</td>
-<td style="text-align: left;">Reviewer for <a href="https://facctconference.org/2024/">FAcct</a>.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Aug 2023</td>
-<td style="text-align: left;">🏆 Award</td>
-<td style="text-align: left;">Our <a href="https://tisl-lab.github.io/">TISL</a> lab team won a $10,000 prize at the <a href="https://www.kaggle.com/competitions/2023-kaggle-ai-report/">2023 Kaggle AI Report Competition</a>. Our report, <a href="https://www.kaggle.com/code/patrikkenfack/exploring-the-landscape-of-ai-ethics">Exploring the Landscape of AI Ethics</a>, secured first place in the AI Ethics category.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Mar 2023</td>
-<td style="text-align: left;">🛠️ Service</td>
-<td style="text-align: left;">Reviewer for <a href="https://iccv2023.thecvf.com/">ICCV 2023</a>.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Apr 2023</td>
-<td style="text-align: left;">🏆 Award</td>
-<td style="text-align: left;">Awarded the <a href="https://mila.quebec/en/news/twenty-one-edi-scholarships-awarded-to-exceptional-researchers">Excellence Scholarships – EDI in Research</a> from Mila, supporting equity, diversity, and inclusion in AI research.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Feb 2023</td>
-<td style="text-align: left;">🛠️ Service</td>
-<td style="text-align: left;">Reviewer for <a href="https://facctconference.org/2023/">FAccT 2023</a>.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Jan 2023</td>
-<td style="text-align: left;">🎤 Talk</td>
-<td style="text-align: left;">Presented our work <a href="https://openreview.net/pdf?id=iW7r_6LuHwA">Learning Fair Representations Through Uniformly Distributed Sensitive Attributes</a> at <a href="https://satml.org/2023/">SaTML 2023</a>.</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-
-</section>
-</div></div>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#what-is-in-context-learning" id="toc-what-is-in-context-learning" class="nav-link" data-scroll-target="#what-is-in-context-learning">What is In-Context Learning?</a>
+  <ul class="collapse">
+  <li><a href="#tabular-foundation-models" id="toc-tabular-foundation-models" class="nav-link" data-scroll-target="#tabular-foundation-models">Tabular Foundation Models</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
     </div>
-    <img src="img/IMG_00855.JPG" class="about-image
-  round " style="height: 15em; width: 15em;">
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">In-Context Learning with Tabular Data.</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Machine Learning</div>
+    <div class="quarto-category">Tabular Data</div>
+    <div class="quarto-category">In-Context Learning</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    In this post, I will introduce in-context learning with tabular foundation models and how to use it to improve the performance of your models.
   </div>
 </div>
 
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Patrik Kenfack </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 5, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Tabular data is a modality commonly found in various fields including finance, healthcare, and social sciences. They are structured data represented in a row and column format. In machine learning, row are seen as data points and column as features. The features can be numerical, categorical, or a mix of both.</p>
+<p>In the classical classification machine learning pipeline, the training step invole updating the model parameter to minimize the loss function. In-Context Learning (ICL) on the other hand, a new learning paradigm where the model can make predictions using few examples as context and no model update is required.</p>
+<p>In this post, I will introduce in-context learning with tabular foundation models and how to use it to improve the performance of your models.</p>
+</section>
+<section id="what-is-in-context-learning" class="level1">
+<h1>What is In-Context Learning?</h1>
+<p>In-Context Learning (ICL) is a new paradigm that have emerged as a capability found in large language models (LLMs) to make predictions using few examples as context and no model update is required [<a href="https://proceedings.neurips.cc/paper/2020/hash/1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html">Brown, Tom, et al.</a>].</p>
+<dl>
+<dt><img src="image.png" class="img-fluid" alt="alt"></dt>
+<dd>
+Illustration of ICL with text.
+</dd>
+</dl>
+<p>Under ICL, demonstrations examples are formatted into a template and provided as prompt to the model. The model then make predictions on the query example using demonstrations as context, as illustrated in the figure above.</p>
+<p>Despite vanilla LLMs such as GTPs demonstrate excellent ICL capabilities, there several challenges that need to be addressed. These challenges includes, sensitivity to demonstrations examples, limited context length, and context quality and diversity.</p>
+<p>In this blog post, I will pay a special attention to tabular data since unlike text, structured data require special attention.</p>
+<ul>
+<li><strong>Context Length</strong>: The context length is the number of tokens that can be provided to the model. This is a challenge for tabular data as the number of features can be large.</li>
+<li><strong>Context Quality and Diversity</strong>: The quality and diversity of the context is important for the model to make accurate predictions. This is a challenge for tabular data as the features are not always well defined.</li>
+</ul>
+<section id="tabular-foundation-models" class="level2">
+<h2 class="anchored" data-anchor-id="tabular-foundation-models">Tabular Foundation Models</h2>
+<p>Before</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install tabpfn tabicl scikit<span class="op">-</span>learn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<p>Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J. D., Dhariwal, P., … &amp; Amodei, D. (2020). Language models are few-shot learners. Advances in neural information processing systems, 33, 1877-1901.</p>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
         if (clz.startsWith('code-annotation-')) {                     

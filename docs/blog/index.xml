@@ -9,7 +9,7 @@
 <link>patrikken.github.com/blog/</link>
 <atom:link href="patrikken.github.com/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Patrik Kenfack is PhD Candidate in Computer Science at Mila/ÉTS Montréal.</description>
-<generator>quarto-1.5.42</generator>
+<generator>quarto-1.7.31</generator>
 <lastBuildDate>Thu, 22 May 2025 04:00:00 GMT</lastBuildDate>
 <item>
   <title>Getting Started with Compute Clusters</title>

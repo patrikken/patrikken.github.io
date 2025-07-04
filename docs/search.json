@@ -4,7 +4,7 @@
     "href": "blog/index.html",
     "title": "Blog",
     "section": "",
-    "text": "Getting Started with Compute Clusters\n\n\n\n\n\n\ncompute\n\n\ncluster\n\n\ntraining\n\n\n\nIn this post, I will walk you through the steps to get started with compute clusters, with a focus on Compute Canada.\n\n\n\n\n\nMay 22, 2025\n\n\nPatrik Kenfack\n\n\n\n\n\n\nNo matching items"
+    "text": "Getting Started with Compute Clusters\n\n\n\ncompute\n\ncluster\n\ntraining\n\n\n\nIn this post, I will walk you through the steps to get started with compute clusters, with a focus on Compute Canada.\n\n\n\n\n\nMay 22, 2025\n\n\nPatrik Kenfack\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "blog/posts/Getting Started with Compute Clusters/index.html",
@@ -75,5 +75,68 @@
     "title": "Teaching",
     "section": "",
     "text": "Coming soon…"
+  },
+  {
+    "objectID": "blog/posts/In-Context-Learning/index.html",
+    "href": "blog/posts/In-Context-Learning/index.html",
+    "title": "In-Context Learning with Tabular Data.",
+    "section": "",
+    "text": "Tabular data is a modality commonly found in various fields including finance, healthcare, and social sciences. They are structured data represented in a row and column format. In machine learning, row are seen as data points and column as features. The features can be numerical, categorical, or a mix of both.\nIn the classical classification machine learning pipeline, the training step invole updating the model parameter to minimize the loss function. In-Context Learning (ICL) on the other hand, a new learning paradigm where the model can make predictions using few examples as context and no model update is required.\nIn this post, I will introduce in-context learning with tabular foundation models and how to use it to improve the performance of your models."
+  },
+  {
+    "objectID": "blog/posts/In-Context-Learning/index.html#what-is-in-context-learning",
+    "href": "blog/posts/In-Context-Learning/index.html#what-is-in-context-learning",
+    "title": "In-Context Learning with Tabular Data.",
+    "section": "",
+    "text": "ICL is new paradigm that have emerged as a capability of large language models (LLMs) to make predictions using few examples as context and no model update is required Brown, Tom, et al.."
+  },
+  {
+    "objectID": "blog/posts/In-Context-Learning/index.html#tabular-foundation-models",
+    "href": "blog/posts/In-Context-Learning/index.html#tabular-foundation-models",
+    "title": "In-Context Learning with Tabular Data.",
+    "section": "Tabular Foundation Models",
+    "text": "Tabular Foundation Models\nBefore\n!pip install tabpfn tabicl scikit-learn"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Patrik Kenfack",
+    "section": "",
+    "text": "LinkedIn\n  \n  \n    \n     Github\n  \n  \n      Email\n  \n  \n      Google Scholar\n  \n\n      \n\n\nI’m a PhD Candidate at ÉTS Montréal - Mila advised by Ulrich Aïvodji and Samira Ebrahimi Kahou. My thesis investigates bias mitigation in machine learning under various constraints on sensitive information. Before joining ÉTS Montréal, I was a research assistant at Machine Learning and Knowledge Representation Lab at Innopolis University, advised by Adil Khan. My work focused on studying fairness aspect of machine learning methods such as ensemble learning, GANs, continual learning, and representation learning.\nI graduated with a Master’s Degree in Computer Science and a Bachelor’s in Mathematics and CS at University of Dschang.\nResearch Interest:\n\nApplied Machine Learning\nAlgorithmic Fairness\nPrivacy-Preserving Machine Learning (PPML)\nResponsible AI\nFoundation Models for Structured Data\n\n\n\n\n\n\n\n\n\n\n\n\n\nDate\nType\nDescription\n\n\n\n\nJune 2025\n📄 Paper\nOur paper Towards Fair In-Context Learning with Tabular Foundation Models is accepted at ICML 2025 FMSD workshop\n\n\nMay 2025\n📄 Paper\nOur recent paper Towards Fair In-Context Learning with Tabular Foundation Models is out!\n\n\nMar 2025\n🏆 Award\nSecured second place for the 3-Minute Research Presentation Contest at the 2025 ETS student researcher conference\n\n\nMar 2025\n📄 Paper\nTwo papers accepted at SCSL @ ICLR 2025. 1. GradTune: Last-layer Fine-tuning for Group Robustness Without Group Annotation. 2. Towards personalized healthcare without harm via bias modulation\n\n\nFeb 2025\n🛠️ Service\nReviewing for FAcct.\n\n\nOct 2024\n📄 Paper\nOur paper Adaptive Group Robust Ensemble Knowledge Distillation was accepted at Neurips2024 AFME workshop.\n\n\nAug 2024\n📄 Paper\nOur paper Fairness Under Demographic Scarce Regime was accepted at TMLR.\n\n\nAug 2024\n🛠️ Service\nInvited to serve as a reviewer at ICLR 2025.\n\n\nJul 2024\n🛠️ Service\nInvited to provide an emergency review at Neurips 2024.\n\n\nJun 2024\n📄 Paper\nOur Survey on Fairness Without Demographics was accepted at TMLR.\n\n\nApr 2024\n🛠️ Service\nSelected to join the Mila EDI committee.\n\n\nJan 2024\n🛠️ Service\nReviewer for FAcct.\n\n\nAug 2023\n🏆 Award\nOur TISL lab team won a $10,000 prize at the 2023 Kaggle AI Report Competition. Our report, Exploring the Landscape of AI Ethics, secured first place in the AI Ethics category.\n\n\nMar 2023\n🛠️ Service\nReviewer for ICCV 2023.\n\n\nApr 2023\n🏆 Award\nAwarded the Excellence Scholarships – EDI in Research from Mila, supporting equity, diversity, and inclusion in AI research.\n\n\nFeb 2023\n🛠️ Service\nReviewer for FAccT 2023.\n\n\nJan 2023\n🎤 Talk\nPresented our work Learning Fair Representations Through Uniformly Distributed Sensitive Attributes at SaTML 2023."
+  },
+  {
+    "objectID": "index.html#bio",
+    "href": "index.html#bio",
+    "title": "Patrik Kenfack",
+    "section": "",
+    "text": "I’m a PhD Candidate at ÉTS Montréal - Mila advised by Ulrich Aïvodji and Samira Ebrahimi Kahou. My thesis investigates bias mitigation in machine learning under various constraints on sensitive information. Before joining ÉTS Montréal, I was a research assistant at Machine Learning and Knowledge Representation Lab at Innopolis University, advised by Adil Khan. My work focused on studying fairness aspect of machine learning methods such as ensemble learning, GANs, continual learning, and representation learning.\nI graduated with a Master’s Degree in Computer Science and a Bachelor’s in Mathematics and CS at University of Dschang.\nResearch Interest:\n\nApplied Machine Learning\nAlgorithmic Fairness\nPrivacy-Preserving Machine Learning (PPML)\nResponsible AI\nFoundation Models for Structured Data"
+  },
+  {
+    "objectID": "index.html#news",
+    "href": "index.html#news",
+    "title": "Patrik Kenfack",
+    "section": "",
+    "text": "Date\nType\nDescription\n\n\n\n\nJune 2025\n📄 Paper\nOur paper Towards Fair In-Context Learning with Tabular Foundation Models is accepted at ICML 2025 FMSD workshop\n\n\nMay 2025\n📄 Paper\nOur recent paper Towards Fair In-Context Learning with Tabular Foundation Models is out!\n\n\nMar 2025\n🏆 Award\nSecured second place for the 3-Minute Research Presentation Contest at the 2025 ETS student researcher conference\n\n\nMar 2025\n📄 Paper\nTwo papers accepted at SCSL @ ICLR 2025. 1. GradTune: Last-layer Fine-tuning for Group Robustness Without Group Annotation. 2. Towards personalized healthcare without harm via bias modulation\n\n\nFeb 2025\n🛠️ Service\nReviewing for FAcct.\n\n\nOct 2024\n📄 Paper\nOur paper Adaptive Group Robust Ensemble Knowledge Distillation was accepted at Neurips2024 AFME workshop.\n\n\nAug 2024\n📄 Paper\nOur paper Fairness Under Demographic Scarce Regime was accepted at TMLR.\n\n\nAug 2024\n🛠️ Service\nInvited to serve as a reviewer at ICLR 2025.\n\n\nJul 2024\n🛠️ Service\nInvited to provide an emergency review at Neurips 2024.\n\n\nJun 2024\n📄 Paper\nOur Survey on Fairness Without Demographics was accepted at TMLR.\n\n\nApr 2024\n🛠️ Service\nSelected to join the Mila EDI committee.\n\n\nJan 2024\n🛠️ Service\nReviewer for FAcct.\n\n\nAug 2023\n🏆 Award\nOur TISL lab team won a $10,000 prize at the 2023 Kaggle AI Report Competition. Our report, Exploring the Landscape of AI Ethics, secured first place in the AI Ethics category.\n\n\nMar 2023\n🛠️ Service\nReviewer for ICCV 2023.\n\n\nApr 2023\n🏆 Award\nAwarded the Excellence Scholarships – EDI in Research from Mila, supporting equity, diversity, and inclusion in AI research.\n\n\nFeb 2023\n🛠️ Service\nReviewer for FAccT 2023.\n\n\nJan 2023\n🎤 Talk\nPresented our work Learning Fair Representations Through Uniformly Distributed Sensitive Attributes at SaTML 2023."
+  },
+  {
+    "objectID": "instance/news.html",
+    "href": "instance/news.html",
+    "title": "Patrik Kenfack",
+    "section": "",
+    "text": "May 2025\n📄 Paper\nOur recent paper Towards Fair In-Context Learning with Tabular Foundation Models is out!\n\n\nMar 2025\n🏆 Award\nSecured second place for the 3-Minute Research Presentation Contest at the 2025 ETS student researcher conference\n\n\nMar 2025\n📄 Paper\nTwo papers accepted at SCSL @ ICLR 2025.  1. GradTune: Last-layer Fine-tuning for Group Robustness Without Group Annotation.  2. Towards personalized healthcare without harm via bias modulation\n\n\nFev 2025\n🛠️ Service\nReviewing for FAcct.\n\n\nOct 2024\n📄 Paper\nOur paper Adaptive Group Robust Ensemble Knowledge Distillation was accepted at Neurips2024 AFME workshop.\n\n\nAug 2024\n📄 Paper\nOur paper Fairness Under Demographic Scarce Regime was accepted at TMLR.\n\n\n\n🛠️ Service\nInvited to serve as a reviewer at ICLR 2025.\n\n\nJul 2024\n🛠️ Service\nInvited to provide an emergency review at Neurips 2024.\n\n\nJun 2024\n📄 Paper\nOur Survey on Fairness Without Demographics was accepted at TMLR.\n\n\nApr 2024\n🛠️ Service\nSelected to join the Mila EDI committee.\n\n\nJan 2024\n🛠️ Service\nReviewer for FAcct.\n\n\nAug 2023\n🏆 Award\nOur TISL lab team won a $10,000 prize at the 2023 Kaggle AI Report Competition. Our report, Exploring the Landscape of AI Ethics, secured first place in the AI Ethics category.\n\n\nMar 2023\n🛠️ Service\nReviewer for ICCV 2023.\n\n\nApr 2023\n🏆 Award\nAwarded the Excellence Scholarships – EDI in Research from Mila, supporting equity, diversity, and inclusion in AI research.\n\n\nFeb 2023\n🛠️ Service\nReviewer for FAccT 2023.\n\n\nJan 2023\n🎤 Talk\nPresented our work Learning Fair Representations Through Uniformly Distributed Sensitive Attributes at SaTML 2023."
+  },
+  {
+    "objectID": "instance/In-Context-Learning/index.html",
+    "href": "instance/In-Context-Learning/index.html",
+    "title": "In-Context Learning with Tabular Data.",
+    "section": "",
+    "text": "Tabular data is a modality commonly found in various fields including finance, healthcare, and social sciences. They are structured data represented in a row and column format. In machine learning, row are seen as data points and column as features. The features can be numerical, categorical, or a mix of both.\nIn the classical classification machine learning pipeline, the training step invole updating the model parameter to minimize the loss function. In-Context Learning (ICL) on the other hand, a new learning paradigm where the model can make predictions using few examples as context and no model update is required.\nIn this post, I will introduce in-context learning with tabular foundation models and how to use it to improve the performance of your models."
+  },
+  {
+    "objectID": "instance/In-Context-Learning/index.html#tabular-foundation-models",
+    "href": "instance/In-Context-Learning/index.html#tabular-foundation-models",
+    "title": "In-Context Learning with Tabular Data.",
+    "section": "Tabular Foundation Models",
+    "text": "Tabular Foundation Models\nBefore\n!pip install tabpfn tabicl scikit-learn"
   }
 ]

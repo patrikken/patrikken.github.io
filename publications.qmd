@@ -58,8 +58,7 @@ cat('<div class="page-aside" role="complementary">', pu_profile_html(), "</div>"
 cat('<div class="page-main">')
 
 cat('<h1 class="page-title">Publications</h1>')
-cat('<p class="page-lede">Journal, conference and workshop papers. ',
-    "Every title opens a page with the abstract and all of the paper's links. ",
+cat('<p class="page-lede">Journal, conference, workshop, and preprints. ',
     "The full list is on ",
     '<a href="https://scholar.google.com/citations?user=bWvJMcgAAAAJ&amp;hl=fr&amp;oi=ao" ',
     'target="_blank" rel="noopener">Google Scholar</a>.</p>',

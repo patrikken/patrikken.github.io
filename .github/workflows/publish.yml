@@ -1,15 +1,30 @@
-on:
-  workflow_dispatch:
-  push:
-    branches: main
-
 name: Quarto Publish
+
+on:
+  # every push to the default branch
+  push:
+    branches: [master]
+
+  # the 1st of every month at 06:00 UTC (02:00 in Montréal on EDT, 01:00 on EST).
+  # This exists so the site picks up spreadsheet edits even when no code changed:
+  # the render always refetches the CV sheet.
+  schedule:
+    - cron: '0 6 1 * *'
+
+  # and a "Run workflow" button on the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# never let two publishes race each other
+concurrency:
+  group: quarto-publish
+  cancel-in-progress: false
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -17,24 +32,45 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Install Python and dependencies
-        uses: actions/setup-python@v4
+      # The site is knitr-based: helpers.R / paper_utils.R / generate_papers.R
+      # all run at render time, so the runner needs R and these packages.
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+          use-public-rspm: true
+
+      - name: Cache R packages
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-rlibs-${{ hashFiles('.github/workflows/publish.yml') }}
+          restore-keys: ${{ runner.os }}-rlibs-
+
+      - name: Install R packages
+        shell: Rscript {0}
+        run: |
+          needed <- c(
+            "knitr", "rmarkdown",   # the Quarto knitr engine
+            "googlesheets4",        # helpers.R reads the CV spreadsheet
+            "dplyr", "purrr", "stringr", "lubridate", "glue"
+          )
+          missing <- needed[!needed %in% rownames(installed.packages())]
+          if (length(missing)) install.packages(missing)
+
+      - name: Set up Python and dependencies
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
           cache: 'pip'
       - run: pip install jupyter
       - run: pip install -r requirements.txt
 
+      # The pre-render step (generate_papers.R) fetches the sheet and rewrites
+      # papers/<slug>/index.qmd, so every run publishes the current sheet.
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Commit changes to reflect source file  changes
-        run: |
-          git config --global user.name 'Patrik Kenfack'
-          git config --global user.email 'kenfackjoslin@gmail.com'
-          git  diff-index --quiet HEAD || git commit -am "Automated commit of changes to source files"
-          git push

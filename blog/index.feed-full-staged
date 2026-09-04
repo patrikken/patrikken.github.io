@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Patrik Kenfack</title>
+<link>patrikken.github.com/blog/</link>
+<atom:link href="patrikken.github.com/blog/index.xml" rel="self" type="application/rss+xml"/>
+<description>Patrik Kenfack is PhD Candidate in Computer Science at Mila/ÉTS Montréal.</description>
+<generator>quarto-1.7.31</generator>
+<lastBuildDate>Thu, 22 May 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>{B4F502887207:/blog/posts/Getting Started with Compute Clusters/index.html}</title>
+  <dc:creator>Patrik Kenfack</dc:creator>
+  <link>patrikken.github.com/blog/posts/Getting Started with Compute Clusters/</link>
+  <description>{B4F502887207:/blog/posts/Getting Started with Compute Clusters/index.html}</description>
+  <category>compute</category>
+  <category>cluster</category>
+  <category>training</category>
+  <guid>patrikken.github.com/blog/posts/Getting Started with Compute Clusters/</guid>
+  <pubDate>Thu, 22 May 2025 04:00:00 GMT</pubDate>
+  <media:content url="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/compute_cluster.png" medium="image" type="image/png" height="96" width="144"/>
+</item>
+</channel>
+</rss>

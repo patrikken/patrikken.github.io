@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Patrik Kenfack is a PhD Candidate at ÉTS Montréal and Mila working on algorithmic fairness, responsible AI and foundation models for structured data.">
+<meta name="description" content="The issue of bias in Machine Learning (ML) models is a significant challenge for the machine learning community. Real-world biases can be embedded in the data used to train models, and prior studie…">
 
-<title>Patrik Kenfack - PhD Candidate at Mila/ÉTS Montréal – Patrik Kenfack</title>
+<title>A Survey on Fairness Without Demographics - Patrik Kenfack – Patrik Kenfack</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,23 +24,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-51a02aa42a60c64a92ac6666fcd107dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-51a02aa42a60c64a92ac6666fcd107dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -71,17 +71,19 @@ ul.task-list li input[type="checkbox"] {
 <script type="application/ld+json">{"@context":"http://www.schema.org","@type":"person","name":"Patrik Kenfack","jobTitle":"PhD Candidate","gender":"male","description":"Patrik is a PhD Candidate at Mila working at the intersection of Privacy and Fairness.","url":"https://patrikken.github.com","image":"https://patrikken.github.com/img/IMG_0085.jpeg","address":{"@type":"PostalAddress","addressLocality":"Montréal","addressRegion":"QC","postalCode":"H3C0L7","addressCountry":"Canada"},"memberOf":[{"@type":"Organization","name":"ETS Montreal"},{"@type":"Organization","name":"Mila"}],"nationality":[{"@type":"Country","name":"Cameroon"},{"@type":"Country","name":"Cameroon"}]}</script>
 
 
-<meta property="og:title" content="Patrik Kenfack - PhD Candidate at Mila/ÉTS Montréal">
-<meta property="og:description" content="Patrik Kenfack is a PhD Candidate at ÉTS Montréal and Mila working on algorithmic fairness, responsible AI and foundation models for structured data.">
+<meta property="og:title" content="A Survey on Fairness Without Demographics - Patrik Kenfack">
+<meta property="og:description" content="The issue of bias in Machine Learning (ML) models is a significant challenge for the machine learning community. Real-world biases can be embedded in the data used to train models, and prior studie…">
 <meta property="og:image" content="patrikken.github.com/img/me.jpg">
 <meta property="og:site_name" content="Patrik Kenfack">
-<meta name="twitter:title" content="Patrik Kenfack - PhD Candidate at Mila/ÉTS Montréal">
-<meta name="twitter:description" content="Patrik Kenfack is a PhD Candidate at ÉTS Montréal and Mila working on algorithmic fairness, responsible AI and foundation models for structured data.">
+<meta property="og:image:alt" content="Patrik Kenfack">
+<meta name="twitter:title" content="A Survey on Fairness Without Demographics - Patrik Kenfack">
+<meta name="twitter:description" content="The issue of bias in Machine Learning (ML) models is a significant challenge for the machine learning community. Real-world biases can be embedded in the data used to train models, and prior studie…">
 <meta name="twitter:image" content="patrikken.github.com/img/me.jpg">
+<meta name="twitter:image:alt" content="Patrik Kenfack">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -94,15 +96,15 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./publications.html"> 
+    <a class="nav-link" href="../../publications.html"> 
 <span class="menu-text">Publications</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./blog"> 
+    <a class="nav-link" href="../../blog"> 
 <span class="menu-text">Blog</span></a>
   </li>  
 </ul>
@@ -113,26 +115,26 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Patrik Kenfack</h1>
+<h1 class="title">A Survey on Fairness Without Demographics</h1>
 </div>
 
 <div>
   <div class="description">
-    Patrik Kenfack is a PhD Candidate at ÉTS Montréal and Mila working on algorithmic fairness, responsible AI and foundation models for structured data.
+    The issue of bias in Machine Learning (ML) models is a significant challenge for the machine learning community. Real-world biases can be embedded in the data used to train models, and prior studie…
   </div>
 </div>
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page">
 
     
   
@@ -144,391 +146,51 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<style>
-/* the hero below is this page's title block */
-#title-block-header { display: none; }
-</style>
-
-<script type="application/ld+json">
-{"@context":"http://www.schema.org","@type":"person","name":"Patrik Kenfack","jobTitle":"PhD Candidate","gender":"male","description":"Patrik is a PhD Candidate at Mila working at the intersection of Privacy and Fairness.","url":"https://patrikken.github.io","image":"https://patrikken.github.io/img/me.jpg","birthPlace":"Cameroon","memberOf":[{"@type":"Organization","name":"Mila"},{"@type":"Organization","name":"\u00c9TS Montr\u00e9al"}],"nationality":[{"@type":"Country","name":"Cameroon"}]}
+<!-- GENERATED by generate_papers.R from the Papers sheet. Do not edit. -->
+<style>#title-block-header { display: none; }</style>
+<div class="with-aside">
+<div class="page-aside" role="complementary">
+<div class="profile-card"><img class="profile-photo" src="../../img/me.jpg" alt="Patrik Kenfack" width="600" height="600"><p class="profile-name">Patrik Kenfack</p><p class="profile-role">PhD Candidate,<br>Computer Science</p><ul class="profile-list"><li><i class="bi bi-geo-alt-fill"></i><span>Montréal QC, Canada</span></li><li><i class="bi bi-building"></i><span><a href="https://www.etsmtl.ca/">ÉTS Montréal</a> &amp; <a href="https://mila.quebec/">Mila</a></span></li><li><i class="bi bi-mortarboard-fill"></i><span><a href="https://scholar.google.com/citations?user=bWvJMcgAAAAJ&amp;hl=fr&amp;oi=ao" target="_blank" rel="noopener">Google Scholar</a></span></li><li><i class="bi bi-linkedin"></i><span><a href="https://www.linkedin.com/in/patrik-kenfack-30a8b933/" target="_blank" rel="noopener">LinkedIn</a></span></li><li><i class="bi bi-github"></i><span><a href="https://github.com/patrikken" target="_blank" rel="noopener">GitHub</a></span></li><li><i class="bi bi-envelope-fill"></i><span><a href="mailto:kenfackjoslin@gmail.com">Email</a></span></li></ul></div>
+</div>
+<div class="page-main">
+<article class="paper"><h1 class="paper-title">A Survey on Fairness Without Demographics</h1><p class="paper-authors"><strong>Patrik Kenfack</strong>, Samira Ebrahimi Kahou, Ulrich Aïvodji</p><p class="paper-venue">Published in <em>Transactions on Machine Learning Research</em>, 2024</p><div class="pub-meta"><span class="pub-tag" data-category="journal">Journal</span></div><section class="paper-abstract"><p>The issue of bias in Machine Learning (ML) models is a significant challenge for the machine learning community. Real-world biases can be embedded in the data used to train models, and prior studies have shown that ML models can learn and even amplify these biases. This can result in unfair treatment of individuals based on their inherent characteristics or sensitive attributes such as gender, race, or age. Ensuring fairness is crucial with the increasing use of ML models in high-stakes scenarios and has gained significant attention from researchers in recent years. However, the challenge of ensuring fairness becomes much greater when the assumption of full access to sensitive attributes does not hold. The settings where the hypothesis does not hold include cases where (1) only limited or noisy demographic information is available or (2) demographic information is entirely unobserved due to privacy restrictions. This survey reviews recent research efforts to enforce fairness when sensitive attributes are missing. We propose a taxonomy of existing works and, more importantly, highlight current challenges and future research directions to stimulate research in ML fairness in the setting of missing sensitive attributes.</p></section><div class="pub-links paper-links"><a class="pub-link" href="https://openreview.net/forum?id=3HE4vPNIfX" target="_blank" rel="noopener"><i class="bi bi-link-45deg"></i>Paper</a><a class="pub-link" href="https://openreview.net/pdf?id=3HE4vPNIfX" target="_blank" rel="noopener"><i class="bi bi-file-earmark-pdf"></i>PDF</a><button type="button" class="pub-link pub-cite" data-target="bib-8" aria-expanded="false"><i class="bi bi-quote"></i>Cite</button></div><div class="pub-bibtex" id="bib-8" hidden=""><button type="button" class="pub-copy">Copy</button><pre><code>@article{
+kenfack2024a,
+title={A Survey on Fairness Without Demographics},
+author={Patrik Kenfack and Samira Ebrahimi Kahou and Ulrich A{\"\i}vodji},
+journal={Transactions on Machine Learning Research},
+issn={2835-8856},
+year={2024},
+url={https://openreview.net/forum?id=3HE4vPNIfX},
+note={}
+}</code></pre></div></article><script>
+document.addEventListener("click", function (e) {
+  const toggle = e.target.closest(".pub-cite");
+  if (toggle) {
+    const box = document.getElementById(toggle.dataset.target);
+    if (box) {
+      box.hidden = !box.hidden;
+      toggle.setAttribute("aria-expanded", String(!box.hidden));
+      toggle.classList.toggle("is-open", !box.hidden);
+    }
+    return;
+  }
+  const copy = e.target.closest(".pub-copy");
+  if (copy) {
+    const text = copy.parentElement.querySelector("code").innerText;
+    navigator.clipboard.writeText(text).then(function () {
+      const original = copy.textContent;
+      copy.textContent = "Copied";
+      copy.classList.add("is-copied");
+      setTimeout(function () {
+        copy.textContent = original;
+        copy.classList.remove("is-copied");
+      }, 1600);
+    });
+  }
+});
 </script>
-
-<div class="hero">
-  <div class="hero-photo">
-    <img src="img/me.jpg" alt="Patrik Kenfack" width="600" height="600">
-  </div>
-  <div class="hero-intro">
-    <h1 class="hero-name">Hey, I’m Patrik 👋🏿</h1>
-    <p class="hero-role">PhD Candidate in Computer Science ·
-      <a href="https://www.etsmtl.ca/">ÉTS Montréal</a> &amp;
-      <a href="https://mila.quebec/">Mila</a></p>
-    <div class="hero-links">
-      <a class="pub-link" href="https://www.linkedin.com/in/patrik-kenfack-30a8b933/" target="_blank" rel="noopener"><i class="bi bi-linkedin"></i>LinkedIn</a>
-      <a class="pub-link" href="https://github.com/patrikken" target="_blank" rel="noopener"><i class="bi bi-github"></i>GitHub</a>
-      <a class="pub-link" href="https://scholar.google.com/citations?user=bWvJMcgAAAAJ&amp;hl=fr&amp;oi=ao" target="_blank" rel="noopener"><i class="bi bi-mortarboard"></i>Google Scholar</a>
-      <a class="pub-link" href="mailto:kenfackjoslin@gmail.com"><i class="bi bi-envelope"></i>Email</a>
-    </div>
-  </div>
 </div>
-<div class="bio">
-<p>I study <strong>bias mitigation in machine learning under constraints on sensitive information</strong> — what fairness can mean when you cannot see, or are not allowed to use, the attributes you would need to measure it. I am advised by <a href="https://aivodji.github.io/">Ulrich Aïvodji</a> and <a href="https://saebrahimi.github.io/">Samira Ebrahimi Kahou</a>.</p>
-<p>I recently completed a <a href="https://www.mitacs.ca/">Mitacs</a> internship at <a href="https://layer6.ai/">Layer6 AI</a>, where I worked on designing fair tabular foundation models. Before ÉTS Montréal I was a research assistant at the <a href="https://innopolis.university/en/mlkr">Machine Learning and Knowledge Representation Lab</a> at <a href="https://innopolis.university/en/">Innopolis University</a>, advised by <a href="https://www.hull.ac.uk/staff-directory/adil-khan">Adil Khan</a>, working on fairness in ensemble learning, GANs, continual learning and representation learning. I hold an MSc in Computer Science and a BSc in Mathematics and CS from the <a href="https://www.univ-dschang.org/">University of Dschang</a>.</p>
 </div>
-<p class="eyebrow">Research interests</p>
-<div class="interests">
-  <span class="interest">Algorithmic Fairness</span>
-  <span class="interest">Responsible AI</span>
-  <span class="interest">Tabular Foundation Models</span> 
-  <span class="interest">Privacy-Preserving ML</span>
-  <span class="interest">Applied Machine Learning</span>
-</div>
-
-<h2 class="section-title anchored">News</h2>
-<div class="news-feed">
-<div class="news-feed__scroll">
-<ol class="news-list">
-<li class="news-item" data-type="paper">
-<div class="news-date">
-<span class="news-month">Jun</span><span class="news-year">2026</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="paper">📄 Paper</span><span class="news-tag" data-type="talk">🎤 Talk</span>
-</div>
-<p class="news-text">
-I presented our recent paper <a href="https://arxiv.org/abs/2608.14211">Training Fair Tabular Foundation Models</a> at <a href="https://icml-structured-fm-workshop.github.io/">FMSD @ ICML 2026</a> accpeted as spotlight oral.
-</p>
-</div>
-</li>
-<li class="news-item" data-type="service">
-<div class="news-date">
-<span class="news-month">May</span><span class="news-year">2026</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="service">🛠️ Service</span>
-</div>
-<p class="news-text">
-Reviewing for workshop <a href="https://icml-structured-fm-workshop.github.io/">Foundation Models for Structured Data @ ICML 2026</a>
-</p>
-</div>
-</li>
-<li class="news-item" data-type="award">
-<div class="news-date">
-<span class="news-month">Apr</span><span class="news-year">2026</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="award">🏆 Award</span>
-</div>
-<p class="news-text">
-Recipient of the <a href="https://www.etsmtl.ca/en/ets/bourses/ets-internal">ETS internal scholarship</a>
-</p>
-</div>
-</li>
-<li class="news-item" data-type="service">
-<div class="news-date">
-<span class="news-month">Mar</span><span class="news-year">2026</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="service">🛠️ Service</span>
-</div>
-<p class="news-text">
-Reviewing for <a href="https://2026.aclweb.org/calls/system_demonstration/">ACL 2026</a>.
-</p>
-</div>
-</li>
-<li class="news-item" data-type="service">
-<div class="news-date">
-<span class="news-month">Fev</span><span class="news-year">2026</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="service">🛠️ Service</span>
-</div>
-<p class="news-text">
-Reviewing for <a href="https://facctconference.org/2026/">FAcct</a>.
-</p>
-</div>
-</li>
-<li class="news-item" data-type="paper">
-<div class="news-date">
-<span class="news-month">Jan</span><span class="news-year">2026</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="paper">📄 Paper</span>
-</div>
-<p class="news-text">
-Our paper <a href="https://openreview.net/forum?id=AsBhwD0sqo">Towards Fair In-Context Learning with Tabular Foundation Models</a> is accepted at TMLR
-</p>
-</div>
-</li>
-<li class="news-item" data-type="service">
-<div class="news-date">
-<span class="news-month">Jan</span><span class="news-year">2026</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="service">🛠️ Service</span>
-</div>
-<p class="news-text">
-Reviewing for <a href="https://cvpr.thecvf.com/">CVPR</a>
-</p>
-</div>
-</li>
-<li class="news-item" data-type="internship">
-<div class="news-date">
-<span class="news-month">Nov</span><span class="news-year">2025</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="internship">💼 Intership</span>
-</div>
-<p class="news-text">
-Excited to have started a <a href="https://www.mitacs.ca/">Mitacs</a> internship at <a href="https://layer6.ai/">Layer6 AI</a>, where I research on designing Fair Tabular Foundation Models.
-</p>
-</div>
-</li>
-<li class="news-item" data-type="paper">
-<div class="news-date">
-<span class="news-month">Nov</span><span class="news-year">2025</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="paper">📄 Paper</span>
-</div>
-<p class="news-text">
-Our paper <a href="https://openreview.net/forum?id=G2BEBaKd8Y">Adaptive Group Robust Ensemble Knowledge Distillation</a> is accepted at TMLR
-</p>
-</div>
-</li>
-<li class="news-item" data-type="paper">
-<div class="news-date">
-<span class="news-month">Jun</span><span class="news-year">2025</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="paper">📄 Paper</span>
-</div>
-<p class="news-text">
-Our paper <a href="https://arxiv.org/abs/2505.09503">Towards Fair In-Context Learning with Tabular Foundation Models</a> is accepted at ICML 2025 <a href="https://icml-structured-fm-workshop.github.io/">FMSD</a> workshop
-</p>
-</div>
-</li>
-<li class="news-item" data-type="paper">
-<div class="news-date">
-<span class="news-month">May</span><span class="news-year">2025</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="paper">📄 Paper</span>
-</div>
-<p class="news-text">
-Our recent paper <a href="https://arxiv.org/abs/2505.09503">Towards Fair In-Context Learning with Tabular Foundation Models</a> is out!
-</p>
-</div>
-</li>
-<li class="news-item" data-type="award">
-<div class="news-date">
-<span class="news-month">Mar</span><span class="news-year">2025</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="award">🏆 Award</span>
-</div>
-<p class="news-text">
-Secured second place for the 3-Minute Research Presentation Contest at the <a href="https://caec.etsmtl.ca/">2025 ETS student researcher conference</a>
-</p>
-</div>
-</li>
-<li class="news-item" data-type="paper">
-<div class="news-date">
-<span class="news-month">Mar</span><span class="news-year">2025</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="paper">📄 Paper</span>
-</div>
-<p class="news-text">
-Two papers accepted at <a href="https://scslworkshop.github.io/">SCSL @ ICLR 2025</a>. 1. <a href="https://openreview.net/forum?id=WL9Sxi3iat">GradTune: Last-layer Fine-tuning for Group Robustness Without Group Annotation</a>. 2. <a href="https://openreview.net/forum?id=DBQ0b5JTxk">Towards personalized healthcare without harm via bias modulation</a>
-</p>
-</div>
-</li>
-<li class="news-item" data-type="service">
-<div class="news-date">
-<span class="news-month">Feb</span><span class="news-year">2025</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="service">🛠️ Service</span>
-</div>
-<p class="news-text">
-Reviewing for <a href="https://facctconference.org/2025/">FAcct</a>.
-</p>
-</div>
-</li>
-<li class="news-item" data-type="paper">
-<div class="news-date">
-<span class="news-month">Oct</span><span class="news-year">2024</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="paper">📄 Paper</span>
-</div>
-<p class="news-text">
-Our paper <a href="https://arxiv.org/abs/2411.14984">Adaptive Group Robust Ensemble Knowledge Distillation</a> was accepted at <a href="https://www.afciworkshop.org/">Neurips2024 AFME workshop</a>.
-</p>
-</div>
-</li>
-<li class="news-item" data-type="paper">
-<div class="news-date">
-<span class="news-month">Aug</span><span class="news-year">2024</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="paper">📄 Paper</span>
-</div>
-<p class="news-text">
-Our paper <a href="https://openreview.net/pdf?id=TB18G0w6Ld">Fairness Under Demographic Scarce Regime</a> was accepted at <a href="https://openreview.net/forum?id=TB18G0w6Ld">TMLR</a>.
-</p>
-</div>
-</li>
-<li class="news-item" data-type="service">
-<div class="news-date">
-<span class="news-month">Aug</span><span class="news-year">2024</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="service">🛠️ Service</span>
-</div>
-<p class="news-text">
-Invited to serve as a reviewer at <a href="https://iclr.cc/Conferences/2025">ICLR 2025</a>.
-</p>
-</div>
-</li>
-<li class="news-item" data-type="service">
-<div class="news-date">
-<span class="news-month">Jul</span><span class="news-year">2024</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="service">🛠️ Service</span>
-</div>
-<p class="news-text">
-Invited to provide an emergency review at <a href="https://neurips.cc/">Neurips 2024</a>.
-</p>
-</div>
-</li>
-<li class="news-item" data-type="paper">
-<div class="news-date">
-<span class="news-month">Jun</span><span class="news-year">2024</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="paper">📄 Paper</span>
-</div>
-<p class="news-text">
-Our <a href="https://openreview.net/pdf?id=3HE4vPNIfX">Survey on Fairness Without Demographics</a> was accepted at <a href="https://openreview.net/forum?id=3HE4vPNIfX">TMLR</a>.
-</p>
-</div>
-</li>
-<li class="news-item" data-type="service">
-<div class="news-date">
-<span class="news-month">Apr</span><span class="news-year">2024</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="service">🛠️ Service</span>
-</div>
-<p class="news-text">
-Selected to join the <a href="https://mila.quebec/">Mila</a> EDI committee.
-</p>
-</div>
-</li>
-<li class="news-item" data-type="service">
-<div class="news-date">
-<span class="news-month">Jan</span><span class="news-year">2024</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="service">🛠️ Service</span>
-</div>
-<p class="news-text">
-Reviewer for <a href="https://facctconference.org/2024/">FAcct</a>.
-</p>
-</div>
-</li>
-<li class="news-item" data-type="award">
-<div class="news-date">
-<span class="news-month">Aug</span><span class="news-year">2023</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="award">🏆 Award</span>
-</div>
-<p class="news-text">
-Our <a href="https://tisl-lab.github.io/">TISL</a> lab team won a $10,000 prize at the <a href="https://www.kaggle.com/competitions/2023-kaggle-ai-report/">2023 Kaggle AI Report Competition</a>. Our report, <a href="https://www.kaggle.com/code/patrikkenfack/exploring-the-landscape-of-ai-ethics">Exploring the Landscape of AI Ethics</a>, secured first place in the AI Ethics category.
-</p>
-</div>
-</li>
-<li class="news-item" data-type="service">
-<div class="news-date">
-<span class="news-month">Mar</span><span class="news-year">2023</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="service">🛠️ Service</span>
-</div>
-<p class="news-text">
-Reviewer for <a href="https://iccv2023.thecvf.com/">ICCV 2023</a>.
-</p>
-</div>
-</li>
-<li class="news-item" data-type="award">
-<div class="news-date">
-<span class="news-month">Apr</span><span class="news-year">2023</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="award">🏆 Award</span>
-</div>
-<p class="news-text">
-Awarded the <a href="https://mila.quebec/en/news/twenty-one-edi-scholarships-awarded-to-exceptional-researchers">Excellence Scholarships – EDI in Research</a> from Mila, supporting equity, diversity, and inclusion in AI research.
-</p>
-</div>
-</li>
-<li class="news-item" data-type="service">
-<div class="news-date">
-<span class="news-month">Feb</span><span class="news-year">2023</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="service">🛠️ Service</span>
-</div>
-<p class="news-text">
-Reviewer for <a href="https://facctconference.org/2023/">FAccT 2023</a>.
-</p>
-</div>
-</li>
-<li class="news-item" data-type="talk">
-<div class="news-date">
-<span class="news-month">Jan</span><span class="news-year">2023</span>
-</div>
-<div class="news-body">
-<div class="news-tags">
-<span class="news-tag" data-type="talk">🎤 Talk</span>
-</div>
-<p class="news-text">
-Presented our work <a href="https://openreview.net/pdf?id=iW7r_6LuHwA">Learning Fair Representations Through Uniformly Distributed Sensitive Attributes</a> at <a href="https://satml.org/2023/">SaTML 2023</a>.
-</p>
-</div>
-</li>
-</ol>
-</div>
-</div>
-<p>Happy to talk about research or potential collaborations — reach me on <a href="https://www.linkedin.com/in/patrik-kenfack-30a8b933/">LinkedIn</a> or at <a href="mailto:kenfackjoslin@gmail.com">kenfackjoslin@gmail.com</a>.</p>
 
 
 

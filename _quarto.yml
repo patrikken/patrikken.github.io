@@ -45,6 +45,7 @@ format:
     include-in-header:
       text: |
         <script type='application/ld+json'>{"@context":"http://www.schema.org","@type":"person","name":"Patrik Kenfack","jobTitle":"PhD Candidate","gender":"male","description":"Patrik is a PhD Candidate at Mila working at the intersection of Privacy and Fairness.","url":"https://patrikken.github.com","image":"https://patrikken.github.com/img/IMG_0085.jpeg","address":{"@type":"PostalAddress","addressLocality":"Montréal","addressRegion":"QC","postalCode":"H3C0L7","addressCountry":"Canada"},"memberOf":[{"@type":"Organization","name":"ETS Montreal"},{"@type":"Organization","name":"Mila"}],"nationality":[{"@type":"Country","name":"Cameroon"},{"@type":"Country","name":"Cameroon"}]}</script>
+        <meta name="google-site-verification" content="M8A4BiKiuitR_uKLIW6mMiwPyXpL1nCneyw04t8F66U" />
 
 
 

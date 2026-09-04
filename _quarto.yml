@@ -1,0 +1,51 @@
+project:
+  type: website
+  output-dir: docs
+  pre-render: generate_papers.R
+resources:
+  - CNAME
+  - img
+
+website:
+  title: "Patrik Kenfack"
+  site-url: "patrikken.github.com"
+  description: "Patrik Kenfack is PhD Candidate in Computer Science at Mila/ÉTS Montréal."
+  navbar:
+    title: false
+    left:
+      - href: index.qmd
+        text: Home
+      - href: publications.qmd
+        text: Publications
+      - href: blog
+        text: Blog  
+  page-footer:
+    left: "Built with Quarto."
+  twitter-card: true
+  open-graph: true
+  google-analytics: ""
+
+# The R chunks read a live Google Sheet, so their output can change while the
+# .qmd files do not. Quarto's freeze cache keys on the file, which would serve
+# a stale publications list for ever. Always re-execute.
+execute:
+  freeze: false
+
+format:
+  html:
+    theme:
+      - cosmo
+      - custom.scss
+    toc: false
+    toc_depth: 3
+    toc_float: true
+    toc_smooth_scroll: true
+    toc_highlight: true
+    fig-align: center
+    include-in-header:
+      text: |
+        <script type='application/ld+json'>{"@context":"http://www.schema.org","@type":"person","name":"Patrik Kenfack","jobTitle":"PhD Candidate","gender":"male","description":"Patrik is a PhD Candidate at Mila working at the intersection of Privacy and Fairness.","url":"https://patrikken.github.com","image":"https://patrikken.github.com/img/IMG_0085.jpeg","address":{"@type":"PostalAddress","addressLocality":"Montréal","addressRegion":"QC","postalCode":"H3C0L7","addressCountry":"Canada"},"memberOf":[{"@type":"Organization","name":"ETS Montreal"},{"@type":"Organization","name":"Mila"}],"nationality":[{"@type":"Country","name":"Cameroon"},{"@type":"Country","name":"Cameroon"}]}</script>
+
+
+
+

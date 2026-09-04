@@ -1,0 +1,83 @@
+---
+title: "Publications"
+pagetitle: "Publications - Patrik Kenfack"
+description: "Journal, conference and workshop papers by Patrik Kenfack, with PDFs, code, slides and BibTeX."
+page-layout: full
+toc: false
+comments: false
+execute:
+  warning: false
+  echo: false
+  message: false
+  eval: true
+  # this page's R reads a live Google Sheet, so its output changes while this
+  # file does not — a frozen result would be stale for ever. A per-document
+  # execute block shadows the project-level one, so it has to be repeated here.
+  freeze: false
+---
+
+```{=html}
+<style>#title-block-header { display: none; }</style>
+```
+
+```{r}
+#| label: pubs-setup
+#| include: false
+source("helpers.R")
+source("paper_utils.R")
+papers <- pu_load_papers()
+```
+
+```{r}
+#| label: publications
+#| echo: false
+#| results: asis
+
+p <- pu_prepare(papers)
+
+items <- paste0(
+    '<li class="pub-item">',
+    '<div class="pub-meta">', p$cat_html, p$award_html, "</div>",
+    '<h3 class="pub-title"><a href="', p$page_url, '">', pu_esc(p$title), "</a></h3>",
+    '<p class="pub-authors">', p$authors_html, "</p>",
+    ifelse(nzchar(p$venue),
+        paste0('<p class="pub-venue">', pu_esc(p$venue), "</p>"), ""
+    ),
+    '<div class="pub-links">', p$links, p$cite_btn, "</div>",
+    p$cite_box,
+    "</li>"
+)
+
+# newest first, grouped by the sheet's `year` column
+ord <- order(p$year, p$pub_date, decreasing = TRUE)
+items <- items[ord]
+year_o <- p$year[ord]
+
+cat('<div class="with-aside">')
+cat('<div class="page-aside" role="complementary">', pu_profile_html(), "</div>", sep = "")
+cat('<div class="page-main">')
+
+cat('<h1 class="page-title">Publications</h1>')
+cat('<p class="page-lede">Journal, conference and workshop papers. ',
+    "Every title opens a page with the abstract and all of the paper's links. ",
+    "The full list is on ",
+    '<a href="https://scholar.google.com/citations?user=bWvJMcgAAAAJ&amp;hl=fr&amp;oi=ao" ',
+    'target="_blank" rel="noopener">Google Scholar</a>.</p>',
+    sep = ""
+)
+
+cat('<div class="pubs">')
+for (y in unique(year_o)) {
+    cat('<section class="pub-year-group">',
+        '<h2 class="pub-year">', pu_esc(y), "</h2>",
+        '<ol class="pub-list">',
+        paste(items[year_o == y], collapse = ""),
+        "</ol></section>",
+        sep = ""
+    )
+}
+cat("</div>")
+
+cat("</div></div>")
+cat(pu_cite_script())
+```

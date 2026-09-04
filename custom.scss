@@ -1,0 +1,712 @@
+/*-- scss:defaults --*/
+
+// (no theme overrides yet — keeps the cosmo look as-is)
+
+/*-- scss:rules --*/
+
+/* ============================================================
+   Home hero — photo, name, role and contact chips.
+   Replaces the tall centred `jolla` about template so the news
+   timeline starts above the fold.
+   ============================================================ */
+
+.hero {
+  display: grid;
+  grid-template-columns: 8.5rem 1fr;
+  gap: 1.75rem;
+  align-items: center;
+  margin: 0.25rem 0 1.5rem;
+}
+
+.hero-photo img {
+  width: 8.5rem;
+  height: 8.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.14);
+}
+
+.hero-name {
+  margin: 0 0 0.15rem;
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.hero-role {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  color: #6c757d;
+}
+
+.hero-role a {
+  color: #495057;
+}
+
+.hero-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.bio {
+  font-size: 0.97rem;
+  line-height: 1.6;
+  color: #343a40;
+}
+
+.bio p {
+  margin: 0 0 0.7rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.4rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #adb5bd;
+}
+
+.interests {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 1.6rem;
+}
+
+.interest {
+  padding: 0.12rem 0.6rem;
+  border-radius: 999px;
+  background: #f1f3f5;
+  color: #495057;
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+/* section heading used on the home page (News) */
+.section-title {
+  margin: 0 0 0.55rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #dee2e6;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+@media (max-width: 575.98px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+  .hero-photo img {
+    width: 6.5rem;
+    height: 6.5rem;
+  }
+  .hero-name {
+    font-size: 1.6rem;
+  }
+}
+
+/* ============================================================
+   News timeline
+   Rendered by the `news` chunk in index.qmd
+   ============================================================ */
+
+.news-feed {
+  --news-rail: #e3e6ea;
+  --news-dot: #adb5bd;
+  --news-tint: #f1f3f5;
+  --news-ink: #495057;
+
+  margin-top: 0.25rem;
+}
+
+.news-feed__scroll {
+  max-height: 34rem;
+  overflow-y: auto;
+  padding-right: 0.9rem;
+  /* soft fade so it reads as "there is more below" */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 2.5rem), transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 2.5rem), transparent 100%);
+  scrollbar-width: thin;
+  scrollbar-color: #d3d7dc transparent;
+}
+
+.news-feed__scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.news-feed__scroll::-webkit-scrollbar-thumb {
+  background: #d3d7dc;
+  border-radius: 999px;
+}
+.news-feed__scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.news-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 3rem 0;
+}
+
+.news-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4.25rem 1.5rem 1fr;
+  align-items: start;
+  padding: 0.7rem 0.6rem 0.7rem 0;
+  border-radius: 0.5rem;
+  transition: background-color 0.15s ease;
+}
+
+.news-item:hover {
+  background-color: rgba(0, 0, 0, 0.022);
+}
+
+/* the rail */
+.news-item::before {
+  content: "";
+  position: absolute;
+  left: 5rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--news-rail);
+}
+
+/* the dot */
+.news-item::after {
+  content: "";
+  position: absolute;
+  left: 5rem;
+  top: 1.35rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--news-dot);
+  transform: translate(-50%, -50%);
+}
+
+.news-item:first-child::before {
+  top: 1.35rem;
+}
+.news-item:last-child::before {
+  bottom: auto;
+  height: 1.35rem;
+}
+
+.news-date {
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  padding-top: 0.32rem;
+  text-align: right;
+  padding-right: 0.25rem;
+}
+
+.news-month {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #343a40;
+  letter-spacing: 0.01em;
+}
+
+.news-year {
+  font-size: 0.74rem;
+  color: #868e96;
+  font-variant-numeric: tabular-nums;
+}
+
+.news-body {
+  grid-column: 3;
+  min-width: 0;
+}
+
+.news-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.28rem;
+}
+
+.news-tag,
+.pub-tag {
+  display: inline-block;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+  white-space: nowrap;
+  background: var(--news-tint);
+  color: var(--news-ink);
+}
+
+.news-text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #343a40;
+}
+
+.news-text a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+/* Per-type accents.
+   The item's data-type (its first tag) colours the timeline dot;
+   each pill carries its own data-type, so an item can mix tags.
+   To add a tag, copy one pair below and pick new colours. */
+
+.news-item[data-type="paper"]      { --news-dot: #2b6cb0; }
+.news-tag[data-type="paper"]       { --news-tint: #e7f0fa; --news-ink: #1f5286; }
+
+.news-item[data-type="award"]      { --news-dot: #c98a06; }
+.news-tag[data-type="award"]       { --news-tint: #fdf3dc; --news-ink: #8a5f04; }
+
+.news-item[data-type="service"]    { --news-dot: #2f855a; }
+.news-tag[data-type="service"]     { --news-tint: #e6f4ec; --news-ink: #226343; }
+
+.news-item[data-type="talk"]       { --news-dot: #7c4dbe; }
+.news-tag[data-type="talk"]        { --news-tint: #f1eafb; --news-ink: #5b3690; }
+
+.news-item[data-type="internship"] { --news-dot: #0d8b8b; }
+.news-tag[data-type="internship"]  { --news-tint: #e2f4f4; --news-ink: #0a6a6a; }
+
+@media (max-width: 575.98px) {
+  .news-item {
+    grid-template-columns: 3.4rem 1.2rem 1fr;
+  }
+  .news-item::before,
+  .news-item::after {
+    left: 4rem;
+  }
+  .news-text {
+    font-size: 0.9rem;
+  }
+}
+
+/* ============================================================
+   Two-column pages: sticky profile card on the left, content on the right.
+
+   NOTE: the card is a <div role="complementary">, never an <aside>.
+   Quarto ships `aside:not(.footnotes):not(.sidebar) {
+   grid-column: body-end / page-end !important }`, which drags any <aside>
+   into the page's right margin column and overrides this grid.
+   Used by publications.qmd and every generated papers/<slug>/ page,
+   both of which set `page-layout: full`.
+   ============================================================ */
+
+.with-aside {
+  display: grid;
+  grid-template-columns: 15.5rem 1fr;
+  gap: 3.25rem;
+  align-items: start;
+  max-width: 66rem;
+  margin: 0 auto;
+  padding: 0 0.5rem;
+}
+
+.page-aside {
+  position: sticky;
+  top: 5rem;
+  grid-column: 1;
+}
+
+.page-main {
+  min-width: 0;
+  max-width: 47rem;
+}
+
+.page-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.page-lede {
+  margin: 0 0 0.5rem;
+  font-size: 0.93rem;
+  line-height: 1.55;
+  color: #6c757d;
+}
+
+/* ---- profile card ---- */
+
+.profile-photo {
+  width: 11rem;
+  height: 11rem;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.14);
+}
+
+.profile-name {
+  margin: 0.9rem 0 0.1rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.profile-role {
+  margin: 0 0 0.85rem;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  color: #6c757d;
+}
+
+.profile-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #495057;
+}
+
+.profile-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.profile-list i {
+  flex: 0 0 1rem;
+  color: #868e96;
+  font-size: 0.9em;
+}
+
+.profile-list a {
+  color: #495057;
+  text-decoration: none;
+}
+
+.profile-list a:hover,
+.profile-list a:focus-visible {
+  color: #2b6cb0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---- a single paper page ---- */
+
+.paper-title {
+  margin: 0 0 0.4rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.paper-authors {
+  margin: 0 0 0.2rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #495057;
+}
+
+.paper-authors strong {
+  font-weight: 600;
+  color: #212529;
+}
+
+.paper-venue {
+  margin: 0 0 0.7rem;
+  font-size: 0.95rem;
+  color: #495057;
+}
+
+.paper-abstract {
+  margin: 1.4rem 0 1.6rem;
+}
+
+.paper-abstract p {
+  margin: 0 0 0.8rem;
+  font-size: 0.97rem;
+  line-height: 1.65;
+  color: #343a40;
+}
+
+.paper-links {
+  padding-top: 1rem;
+  border-top: 1px solid #dee2e6;
+}
+
+@media (max-width: 991.98px) {
+  .with-aside {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 46rem;
+  }
+  .page-aside {
+    position: static;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid #e9ecef;
+  }
+  .page-main {
+    max-width: none;
+  }
+  /* the profile card lies down: photo beside the name, links underneath */
+  .profile-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "photo name"
+      "photo role"
+      "list  list";
+    column-gap: 1rem;
+    align-items: center;
+  }
+  .profile-photo {
+    grid-area: photo;
+    width: 5rem;
+    height: 5rem;
+  }
+  .profile-name {
+    grid-area: name;
+    align-self: end;
+    margin: 0;
+  }
+  .profile-role {
+    grid-area: role;
+    align-self: start;
+    margin: 0.1rem 0 0;
+  }
+  .profile-list {
+    grid-area: list;
+    margin-top: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 1.15rem;
+  }
+  .profile-list li {
+    margin-bottom: 0;
+  }
+  .paper-title {
+    font-size: 1.45rem;
+  }
+}
+
+/* ============================================================
+   Publications
+   Rendered by the `publications` chunk in publications.qmd.
+   Deliberately shares the pill / hover / colour language of the
+   news timeline above, without the rail.
+   ============================================================ */
+
+.pubs {
+  --pub-rule: #dee2e6;
+  --pub-tint: #f1f3f5;
+  --pub-ink: #495057;
+  margin-top: 1.25rem;
+}
+
+.pub-year-group + .pub-year-group {
+  margin-top: 2.25rem;
+}
+
+.pub-year {
+  margin: 0 0 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--pub-rule, #dee2e6);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #868e96;
+  font-variant-numeric: tabular-nums;
+}
+
+.pub-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pub-item {
+  padding: 0.9rem 0.75rem;
+  margin: 0 -0.75rem;
+  border-radius: 0.55rem;
+  transition: background-color 0.15s ease;
+}
+
+.pub-item:hover {
+  background-color: rgba(0, 0, 0, 0.022);
+}
+
+.pub-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.35rem;
+}
+
+.pub-tag {
+  --news-tint: var(--pub-tint, #f1f3f5);
+  --news-ink: var(--pub-ink, #495057);
+}
+
+.pub-award {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #8a5f04;
+}
+
+.pub-award i {
+  font-size: 0.95em;
+  line-height: 1;
+}
+
+.pub-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.pub-title a {
+  color: #212529;
+  text-decoration: none;
+}
+
+.pub-title a:hover,
+.pub-title a:focus-visible {
+  color: #2b6cb0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.pub-authors {
+  margin: 0 0 0.1rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #495057;
+}
+
+.pub-authors strong {
+  font-weight: 600;
+  color: #212529;
+}
+
+.pub-venue {
+  margin: 0 0 0.55rem;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #868e96;
+}
+
+.pub-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.pub-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  padding: 0.14rem 0.6rem;
+  border: 1px solid #dee2e6;
+  border-radius: 999px;
+  background: #fff;
+  color: #495057;
+  font-size: 0.74rem;
+  font-weight: 600;
+  line-height: 1.6;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.pub-link:hover,
+.pub-link:focus-visible {
+  border-color: #adb5bd;
+  background: #f8f9fa;
+  color: #212529;
+  text-decoration: none;
+}
+
+.pub-link i {
+  font-size: 0.95em;
+  line-height: 1;
+}
+
+.pub-cite.is-open {
+  border-color: #adb5bd;
+  background: #f1f3f5;
+  color: #212529;
+}
+
+.pub-bibtex {
+  position: relative;
+  margin-top: 0.6rem;
+  border: 1px solid var(--pub-rule, #dee2e6);
+  border-radius: 0.5rem;
+  background: #f8f9fa;
+}
+
+.pub-bibtex pre {
+  margin: 0;
+  padding: 0.8rem 1rem;
+  border: 0;
+  background: transparent;
+  font-size: 0.76rem;
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.pub-copy {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.45rem;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid #dee2e6;
+  border-radius: 999px;
+  background: #fff;
+  color: #6c757d;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pub-copy:hover {
+  color: #212529;
+  border-color: #adb5bd;
+}
+
+.pub-copy.is-copied {
+  color: #226343;
+  border-color: #2f855a;
+}
+
+/* category accents — mirrors the news tag colours */
+.pub-tag[data-category="journal"]    { --news-tint: #e7f0fa; --news-ink: #1f5286; }
+.pub-tag[data-category="conference"] { --news-tint: #f1eafb; --news-ink: #5b3690; }
+.pub-tag[data-category="workshop"]   { --news-tint: #e6f4ec; --news-ink: #226343; }
+.pub-tag[data-category="preprint"]   { --news-tint: #fdf3dc; --news-ink: #8a5f04; }
+.pub-tag[data-category="thesis"]     { --news-tint: #e2f4f4; --news-ink: #0a6a6a; }
+
+@media (max-width: 575.98px) {
+  .pub-title {
+    font-size: 0.98rem;
+  }
+  .pub-authors,
+  .pub-venue {
+    font-size: 0.84rem;
+  }
+}

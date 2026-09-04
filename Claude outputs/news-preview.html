@@ -1,0 +1,227 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>News section preview</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<style>
+body { font-family: -apple-system, "Source Sans Pro", "Segoe UI", Helvetica, Arial, sans-serif; background:#fff; }
+.wrap { max-width: 42rem; margin: 2rem auto; padding: 0 1.25rem; }
+h2 { font-weight: 700; margin-bottom: .25rem; }
+/* ============================================================
+   News timeline
+   Rendered by the `news` chunk in index.qmd
+   ============================================================ */
+.news-feed {
+  --news-rail: #e3e6ea;
+  --news-dot: #adb5bd;
+  --news-tint: #f1f3f5;
+  --news-ink: #495057;
+  margin-top: 0.75rem;
+}
+
+.news-feed__scroll {
+  max-height: 34rem;
+  overflow-y: auto;
+  padding-right: 0.9rem;
+  /* soft fade so it reads as "there is more below" */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 2.5rem), transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 2.5rem), transparent 100%);
+  scrollbar-width: thin;
+  scrollbar-color: #d3d7dc transparent;
+}
+
+.news-feed__scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.news-feed__scroll::-webkit-scrollbar-thumb {
+  background: #d3d7dc;
+  border-radius: 999px;
+}
+
+.news-feed__scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.news-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 3rem 0;
+}
+
+.news-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4.25rem 1.5rem 1fr;
+  align-items: start;
+  padding: 0.7rem 0.6rem 0.7rem 0;
+  border-radius: 0.5rem;
+  transition: background-color 0.15s ease;
+}
+
+.news-item:hover {
+  background-color: rgba(0, 0, 0, 0.022);
+}
+
+/* the rail */
+.news-item::before {
+  content: "";
+  position: absolute;
+  left: 5rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--news-rail);
+}
+
+/* the dot */
+.news-item::after {
+  content: "";
+  position: absolute;
+  left: 5rem;
+  top: 1.35rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--news-dot);
+  transform: translate(-50%, -50%);
+}
+
+.news-item:first-child::before {
+  top: 1.35rem;
+}
+
+.news-item:last-child::before {
+  bottom: auto;
+  height: 1.35rem;
+}
+
+.news-date {
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  padding-top: 0.32rem;
+  text-align: right;
+  padding-right: 0.25rem;
+}
+
+.news-month {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #343a40;
+  letter-spacing: 0.01em;
+}
+
+.news-year {
+  font-size: 0.74rem;
+  color: #868e96;
+  font-variant-numeric: tabular-nums;
+}
+
+.news-body {
+  grid-column: 3;
+  min-width: 0;
+}
+
+.news-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.28rem;
+}
+
+.news-tag {
+  display: inline-block;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+  white-space: nowrap;
+  background: var(--news-tint);
+  color: var(--news-ink);
+}
+
+.news-text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #343a40;
+}
+
+.news-text a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+/* Per-type accents.
+   The item's data-type (its first tag) colours the timeline dot;
+   each pill carries its own data-type, so an item can mix tags.
+   To add a tag, copy one pair below and pick new colours. */
+.news-item[data-type=paper] {
+  --news-dot: #2b6cb0;
+}
+
+.news-tag[data-type=paper] {
+  --news-tint: #e7f0fa;
+  --news-ink: #1f5286;
+}
+
+.news-item[data-type=award] {
+  --news-dot: #c98a06;
+}
+
+.news-tag[data-type=award] {
+  --news-tint: #fdf3dc;
+  --news-ink: #8a5f04;
+}
+
+.news-item[data-type=service] {
+  --news-dot: #2f855a;
+}
+
+.news-tag[data-type=service] {
+  --news-tint: #e6f4ec;
+  --news-ink: #226343;
+}
+
+.news-item[data-type=talk] {
+  --news-dot: #7c4dbe;
+}
+
+.news-tag[data-type=talk] {
+  --news-tint: #f1eafb;
+  --news-ink: #5b3690;
+}
+
+.news-item[data-type=internship] {
+  --news-dot: #0d8b8b;
+}
+
+.news-tag[data-type=internship] {
+  --news-tint: #e2f4f4;
+  --news-ink: #0a6a6a;
+}
+
+@media (max-width: 575.98px) {
+  .news-item {
+    grid-template-columns: 3.4rem 1.2rem 1fr;
+  }
+  .news-item::before,
+  .news-item::after {
+    left: 4rem;
+  }
+  .news-text {
+    font-size: 0.9rem;
+  }
+}
+
+</style></head><body>
+<div class="wrap">
+<h2>News</h2>
+<div class="news-feed"><div class="news-feed__scroll"><ol class="news-list"><li class="news-item" data-type="paper"><div class="news-date"><span class="news-month">Jun</span><span class="news-year">2026</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="paper">📄 Paper</span><span class="news-tag" data-type="talk">🎤 Talk</span></div><p class="news-text">Our paper <a href="https://arxiv.org/abs/2608.14211">Training Fair Tabular Foundation Models</a> is accepted at FMSD @ ICML 2026 as spotlight oral.</p></div></li><li class="news-item" data-type="service"><div class="news-date"><span class="news-month">May</span><span class="news-year">2026</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="service">🛠️ Service</span></div><p class="news-text">Reviewing for workshop <a href="https://icml-structured-fm-workshop.github.io/">Foundation Models for Structured Data @ ICML 2026</a></p></div></li><li class="news-item" data-type="award"><div class="news-date"><span class="news-month">Apr</span><span class="news-year">2026</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="award">🏆 Award</span></div><p class="news-text">Recipient of the <a href="https://www.etsmtl.ca/en/ets/bourses/ets-internal">ETS internal scholarship</a></p></div></li><li class="news-item" data-type="service"><div class="news-date"><span class="news-month">Mar</span><span class="news-year">2026</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="service">🛠️ Service</span></div><p class="news-text">Reviewing for <a href="https://2026.aclweb.org/calls/system_demonstration/">ACL 2026</a>.</p></div></li><li class="news-item" data-type="service"><div class="news-date"><span class="news-month">Fev</span><span class="news-year">2026</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="service">🛠️ Service</span></div><p class="news-text">Reviewing for <a href="https://facctconference.org/2026/">FAcct</a>.</p></div></li><li class="news-item" data-type="paper"><div class="news-date"><span class="news-month">Jan</span><span class="news-year">2026</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="paper">📄 Paper</span></div><p class="news-text">Our paper <a href="https://openreview.net/forum?id=AsBhwD0sqo">Towards Fair In-Context Learning with Tabular Foundation Models</a> is accepted at TMLR</p></div></li><li class="news-item" data-type="service"><div class="news-date"><span class="news-month">Jan</span><span class="news-year">2026</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="service">🛠️ Service</span></div><p class="news-text">Reviewing for <a href="https://cvpr.thecvf.com/">CVPR</a></p></div></li><li class="news-item" data-type="internship"><div class="news-date"><span class="news-month">Nov</span><span class="news-year">2025</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="internship">💼 Intership</span></div><p class="news-text">Excited to have started a <a href="https://www.mitacs.ca/">Mitacs</a> internship at <a href="https://layer6.ai/">Layer6 AI</a>, where I research on designing Fair Tabular Foundation Models.</p></div></li><li class="news-item" data-type="paper"><div class="news-date"><span class="news-month">Nov</span><span class="news-year">2025</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="paper">📄 Paper</span></div><p class="news-text">Our paper <a href="https://openreview.net/forum?id=G2BEBaKd8Y">Adaptive Group Robust Ensemble Knowledge Distillation</a> is accepted at TMLR</p></div></li><li class="news-item" data-type="paper"><div class="news-date"><span class="news-month">Jun</span><span class="news-year">2025</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="paper">📄 Paper</span></div><p class="news-text">Our paper <a href="https://arxiv.org/abs/2505.09503">Towards Fair In-Context Learning with Tabular Foundation Models</a> is accepted at ICML 2025 <a href="https://icml-structured-fm-workshop.github.io/">FMSD</a> workshop</p></div></li><li class="news-item" data-type="paper"><div class="news-date"><span class="news-month">May</span><span class="news-year">2025</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="paper">📄 Paper</span></div><p class="news-text">Our recent paper <a href="https://arxiv.org/abs/2505.09503">Towards Fair In-Context Learning with Tabular Foundation Models</a> is out!</p></div></li><li class="news-item" data-type="award"><div class="news-date"><span class="news-month">Mar</span><span class="news-year">2025</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="award">🏆 Award</span><span class="news-tag" data-type="talk">🎤 Talk</span></div><p class="news-text">Secured second place for the 3-Minute Research Presentation Contest at the <a href="https://caec.etsmtl.ca/">2025 ETS student researcher conference</a></p></div></li><li class="news-item" data-type="paper"><div class="news-date"><span class="news-month">Mar</span><span class="news-year">2025</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="paper">📄 Paper</span></div><p class="news-text">Two papers accepted at <a href="https://scslworkshop.github.io/">SCSL @ ICLR 2025</a>. 1. <a href="https://openreview.net/forum?id=WL9Sxi3iat">GradTune: Last-layer Fine-tuning for Group Robustness Without Group Annotation</a>. 2. <a href="https://openreview.net/forum?id=DBQ0b5JTxk">Towards personalized healthcare without harm via bias modulation</a></p></div></li><li class="news-item" data-type="service"><div class="news-date"><span class="news-month">Feb</span><span class="news-year">2025</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="service">🛠️ Service</span></div><p class="news-text">Reviewing for <a href="https://facctconference.org/2025/">FAcct</a>.</p></div></li><li class="news-item" data-type="paper"><div class="news-date"><span class="news-month">Oct</span><span class="news-year">2024</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="paper">📄 Paper</span></div><p class="news-text">Our paper <a href="https://arxiv.org/abs/2411.14984">Adaptive Group Robust Ensemble Knowledge Distillation</a> was accepted at <a href="https://www.afciworkshop.org/">Neurips2024 AFME workshop</a>.</p></div></li><li class="news-item" data-type="paper"><div class="news-date"><span class="news-month">Aug</span><span class="news-year">2024</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="paper">📄 Paper</span></div><p class="news-text">Our paper <a href="https://openreview.net/pdf?id=TB18G0w6Ld">Fairness Under Demographic Scarce Regime</a> was accepted at <a href="https://openreview.net/forum?id=TB18G0w6Ld">TMLR</a>.</p></div></li><li class="news-item" data-type="service"><div class="news-date"><span class="news-month">Aug</span><span class="news-year">2024</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="service">🛠️ Service</span></div><p class="news-text">Invited to serve as a reviewer at <a href="https://iclr.cc/Conferences/2025">ICLR 2025</a>.</p></div></li><li class="news-item" data-type="service"><div class="news-date"><span class="news-month">Jul</span><span class="news-year">2024</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="service">🛠️ Service</span></div><p class="news-text">Invited to provide an emergency review at <a href="https://neurips.cc/">Neurips 2024</a>.</p></div></li><li class="news-item" data-type="paper"><div class="news-date"><span class="news-month">Jun</span><span class="news-year">2024</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="paper">📄 Paper</span></div><p class="news-text">Our <a href="https://openreview.net/pdf?id=3HE4vPNIfX">Survey on Fairness Without Demographics</a> was accepted at <a href="https://openreview.net/forum?id=3HE4vPNIfX">TMLR</a>.</p></div></li><li class="news-item" data-type="service"><div class="news-date"><span class="news-month">Apr</span><span class="news-year">2024</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="service">🛠️ Service</span></div><p class="news-text">Selected to join the <a href="https://mila.quebec/">Mila</a> EDI committee.</p></div></li><li class="news-item" data-type="service"><div class="news-date"><span class="news-month">Jan</span><span class="news-year">2024</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="service">🛠️ Service</span></div><p class="news-text">Reviewer for <a href="https://facctconference.org/2024/">FAcct</a>.</p></div></li><li class="news-item" data-type="award"><div class="news-date"><span class="news-month">Aug</span><span class="news-year">2023</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="award">🏆 Award</span></div><p class="news-text">Our <a href="https://tisl-lab.github.io/">TISL</a> lab team won a $10,000 prize at the <a href="https://www.kaggle.com/competitions/2023-kaggle-ai-report/">2023 Kaggle AI Report Competition</a>. Our report, <a href="https://www.kaggle.com/code/patrikkenfack/exploring-the-landscape-of-ai-ethics">Exploring the Landscape of AI Ethics</a>, secured first place in the AI Ethics category.</p></div></li><li class="news-item" data-type="service"><div class="news-date"><span class="news-month">Mar</span><span class="news-year">2023</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="service">🛠️ Service</span></div><p class="news-text">Reviewer for <a href="https://iccv2023.thecvf.com/">ICCV 2023</a>.</p></div></li><li class="news-item" data-type="award"><div class="news-date"><span class="news-month">Apr</span><span class="news-year">2023</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="award">🏆 Award</span></div><p class="news-text">Awarded the <a href="https://mila.quebec/en/news/twenty-one-edi-scholarships-awarded-to-exceptional-researchers">Excellence Scholarships – EDI in Research</a> from Mila, supporting equity, diversity, and inclusion in AI research.</p></div></li><li class="news-item" data-type="service"><div class="news-date"><span class="news-month">Feb</span><span class="news-year">2023</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="service">🛠️ Service</span></div><p class="news-text">Reviewer for <a href="https://facctconference.org/2023/">FAccT 2023</a>.</p></div></li><li class="news-item" data-type="talk"><div class="news-date"><span class="news-month">Jan</span><span class="news-year">2023</span></div><div class="news-body"><div class="news-tags"><span class="news-tag" data-type="talk">🎤 Talk</span></div><p class="news-text">Presented our work <a href="https://openreview.net/pdf?id=iW7r_6LuHwA">Learning Fair Representations Through Uniformly Distributed Sensitive Attributes</a> at <a href="https://satml.org/2023/">SaTML 2023</a>.</p></div></li></ol></div></div>
+<p style="margin-top:1.5rem">Feel free to reach out if you want to discuss research, potential collaborations, or just want to say hi — find me on <a href="#">LinkedIn</a> or email me at <a href="#">kenfackjoslin@gmail.com</a>.</p>
+</div></body></html>

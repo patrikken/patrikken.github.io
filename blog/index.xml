@@ -9,8 +9,8 @@
 <link>patrikken.github.com/blog/</link>
 <atom:link href="patrikken.github.com/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Patrik Kenfack is PhD Candidate in Computer Science at Mila/ÉTS Montréal.</description>
-<generator>quarto-1.7.31</generator>
-<lastBuildDate>Thu, 22 May 2025 04:00:00 GMT</lastBuildDate>
+<generator>quarto-1.10.18</generator>
+<lastBuildDate>Thu, 22 May 2025 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Getting Started with Compute Clusters</title>
   <dc:creator>Patrik Kenfack</dc:creator>
@@ -42,7 +42,7 @@
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Cluster Names
+<span class="screen-reader-only">Tip</span>Cluster Names
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -50,13 +50,13 @@ Cluster Names
 </div>
 </div>
 <p>The name of the cluster is used to login to a specific cluster. For example, to login to the <code>Beluga</code> cluster, you can use the following command:</p>
-<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ssh</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&lt;</span>your_username<span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">&gt;</span>@beluga.alliancecan.ca</span></code></pre></div>
+font-style: inherit;">&gt;</span>@beluga.alliancecan.ca</span></code></pre></div></div>
 </section>
 <section id="login-nodes-vs-compute-nodes" class="level2">
 <h2 class="anchored" data-anchor-id="login-nodes-vs-compute-nodes">Login nodes vs Compute nodes</h2>
@@ -120,40 +120,40 @@ Tip
 <section id="module-loading" class="level3">
 <h3 class="anchored" data-anchor-id="module-loading">Module loading</h3>
 <p>Before running any job, you need to load the modules for the software you need. For example, if you need to use <code>Python 3.10</code>, you need to load the <code>Python</code> module with the following command.</p>
-<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;
 background-color: null;
-font-style: inherit;">module</span> load python/3.10</span></code></pre></div>
+font-style: inherit;">module</span> load python/3.10</span></code></pre></div></div>
 <p>After loading the module, you can check if it is loaded correctly by running <code>module list</code>. Note that from here on, all the dependencies you install, with <code>pip install</code> for example, will be installed for this specific version of Python and will be available in your environment every time you load the module.</p>
 </section>
 <section id="virtual-environment" class="level3">
 <h3 class="anchored" data-anchor-id="virtual-environment">Virtual environment</h3>
 <p>After loading the module, you can also create a virtual environment for project-specific dependencies.</p>
-<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="ex" style="color: null;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="ex" style="color: null;
 background-color: null;
 font-style: inherit;">python</span> <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">-m</span> venv .venv</span>
 <span id="cb3-2"><span class="bu" style="color: null;
 background-color: null;
-font-style: inherit;">source</span> .venv/bin/activate</span></code></pre></div>
+font-style: inherit;">source</span> .venv/bin/activate</span></code></pre></div></div>
 </section>
 <section id="submitting-a-job" class="level3">
 <h3 class="anchored" data-anchor-id="submitting-a-job">Submitting a job</h3>
 <p>At this point, you should have your data in the <code>scratch</code> directory, installed the dependencies in your loaded module and created a virtual environment for project-specific dependencies.</p>
 <p>Now you can submit a job to the cluster.</p>
 <p>Let’s assume you have a Python script (<code>my_script.py</code>) that you want to run on the cluster, and you can pass some arguments to it, for example, the number of epochs and the dataset to use, etc. Normally, on your local machine, you run this script as follows:</p>
-<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><span class="ex" style="color: null;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><span class="ex" style="color: null;
 background-color: null;
 font-style: inherit;">python</span> my_script.py <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">--num_epochs</span> 60 <span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">--dataset</span> mnist</span></code></pre></div>
+font-style: inherit;">--dataset</span> mnist</span></code></pre></div></div>
 <p>To submit this job to the cluster, you need to create a <code>job script</code> that will be used to submit the job. A job script is a bash program that will load the necessary modules and specify the resources your Python program needs (number of nodes, number of cores, amount of memory, type and number of GPUs, etc.).</p>
 <section id="job-script-directives" class="level4">
 <h4 class="anchored" data-anchor-id="job-script-directives">Job script directives</h4>
 <p>The header of the job script contains directives to specify the resources your Python program needs. Here is an example of a job script header:</p>
-<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">#!/bin/bash</span></span>
 <span id="cb5-2"><span class="co" style="color: #5E5E5E;
@@ -173,7 +173,7 @@ background-color: null;
 font-style: inherit;">#SBATCH --time=00:15:00           # Time limit in hh:mm:ss </span></span>
 <span id="cb5-7"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#SBATCH --mem=1024M</span></span></code></pre></div>
+font-style: inherit;">#SBATCH --mem=1024M</span></span></code></pre></div></div>
 <ul>
 <li><code>#SBATCH --account=def-someuser</code> is the account of your supervisor. To obtain what account you have access to, you can login to <a href="https://ccdb.alliancecan.ca/security/login">CCDB</a> and click on <strong>My Account -&gt; My Resources and Allocations</strong></li>
 </ul>
@@ -197,7 +197,7 @@ The illustration above tells you what account you can use on a given cluster. Fo
 <section id="putting-it-all-together" class="level2">
 <h2 class="anchored" data-anchor-id="putting-it-all-together">Putting it all together</h2>
 <p>Here is an example of a job script that you can use to submit your job:</p>
-<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">#!/bin/bash</span></span>
 <span id="cb6-2"><span class="co" style="color: #5E5E5E;
@@ -238,16 +238,16 @@ font-style: inherit;">python</span> my_script.py <span class="at" style="color: 
 background-color: null;
 font-style: inherit;">--num_epochs</span> 60 <span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">--dataset</span> mnist</span></code></pre></div>
+font-style: inherit;">--dataset</span> mnist</span></code></pre></div></div>
 <p>Finally, you can submit your job by running the following command:</p>
-<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><span class="ex" style="color: null;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><span class="ex" style="color: null;
 background-color: null;
 font-style: inherit;">sbatch</span> my_script.sh <span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># You will see a job ID in the output.</span></span></code></pre></div>
+font-style: inherit;"># You will see a job ID in the output.</span></span></code></pre></div></div>
 <p>Depending on the cluster and the resources you requested, your job will be assigned to a compute node and will start running. A log file, named <code>slurm-&lt;job_id&gt;.out</code>, will be created in the main directory of your project.</p>
 <p>You can check the status of your jobs by running the following command:</p>
-<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><span class="ex" style="color: null;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><span class="ex" style="color: null;
 background-color: null;
 font-style: inherit;">squeue</span> <span class="at" style="color: #657422;
 background-color: null;
@@ -255,17 +255,17 @@ font-style: inherit;">-u</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&lt;</span>your_username<span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">&gt;</span></span></code></pre></div>
+font-style: inherit;">&gt;</span></span></code></pre></div></div>
 <p>In case you want to cancel your job, you can run the following command:</p>
-<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><span class="ex" style="color: null;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><span class="ex" style="color: null;
 background-color: null;
 font-style: inherit;">scancel</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&lt;</span>job_id<span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">&gt;</span></span></code></pre></div>
+font-style: inherit;">&gt;</span></span></code></pre></div></div>
 <p>If you want to cancel all your jobs, you can run the following command:</p>
-<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><span class="ex" style="color: null;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><span class="ex" style="color: null;
 background-color: null;
 font-style: inherit;">scancel</span> <span class="at" style="color: #657422;
 background-color: null;
@@ -273,12 +273,12 @@ font-style: inherit;">-u</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&lt;</span>your_username<span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">&gt;</span></span></code></pre></div>
+font-style: inherit;">&gt;</span></span></code></pre></div></div>
 </section>
 <section id="interactive-jobs" class="level2">
 <h2 class="anchored" data-anchor-id="interactive-jobs">Interactive jobs</h2>
 <p>Sometimes you want to run a job interactively, for example, to debug your code or to run a small test. You can do this by running the following command:</p>
-<div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><span class="ex" style="color: null;
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><span class="ex" style="color: null;
 background-color: null;
 font-style: inherit;">salloc</span> <span class="at" style="color: #657422;
 background-color: null;
@@ -300,7 +300,7 @@ font-style: inherit;">=</span>4 <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">--cpus-per-task</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span>1</span></code></pre></div>
+font-style: inherit;">=</span>1</span></code></pre></div></div>
 <p>Similarly to job scripts, parameters of the <code>salloc</code> command specify the resources you need for your interactive job session.</p>
 <p>The illustration below shows an interactive job session on the <code>Beluga</code> cluster.</p>
 <p><img src="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/beluga_interactive.png" class="img-fluid"> Interactive job session on the Beluga cluster</p>
@@ -311,7 +311,7 @@ font-style: inherit;">=</span>1</span></code></pre></div>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Interactive jobs
+<span class="screen-reader-only">Tip</span>Interactive jobs
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -333,7 +333,7 @@ Interactive jobs
   <category>cluster</category>
   <category>training</category>
   <guid>patrikken.github.com/blog/posts/Getting Started with Compute Clusters/</guid>
-  <pubDate>Thu, 22 May 2025 04:00:00 GMT</pubDate>
+  <pubDate>Thu, 22 May 2025 00:00:00 GMT</pubDate>
   <media:content url="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/compute_cluster.png" medium="image" type="image/png" height="96" width="144"/>
 </item>
 </channel>

@@ -1,0 +1,26 @@
+---
+title: ""
+pagetitle: "Visible Browser Tab Title"
+format: 
+  html:
+    page-layout: full 
+    include-in-header:
+      - text: |
+          <style>
+          #title-block-header {
+            display: none;
+          }
+          </style>
+resources:
+  - assets/CV_Patrik_Kenfack.pdf
+---
+ 
+::: {.column-screen style="height: 93vh; margin-bottom: 0; margin-top: -20;"}
+<iframe 
+  src="assets/CV_Patrik_Kenfack.pdf" 
+  width="100%" 
+  height="100%" 
+  style="border: none;">
+</iframe>
+::: 
+ 

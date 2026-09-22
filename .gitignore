@@ -8,3 +8,5 @@
 /papers/
 docs/ 
 /.cv-cache/
+*.aux
+*.log

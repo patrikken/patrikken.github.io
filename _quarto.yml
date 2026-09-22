@@ -4,6 +4,7 @@ project:
   pre-render: generate_papers.R
 resources:
   - img
+  - assets
 
 website:
   title: "Patrik Kenfack"
@@ -16,8 +17,12 @@ website:
         text: Home
       - href: publications.qmd
         text: Publications
+      - href: CV.qmd
+        text: CV 
+    right:
       - href: blog
-        text: Blog  
+        text: Blog
+        
   page-footer:
     left: "Built with Quarto."
   twitter-card: true

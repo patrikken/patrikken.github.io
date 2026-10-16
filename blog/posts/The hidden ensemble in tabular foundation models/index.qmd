@@ -11,10 +11,11 @@ toc: true
 
 
 Tabular foundation models (TFMs) look like they make one forward pass: you give them a training table and a few query rows, and they predict. In practice they don't. Default configurations of TFMs such as TabICLv2, TabFM, TabPFNv3 and Mitra each run the model several times on perturbed copies of your training data and average the answers. The perturbations are things like shuffling the columns, shuffling the class labels, or changing the preprocessing (e.g., using different feature normalization techniques).
+ 
 
 ::::: {.columns}
 
-:::: {.column width="50%"}
+:::: {.column width="45%"}
 **TabICLv2**
 ```python
 clf = TabICLClassifier()
@@ -31,7 +32,11 @@ clf = TabICLClassifier(
 ```
 ::::
 
-:::: {.column width="50%"}
+::: {.column width="10%"}
+<!-- Leave this completely empty to act as your spacer -->
+:::
+
+:::: {.column width="45%"}
 **TabFM**
 ```python
 clf = TabFMClassifier(model)
@@ -48,7 +53,7 @@ clf = TabFMClassifier(model,
 ```
 ::::
 
-:::::
+::::: 
 
 The code on the left and right is the whole API: `fit`, then `predict`. Nothing in it mentions an ensemble. But with the default settings, a single `predict` call runs the network once per ensemble member (8 for TabICLv2, 32 for TabFM). Each member sees a different version of your table: the columns in a different order, the class labels shifted, and one of the preprocessing options (no normalization or a power transform). The final prediction is the average over members. What looks like one forward pass is really 8 or 32, and the second block in each snippet spells out the settings that were applied silently. The default budgets differ (8 members for TabICLv2, 32 for TabFM); in the experiments below I evaluate up to 32 members for both.
 
@@ -98,11 +103,11 @@ The shipped ensembles average 32 members (fewer for TabICLv2 on some tasks). I m
 
 So the members are close to copies of each other. Perturbing the input of a frozen network barely changes what it believes. That fits the size of the gains above.
 
-Most of the gain also arrives early. A single perturbed member is actually *worse* than the unperturbed pass, so the ensemble first has to recover its own damage. After that, returns diminish quickly (@fig-cost). I count cost in forward passes: 32 members means 32 times the model evaluations of a single pass, and wall-clock time depends on the implementation.
+Most of the gain also arrives early. **A single perturbed member is actually *worse* than the unperturbed pass, so the ensemble first has to recover its own damage**. After that, returns diminish quickly (@fig-cost). I count cost in forward passes: 32 members means 32 times the model evaluations of a single pass, and wall-clock time depends on the implementation.
 
 ![Gain over a single pass against the number of forward passes, for each model's shipped recipe. Shaded bands are 95% bootstrap CIs over datasets. TabICLv2's curves stop where its recipe runs out of distinct members.](fig_cost_vs_gain.png){#fig-cost fig-alt="Line plots of effect size over a single pass against the number of forward passes. Gains rise over the first four to eight passes and then flatten for both models and all three task types."}
 
-Take TabFM on binary tasks. One member scores about 0.0002 AUC *below* the single pass. Four members give +0.0011, eight give +0.0013, and 32 give +0.0014. Going from 8 to 32 members quadruples the cost and adds about 0.00016 AUC. On regression the pattern is the same: 0.60% lower RMSE at 8 members and 0.68% at 32. In Elo terms, 8 members reach 78% to 84% of the 32-member gain for TabFM, and 16 members reach 89% to 94% (@fig-members).
+Take TabFM on binary tasks. One member scores about 0.0002 AUC *below* the single pass. Four members give +0.0011, eight give +0.0013, and 32 give +0.0014. **Going from 8 to 32 members quadruples the cost and adds about 0.00016 AUC**. On regression the pattern is the same: 0.60% lower RMSE at 8 members and 0.68% at 32. In Elo terms, 8 members reach 78% to 84% of the 32-member gain for TabFM, and 16 members reach 89% to 94% (@fig-members).
 
 ![Local Elo gain over a single pass as the number of members grows. Each line is a different perturbation view: column shuffling, class shuffling, preprocessing, or a combination of them; "default (shipped) mix" is the model's own default recipe. Top row: TabICLv2. Bottom row: TabFM. Shaded bands are 95% bootstrap CIs.](fig_elo_vs_M.png){#fig-members fig-alt="Line plots of Elo gain over a single pass as the number of ensemble members grows, for TabICLv2 and TabFM across task types."}
 
@@ -110,7 +115,7 @@ Take TabFM on binary tasks. One member scores about 0.0002 AUC *below* the singl
 
 The shipped recipes mix three perturbations: column shuffling, class shuffling and preprocessing. I decomposed the gain over them with Shapley values, and I also tried the full product of all three instead of the shipped mix.
 
-On binary and regression tasks, the full product is no better than the shipped mix. The only possible exception is multiclass TabICLv2 (+0.003 log-likelihood, improving 7 of 8 datasets), but with 8 datasets the test gives p = 0.078, so I don't count it as established. Which axis matters most depends on the model and the task: preprocessing carries about half the multiclass gain for TabICLv2, while class shuffling matters most for TabFM. I wouldn't expect that ordering to transfer.
+On binary and regression tasks, the full product is no better than the shipped mix. The only possible exception is multiclass TabICLv2 (+0.003 log-likelihood, improving 7 of 8 datasets), but with 8 datasets the test gives p = 0.078, so I don't count it as established. **Which axis matters most depends on the model and the task: preprocessing carries about half the multiclass gain for TabICLv2, while class shuffling matters most for TabFM.** I wouldn't expect that ordering to transfer.
 
 ## 4. Giving each member less of the table never helps
 
@@ -120,7 +125,7 @@ Classical ensemble methods such as, bagging and random forests give each member 
 - **Keep half of the rows per member:** −0.0025 and −0.0022 AUC, p < 0.001.
 - **Keep 90%:** neutral on classification. On regression, keeping 90% of the rows still makes RMSE slightly worse (0.4% for TabICLv2, 0.3% for TabFM, p < 0.01).
 
-I did not find a setting where withholding information beats the shipped recipe. This suggests that the ensemble's gain comes from averaging over perturbations, not from decorrelating independent fits. The members are too similar to each other for subsampling to help, in fact the model is frozen and does not realy learn anything substantially different from the other members. The ensemble is a variance-reduction step, not a way to add new information.
+I did not find a setting where withholding information beats the shipped recipe. This suggests that the ensemble's gain comes from averaging over perturbations, not from decorrelating independent fits. The members are too similar to each other for subsampling to help, **in fact the model is frozen and does not realy learn anything substantially different from the other members.** The ensemble is a variance-reduction step, not a way to add new information.
 
 ### But what about round-robin subsampling?
 
@@ -150,3 +155,4 @@ I think this calls for rethinking ensembling for TFMs, rather than copying the r
 3. **Look at the other levers.** Adding features helped in some tasks, and pooling and calibration mattered more than the members in others. Sources of diversity that go beyond one frozen network, such as different checkpoints or different models, are the obvious next thing to test. I haven't tested them here.
 4. **Report an effect size next to Elo.** Elo says whether an ensemble wins consistently. It doesn't say by how much, and for TFMs the gap between those two is large.
 5. **Automate the choice of perturbations.** Which preprocessing and which combination of perturbation axes works best depends on the dataset. TabFM-auto does this automatically: it uses LLM agents to find the best preprocessor for a given dataset, along with the best perturbation-axis combination.
+

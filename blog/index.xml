@@ -295,7 +295,7 @@ Figure&nbsp;3: Local Elo gain over a single pass as the number of members grows.
   <category>TabArena</category>
   <guid>patrikken.github.com/blog/posts/The hidden ensemble in tabular foundation models/</guid>
   <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-  <media:content url="patrikken.github.com/blog/posts/The hidden ensemble in tabular foundation models/fig_cost_vs_gain.png" medium="image" type="image/png" height="42" width="144"/>
+  <media:content url="patrikken.github.com/blog/posts/The hidden ensemble in tabular foundation models/fig_gap.png" medium="image" type="image/png" height="49" width="144"/>
 </item>
 <item>
   <title>Getting Started with Compute Clusters</title>

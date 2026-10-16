@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -44,7 +44,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-8930f97a15303dbc3d477e8bffc318e8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -138,14 +138,14 @@ window.Quarto = {
 </script>
 
 <link rel="alternate" type="application/rss+xml" title="Patrik Kenfack" href="index.xml" data-external="1"><meta property="og:title" content="Blog – Patrik Kenfack">
-<meta property="og:image" content="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/compute_cluster.png">
+<meta property="og:image" content="patrikken.github.com/blog/posts/The hidden ensemble in tabular foundation models/fig_cost_vs_gain.png">
 <meta property="og:site_name" content="Patrik Kenfack">
-<meta property="og:image:height" content="1024">
-<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="617">
+<meta property="og:image:width" content="2117">
 <meta name="twitter:title" content="Blog – Patrik Kenfack">
-<meta name="twitter:image" content="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/compute_cluster.png">
-<meta name="twitter:image-height" content="1024">
-<meta name="twitter:image-width" content="1536">
+<meta name="twitter:image" content="patrikken.github.com/blog/posts/The hidden ensemble in tabular foundation models/fig_cost_vs_gain.png">
+<meta name="twitter:image-height" content="617">
+<meta name="twitter:image-width" content="2117">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -191,7 +191,7 @@ window.Quarto = {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Y2x1c3Rlcg==">cluster <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Y29tcHV0ZQ==">compute <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dHJhaW5pbmc=">training <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Y2x1c3Rlcg==">cluster <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Y29tcHV0ZQ==">compute <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZW5zZW1ibGluZw==">ensembling <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Zm91bmRhdGlvbiUyMG1vZGVscw==">foundation models <span class="quarto-category-count">(1)</span></div><div class="category" data-category="VGFiQXJlbmE=">TabArena <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dGFidWxhcg==">tabular <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dHJhaW5pbmc=">training <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
 
@@ -220,7 +220,43 @@ window.Quarto = {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="Y29tcHV0ZSUyQ2NsdXN0ZXIlMkN0cmFpbmluZw==" data-listing-date-sort="1747872000000" data-listing-file-modified-sort="1790889350550" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1795">
+<div class="quarto-post image-right" data-index="0" data-categories="dGFidWxhciUyQ2ZvdW5kYXRpb24lMjBtb2RlbHMlMkNlbnNlbWJsaW5nJTJDVGFiQXJlbmE=" data-listing-date-sort="1792022400000" data-listing-file-modified-sort="1792158860123" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2239">
+<div class="thumbnail"><a href="../blog/posts/The hidden ensemble in tabular foundation models/index.html" class="no-external">
+
+<img loading="lazy" src="../blog/posts/The hidden ensemble in tabular foundation models/fig_cost_vs_gain.png" class="thumbnail-image">
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/posts/The hidden ensemble in tabular foundation models/index.html" class="no-external">The “Hidden” Ensemble Inside Tabular Foundation Models</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('dGFidWxhcg=='); return false;">tabular</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Zm91bmRhdGlvbiUyMG1vZGVscw=='); return false;">foundation models</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZW5zZW1ibGluZw=='); return false;">ensembling</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('VGFiQXJlbmE='); return false;">TabArena</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/posts/The hidden ensemble in tabular foundation models/index.html" class="no-external">
+<p>Tabular foundation models seemingly average over perturbed copies of your table by default. I opened two of them up to see what that buys: a lot of Elo scores, very little accuracy.</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/posts/The hidden ensemble in tabular foundation models/index.html" class="no-external">
+<div class="listing-date">
+Oct 15, 2026
+</div>
+<div class="listing-author">
+Patrik Kenfack
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="Y29tcHV0ZSUyQ2NsdXN0ZXIlMkN0cmFpbmluZw==" data-listing-date-sort="1747872000000" data-listing-file-modified-sort="1792158860116" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1795">
 <div class="thumbnail"><a href="../blog/posts/Getting Started with Compute Clusters/index.html" class="no-external">
 
 <img loading="lazy" src="../blog/posts/Getting Started with Compute Clusters/compute_cluster.png" class="thumbnail-image">

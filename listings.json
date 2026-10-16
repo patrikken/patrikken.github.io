@@ -2,6 +2,7 @@
   {
     "listing": "/blog/index.html",
     "items": [
+      "/blog/posts/The hidden ensemble in tabular foundation models/index.html",
       "/blog/posts/Getting Started with Compute Clusters/index.html"
     ]
   }

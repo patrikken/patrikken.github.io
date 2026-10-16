@@ -9,8 +9,292 @@
 <link>patrikken.github.com/blog/</link>
 <atom:link href="patrikken.github.com/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Patrik Kenfack is PhD Candidate in Computer Science at Mila/ÉTS Montréal.</description>
-<generator>quarto-1.10.18</generator>
-<lastBuildDate>Thu, 22 May 2025 00:00:00 GMT</lastBuildDate>
+<generator>quarto-1.10.19</generator>
+<lastBuildDate>Thu, 15 Oct 2026 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>The “Hidden” Ensemble Inside Tabular Foundation Models</title>
+  <dc:creator>Patrik Kenfack</dc:creator>
+  <link>patrikken.github.com/blog/posts/The hidden ensemble in tabular foundation models/</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>Tabular foundation models (TFMs) look like they make one forward pass: you give them a training table and a few query rows, and they predict. In practice they don’t. Default configurations of TFMs such as TabICLv2, TabFM, TabPFNv3 and Mitra each run the model several times on perturbed copies of your training data and average the answers. The perturbations are things like shuffling the columns, shuffling the class labels, or changing the preprocessing (e.g., using different feature normalization techniques).</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>TabICLv2</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1">clf <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> TabICLClassifier()</span>
+<span id="cb1-2">clf.fit(X_train, y_train)          <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># no weights are updated</span></span>
+<span id="cb1-3">proba <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> clf.predict_proba(X_test)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 1 call = 8 forward passes</span></span>
+<span id="cb1-4"></span>
+<span id="cb1-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># The defaults, written out</span></span>
+<span id="cb1-6">clf <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> TabICLClassifier(</span>
+<span id="cb1-7">    n_estimators<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8</span>,                  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 8 perturbed views</span></span>
+<span id="cb1-8">    feat_shuffle_method<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"latin"</span>,     <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># column shuffling</span></span>
+<span id="cb1-9">    class_shuffle_method<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"shift"</span>,    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># class shuffling</span></span>
+<span id="cb1-10">    norm_methods<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"none"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"power"</span>],  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># preprocessing</span></span>
+<span id="cb1-11">)</span></code></pre></div></div>
+</div><div class="column" style="width:50%;">
+<p><strong>TabFM</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1">clf <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> TabFMClassifier(model)</span>
+<span id="cb2-2">clf.fit(X_train, y_train)          <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># no weights are updated</span></span>
+<span id="cb2-3">proba <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> clf.predict_proba(X_test)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 1 call = 32 forward passes</span></span>
+<span id="cb2-4"></span>
+<span id="cb2-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># The defaults, written out</span></span>
+<span id="cb2-6">clf <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> TabFMClassifier(model,</span>
+<span id="cb2-7">    n_estimators<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">32</span>,                 <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 32 perturbed views</span></span>
+<span id="cb2-8">    feat_shuffle_method<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"random"</span>,    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># column shuffling</span></span>
+<span id="cb2-9">    class_shift<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>,                <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># class shuffling</span></span>
+<span id="cb2-10">    norm_methods<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"none"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"power"</span>],  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># preprocessing</span></span>
+<span id="cb2-11">)</span></code></pre></div></div>
+</div>
+</div>
+<p>The code on the left and right is the whole API: <code>fit</code>, then <code>predict</code>. Nothing in it mentions an ensemble. But with the default settings, a single <code>predict</code> call runs the network once per ensemble member (8 for TabICLv2, 32 for TabFM). Each member sees a different version of your table: the columns in a different order, the class labels shifted, and one of the preprocessing options (no normalization or a power transform). The final prediction is the average over members. What looks like one forward pass is really 8 or 32, and the second block in each snippet spells out the settings that were applied silently. The default budgets differ (8 members for TabICLv2, 32 for TabFM); in the experiments below I evaluate up to 32 members for both.</p>
+<p>This ensemble ships as a default and is rarely ablated. I wanted to know what it actually does, so I opened up the two strongest open models I could instrument, TabICLv2 and TabFM, and ran them on all 51 <a href="https://tabarena.ai/">TabArena</a> datasets (30 binary, 8 multiclass, 13 regression).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>TL;DR
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The ensemble helps reliably, but the gain is tiny, and the leaderboard scale we use to report it makes it look much bigger than it is. That is a far smaller payoff than ensembling gives tree-based models or deep ensembles of neural networks, which suggests that ensembling for TFMs needs to be rethought.</p>
+</div>
+</div>
+<section id="what-i-did" class="level2">
+<h2 class="anchored" data-anchor-id="what-i-did">What I did</h2>
+<p>I modified the inference loop of each model so that every ensemble member’s prediction is cached. After that, the number of members, which perturbations are included and how members are averaged are all cheap post-hoc operations. About 48,000 cached cells later, I could ask questions that would otherwise cost a GPU run each.</p>
+<p>I use two scales throughout:</p>
+<ul>
+<li><strong>Elo Rating</strong>, computed the way TabArena does it (pairwise wins across datasets and splits). Mine is <em>local</em>: it comes from a pool of my own configurations, not the official leaderboard pool.</li>
+<li><strong>Effect size</strong> in the task’s own metric: AUC for binary, log-likelihood for multiclass, relative RMSE reduction for regression, with a paired Wilcoxon test over datasets.</li>
+</ul>
+</section>
+<section id="the-ensemble-earns-a-lot-of-elo-for-very-little-accuracy" class="level2">
+<h2 class="anchored" data-anchor-id="the-ensemble-earns-a-lot-of-elo-for-very-little-accuracy">1. The ensemble earns a lot of Elo for very little accuracy</h2>
+<p>Against a single forward pass, the shipped ensembles earn between 168 and 230 Elo. In the task’s own metric, that is (Table&nbsp;1):</p>
+<div id="tbl-effect" class="bordered quarto-float quarto-figure quarto-figure-center anchored" data-tbl-colwidths="[15,50]">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-effect-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Effect of the shipped ensemble versus a single forward pass.
+</figcaption>
+<div aria-describedby="tbl-effect-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table-bordered caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Gain from the shipped ensemble</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Binary</td>
+<td>about 0.001 AUC (0.0012 for TabICLv2, 0.0014 for TabFM)</td>
+</tr>
+<tr class="even">
+<td>Multiclass</td>
+<td>0.002 to 0.003 log-likelihood</td>
+</tr>
+<tr class="odd">
+<td>Regression</td>
+<td>0.7% to 0.9% lower RMSE</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The gain is real and consistent. TabFM’s ensemble beats a single pass on 27 of 30 binary datasets, and on all 13 regression datasets. But a thousandth of AUC is a thousandth of AUC.</p>
+<div id="fig-gap" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Scatter plots of Elo gain against effect size for binary, multiclass and regression tasks; all configurations fall on one monotone curve.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="patrikken.github.com/blog/posts/The hidden ensemble in tabular foundation models/fig_gap.png" class="img-fluid figure-img" alt="Scatter plots of Elo gain against effect size for binary, multiclass and regression tasks; all configurations fall on one monotone curve.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Local Elo gain against effect size, for every configuration of both models I ran. Colour is the model. Circles are the native perturbation views (column shuffling, class shuffling, preprocessing, and their combinations), squares are column subsampling (each member sees only some of the columns), and triangles are row subsampling (each member sees only some of the rows). The horizontal axes are symmetric-log.
+</figcaption>
+</figure>
+</div>
+<p>Figure&nbsp;1 puts every configuration on both scales. They all fall on one monotone curve, and it is steep. A method that wins by a small margin on most datasets earns a large Elo. Elo tells you the ensemble helps <em>consistently</em>. It does not tell you how much. I would read it as a statement about consistency and report an effect size next to it.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>My Elo pool contains many near-copies of each other, which probably amplifies the effect. I haven’t computed Elo against the official TabArena pool yet, and I expect the curve to be flatter there.</p>
+</div>
+</div>
+</section>
+<section id="the-32-members-are-almost-one-member" class="level2">
+<h2 class="anchored" data-anchor-id="the-32-members-are-almost-one-member">2. The 32 members are almost one member</h2>
+<p>The shipped ensembles average 32 members (fewer for TabICLv2 on some tasks). I measured how many <em>independent</em> predictions that is, using the participation ratio of the members’ error correlation. The median pool carries between 1.0 and 1.2 effective members.</p>
+<p>So the members are close to copies of each other. Perturbing the input of a frozen network barely changes what it believes. That fits the size of the gains above.</p>
+<p>Most of the gain also arrives early. A single perturbed member is actually <em>worse</em> than the unperturbed pass, so the ensemble first has to recover its own damage. After that, returns diminish quickly (Figure&nbsp;2). I count cost in forward passes: 32 members means 32 times the model evaluations of a single pass, and wall-clock time depends on the implementation.</p>
+<div id="fig-cost" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Line plots of effect size over a single pass against the number of forward passes. Gains rise over the first four to eight passes and then flatten for both models and all three task types.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cost-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="patrikken.github.com/blog/posts/The hidden ensemble in tabular foundation models/fig_cost_vs_gain.png" class="img-fluid figure-img" alt="Line plots of effect size over a single pass against the number of forward passes. Gains rise over the first four to eight passes and then flatten for both models and all three task types.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cost-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Gain over a single pass against the number of forward passes, for each model’s shipped recipe. Shaded bands are 95% bootstrap CIs over datasets. TabICLv2’s curves stop where its recipe runs out of distinct members.
+</figcaption>
+</figure>
+</div>
+<p>Take TabFM on binary tasks. One member scores about 0.0002 AUC <em>below</em> the single pass. Four members give +0.0011, eight give +0.0013, and 32 give +0.0014. Going from 8 to 32 members quadruples the cost and adds about 0.00016 AUC. On regression the pattern is the same: 0.60% lower RMSE at 8 members and 0.68% at 32. In Elo terms, 8 members reach 78% to 84% of the 32-member gain for TabFM, and 16 members reach 89% to 94% (Figure&nbsp;3).</p>
+<div id="fig-members" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Line plots of Elo gain over a single pass as the number of ensemble members grows, for TabICLv2 and TabFM across task types.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-members-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="patrikken.github.com/blog/posts/The hidden ensemble in tabular foundation models/fig_elo_vs_M.png" class="img-fluid figure-img" alt="Line plots of Elo gain over a single pass as the number of ensemble members grows, for TabICLv2 and TabFM across task types.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-members-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Local Elo gain over a single pass as the number of members grows. Each line is a different perturbation view: column shuffling, class shuffling, preprocessing, or a combination of them; “default (shipped) mix” is the model’s own default recipe. Top row: TabICLv2. Bottom row: TabFM. Shaded bands are 95% bootstrap CIs.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="column-shuffling-class-shuffling-and-preprocessing-explain-the-gain" class="level2">
+<h2 class="anchored" data-anchor-id="column-shuffling-class-shuffling-and-preprocessing-explain-the-gain">3. Column shuffling, class shuffling and preprocessing explain the gain</h2>
+<p>The shipped recipes mix three perturbations: column shuffling, class shuffling and preprocessing. I decomposed the gain over them with Shapley values, and I also tried the full product of all three instead of the shipped mix.</p>
+<p>On binary and regression tasks, the full product is no better than the shipped mix. The only possible exception is multiclass TabICLv2 (+0.003 log-likelihood, improving 7 of 8 datasets), but with 8 datasets the test gives p = 0.078, so I don’t count it as established. Which axis matters most depends on the model and the task: preprocessing carries about half the multiclass gain for TabICLv2, while class shuffling matters most for TabFM. I wouldn’t expect that ordering to transfer.</p>
+</section>
+<section id="giving-each-member-less-of-the-table-never-helps" class="level2">
+<h2 class="anchored" data-anchor-id="giving-each-member-less-of-the-table-never-helps">4. Giving each member less of the table never helps</h2>
+<p>Classical ensemble methods such as, bagging and random forests give each member only part of the table: a random subset of rows, or a random subset of columns. The hope is that each member will learn something different, and averaging will reduce variance. I tested these tricks on top of the shipped recipe:</p>
+<ul>
+<li><strong>Keep half of the columns per member:</strong> −0.0045 AUC (TabICLv2) and −0.0048 (TabFM) on binary tasks, p &lt; 0.001.</li>
+<li><strong>Keep half of the rows per member:</strong> −0.0025 and −0.0022 AUC, p &lt; 0.001.</li>
+<li><strong>Keep 90%:</strong> neutral on classification. On regression, keeping 90% of the rows still makes RMSE slightly worse (0.4% for TabICLv2, 0.3% for TabFM, p &lt; 0.01).</li>
+</ul>
+<p>I did not find a setting where withholding information beats the shipped recipe. This suggests that the ensemble’s gain comes from averaging over perturbations, not from decorrelating independent fits. The members are too similar to each other for subsampling to help, in fact the model is frozen and does not realy learn anything substantially different from the other members. The ensemble is a variance-reduction step, not a way to add new information.</p>
+<section id="but-what-about-round-robin-subsampling" class="level3">
+<h3 class="anchored" data-anchor-id="but-what-about-round-robin-subsampling">But what about round-robin subsampling?</h3>
+<p>Some wrappers deal columns out round-robin, with the argument that every column is then seen by some member. That sounds like it should fix the information loss, so I tested it directly against random draws at the same budget (TabICLv2, 16 members, half the columns each).</p>
+<p>It doesn’t. Round-robin gains +0.0007 AUC over random draws (p = 0.16), which is within noise, and it stays 0.0028 AUC <em>below</em> a single full-table pass. The reason is that coverage was never the problem: with 16 members and half the columns each, the chance that a given column is missed by every member is about 1.5 in 100,000. What hurts is what each member <em>cannot see</em>, not which columns the ensemble misses.</p>
+<p>Coverage only starts to matter when members keep almost everything. On binary tasks, leave-one-fold-out partitions that drop 12.5% of the columns per member match the shipped ensemble within noise. I only ran these designs for TabICLv2 at half the columns, so treat the round-robin result as specific to that setting.</p>
+</section>
+</section>
+<section id="two-additions-that-behave-differently" class="level2">
+<h2 class="anchored" data-anchor-id="two-additions-that-behave-differently">5. Two additions that behave differently</h2>
+<ul>
+<li><strong>Relabelling categorical codes per member</strong> is a good example of the Elo gap. For TabICLv2 it earns +92 Elo on binary tasks, and the effect size is 0.0004 AUC with p = 0.15. A decent rating, and nothing measurable behind it.</li>
+<li><strong>Appending extra features (SVD projections, crosses) to TabFM</strong> does help on multiclass and regression tasks: +0.0010 log-likelihood on all 8 multiclass datasets (p = 0.008) and a 0.5% RMSE reduction on regression (p = 0.021). On binary tasks it does nothing. I don’t know why binary differs.</li>
+</ul>
+<p>Aggregation also matters. TabFM’s extended configuration adds feature expansion, probability pooling and calibration. On multiclass tasks most of its gain comes from the pooling and calibration, not from the members.</p>
+</section>
+<section id="what-this-means-for-ensembling-tfms" class="level2">
+<h2 class="anchored" data-anchor-id="what-this-means-for-ensembling-tfms">What this means for ensembling TFMs</h2>
+<p>For classical models, ensembling is one of the most reliable ways to buy accuracy. Bagging and random forests average trees fit on different resamples of the data, and deep ensembles average networks trained from different initialisations. Each member is a genuinely different fit, so their errors are only partly correlated, and averaging removes a lot of variance. Those are well-established results, and I did not rerun them here.</p>
+<p>A TFM ensemble is a different animal. Every member is the same frozen network, reading the same table in a slightly different presentation. Nothing is refit, so there is no independent fit to average. The results above are what you would expect from that: members that are close to copies of each other (about one effective member out of 32), and a gain of roughly a <img src="https://latex.codecogs.com/png.latex?10%5E%7B-3%7D"> of AUC. The ensemble works as a small variance-reduction step. It does not add new information.</p>
+<p>I think this calls for rethinking ensembling for TFMs, rather than copying the recipes from trees and neural networks:</p>
+<ol type="1">
+<li><strong>Don’t import the classical recipe as is.</strong> Shuffling and re-preprocessing the input is cheap, but it is not where the diversity of a tree or deep ensemble comes from, and it shouldn’t be expected to give similar gains.</li>
+<li><strong>Treat withholding information as a poor source of diversity.</strong> Subsampling columns or rows is the standard way to decorrelate bagged models. For a frozen TFM, the information each member loses costs more than the diversity it adds.</li>
+<li><strong>Look at the other levers.</strong> Adding features helped in some tasks, and pooling and calibration mattered more than the members in others. Sources of diversity that go beyond one frozen network, such as different checkpoints or different models, are the obvious next thing to test. I haven’t tested them here.</li>
+<li><strong>Report an effect size next to Elo.</strong> Elo says whether an ensemble wins consistently. It doesn’t say by how much, and for TFMs the gap between those two is large.</li>
+<li><strong>Automate the choice of perturbations.</strong> Which preprocessing and which combination of perturbation axes works best depends on the dataset. TabFM-auto does this automatically: it uses LLM agents to find the best preprocessor for a given dataset, along with the best perturbation-axis combination.</li>
+</ol>
+
+
+</section>
+
+ ]]></description>
+  <category>tabular</category>
+  <category>foundation models</category>
+  <category>ensembling</category>
+  <category>TabArena</category>
+  <guid>patrikken.github.com/blog/posts/The hidden ensemble in tabular foundation models/</guid>
+  <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+  <media:content url="patrikken.github.com/blog/posts/The hidden ensemble in tabular foundation models/fig_cost_vs_gain.png" medium="image" type="image/png" height="42" width="144"/>
+</item>
 <item>
   <title>Getting Started with Compute Clusters</title>
   <dc:creator>Patrik Kenfack</dc:creator>

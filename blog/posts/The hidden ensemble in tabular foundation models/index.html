@@ -264,7 +264,7 @@ window.Quarto = {
 
 <p>Tabular foundation models (TFMs) look like they make one forward pass: you give them a training table and a few query rows, and they predict. In practice they don’t. Default configurations of TFMs such as TabICLv2, TabFM, TabPFNv3 and Mitra each run the model several times on perturbed copies of your training data and average the answers. The perturbations are things like shuffling the columns, shuffling the class labels, or changing the preprocessing (e.g., using different feature normalization techniques).</p>
 <div class="columns">
-<div class="column" style="width:50%;">
+<div class="column" style="width:45%;">
 <p><strong>TabICLv2</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> TabICLClassifier()</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>clf.fit(X_train, y_train)          <span class="co"># no weights are updated</span></span>
@@ -277,7 +277,9 @@ window.Quarto = {
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    class_shuffle_method<span class="op">=</span><span class="st">"shift"</span>,    <span class="co"># class shuffling</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    norm_methods<span class="op">=</span>[<span class="st">"none"</span>, <span class="st">"power"</span>],  <span class="co"># preprocessing</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:50%;">
+</div><div class="column" style="width:10%;">
+<!-- Leave this completely empty to act as your spacer -->
+</div><div class="column" style="width:45%;">
 <p><strong>TabFM</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> TabFMClassifier(model)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>clf.fit(X_train, y_train)          <span class="co"># no weights are updated</span></span>
@@ -384,7 +386,7 @@ Important
 <h2 class="anchored" data-anchor-id="the-32-members-are-almost-one-member">2. The 32 members are almost one member</h2>
 <p>The shipped ensembles average 32 members (fewer for TabICLv2 on some tasks). I measured how many <em>independent</em> predictions that is, using the participation ratio of the members’ error correlation. The median pool carries between 1.0 and 1.2 effective members.</p>
 <p>So the members are close to copies of each other. Perturbing the input of a frozen network barely changes what it believes. That fits the size of the gains above.</p>
-<p>Most of the gain also arrives early. A single perturbed member is actually <em>worse</em> than the unperturbed pass, so the ensemble first has to recover its own damage. After that, returns diminish quickly (<a href="#fig-cost" class="quarto-xref">Figure&nbsp;2</a>). I count cost in forward passes: 32 members means 32 times the model evaluations of a single pass, and wall-clock time depends on the implementation.</p>
+<p>Most of the gain also arrives early. <strong>A single perturbed member is actually <em>worse</em> than the unperturbed pass, so the ensemble first has to recover its own damage</strong>. After that, returns diminish quickly (<a href="#fig-cost" class="quarto-xref">Figure&nbsp;2</a>). I count cost in forward passes: 32 members means 32 times the model evaluations of a single pass, and wall-clock time depends on the implementation.</p>
 <div id="fig-cost" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Line plots of effect size over a single pass against the number of forward passes. Gains rise over the first four to eight passes and then flatten for both models and all three task types.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cost-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -395,7 +397,7 @@ Figure&nbsp;2: Gain over a single pass against the number of forward passes, for
 </figcaption>
 </figure>
 </div>
-<p>Take TabFM on binary tasks. One member scores about 0.0002 AUC <em>below</em> the single pass. Four members give +0.0011, eight give +0.0013, and 32 give +0.0014. Going from 8 to 32 members quadruples the cost and adds about 0.00016 AUC. On regression the pattern is the same: 0.60% lower RMSE at 8 members and 0.68% at 32. In Elo terms, 8 members reach 78% to 84% of the 32-member gain for TabFM, and 16 members reach 89% to 94% (<a href="#fig-members" class="quarto-xref">Figure&nbsp;3</a>).</p>
+<p>Take TabFM on binary tasks. One member scores about 0.0002 AUC <em>below</em> the single pass. Four members give +0.0011, eight give +0.0013, and 32 give +0.0014. <strong>Going from 8 to 32 members quadruples the cost and adds about 0.00016 AUC</strong>. On regression the pattern is the same: 0.60% lower RMSE at 8 members and 0.68% at 32. In Elo terms, 8 members reach 78% to 84% of the 32-member gain for TabFM, and 16 members reach 89% to 94% (<a href="#fig-members" class="quarto-xref">Figure&nbsp;3</a>).</p>
 <div id="fig-members" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Line plots of Elo gain over a single pass as the number of ensemble members grows, for TabICLv2 and TabFM across task types.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-members-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -410,7 +412,7 @@ Figure&nbsp;3: Local Elo gain over a single pass as the number of members grows.
 <section id="column-shuffling-class-shuffling-and-preprocessing-explain-the-gain" class="level2">
 <h2 class="anchored" data-anchor-id="column-shuffling-class-shuffling-and-preprocessing-explain-the-gain">3. Column shuffling, class shuffling and preprocessing explain the gain</h2>
 <p>The shipped recipes mix three perturbations: column shuffling, class shuffling and preprocessing. I decomposed the gain over them with Shapley values, and I also tried the full product of all three instead of the shipped mix.</p>
-<p>On binary and regression tasks, the full product is no better than the shipped mix. The only possible exception is multiclass TabICLv2 (+0.003 log-likelihood, improving 7 of 8 datasets), but with 8 datasets the test gives p = 0.078, so I don’t count it as established. Which axis matters most depends on the model and the task: preprocessing carries about half the multiclass gain for TabICLv2, while class shuffling matters most for TabFM. I wouldn’t expect that ordering to transfer.</p>
+<p>On binary and regression tasks, the full product is no better than the shipped mix. The only possible exception is multiclass TabICLv2 (+0.003 log-likelihood, improving 7 of 8 datasets), but with 8 datasets the test gives p = 0.078, so I don’t count it as established. <strong>Which axis matters most depends on the model and the task: preprocessing carries about half the multiclass gain for TabICLv2, while class shuffling matters most for TabFM.</strong> I wouldn’t expect that ordering to transfer.</p>
 </section>
 <section id="giving-each-member-less-of-the-table-never-helps" class="level2">
 <h2 class="anchored" data-anchor-id="giving-each-member-less-of-the-table-never-helps">4. Giving each member less of the table never helps</h2>
@@ -420,7 +422,7 @@ Figure&nbsp;3: Local Elo gain over a single pass as the number of members grows.
 <li><strong>Keep half of the rows per member:</strong> −0.0025 and −0.0022 AUC, p &lt; 0.001.</li>
 <li><strong>Keep 90%:</strong> neutral on classification. On regression, keeping 90% of the rows still makes RMSE slightly worse (0.4% for TabICLv2, 0.3% for TabFM, p &lt; 0.01).</li>
 </ul>
-<p>I did not find a setting where withholding information beats the shipped recipe. This suggests that the ensemble’s gain comes from averaging over perturbations, not from decorrelating independent fits. The members are too similar to each other for subsampling to help, in fact the model is frozen and does not realy learn anything substantially different from the other members. The ensemble is a variance-reduction step, not a way to add new information.</p>
+<p>I did not find a setting where withholding information beats the shipped recipe. This suggests that the ensemble’s gain comes from averaging over perturbations, not from decorrelating independent fits. The members are too similar to each other for subsampling to help, <strong>in fact the model is frozen and does not realy learn anything substantially different from the other members.</strong> The ensemble is a variance-reduction step, not a way to add new information.</p>
 <section id="but-what-about-round-robin-subsampling" class="level3">
 <h3 class="anchored" data-anchor-id="but-what-about-round-robin-subsampling">But what about round-robin subsampling?</h3>
 <p>Some wrappers deal columns out round-robin, with the argument that every column is then seen by some member. That sounds like it should fix the information loss, so I tested it directly against random draws at the same budget (TabICLv2, 16 members, half the columns each).</p>

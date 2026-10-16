@@ -4,7 +4,7 @@ description: "Tabular foundation models seemingly average over perturbed copies 
 author: "Patrik Kenfack"
 date: 2026-10-15
 categories: [tabular, foundation models, ensembling, TabArena]
-image: fig_cost_vs_gain.png
+image: fig_gap.png
 draft: false
 toc: true 
 ---

@@ -28,6 +28,21 @@ pu_esc <- function(x) {
     gsub(">", "&gt;", x, fixed = TRUE)
 }
 
+# A sheet cell may hold a full URL or a path relative to the site root
+# ("img/posters/foo.png"). Anything that is not a URL is made root-relative so
+# it resolves from a nested page such as /papers/<slug>/ as well.
+pu_url <- function(x) {
+    ifelse(
+        !nzchar(x) | grepl("^[a-z][a-z0-9+.-]*:", x, ignore.case = TRUE) |
+            startsWith(x, "//") | startsWith(x, "/"),
+        x,
+        paste0("/", x)
+    )
+}
+
+# pu_esc is enough for text nodes; attribute values also need their quotes out
+pu_attr <- function(x) gsub('"', "&quot;", pu_esc(x), fixed = TRUE)
+
 # "Journal, Workshop" -> c("Journal", "Workshop")
 pu_split <- function(x) {
     lapply(x, function(cell) {
@@ -100,6 +115,22 @@ pu_chip <- function(url, icon, label) {
     )
 }
 
+# The poster chip. Same look as the other chips, but it carries the data the
+# lightbox needs; the href stays real so it still works without JavaScript,
+# and a poster that is not an image (a PDF, say) just opens in a new tab.
+pu_poster_chip <- function(url, title) {
+    ifelse(nzchar(url),
+        paste0(
+            '<a class="pub-link pub-poster" href="', pu_esc(url), '"',
+            ' data-poster="', pu_attr(url), '"',
+            ' data-title="', pu_attr(title), '"',
+            ' target="_blank" rel="noopener">',
+            '<i class="bi bi-image"></i>Poster</a>'
+        ),
+        ""
+    )
+}
+
 # Split an abstract on blank lines into <p> blocks.
 pu_paragraphs <- function(x) {
     vapply(x, function(txt) {
@@ -158,6 +189,11 @@ pu_prepare <- function(papers) {
     p$slug <- pu_slug(p$title)
     p$page_url <- paste0("/papers/", p$slug, "/")
 
+    # Optional `image` column: a teaser figure for the paper. Sheet values may be
+    # a full URL or a path like "img/papers/foo.png"; everything that is not a
+    # URL is made root-relative so it resolves from /papers/<slug>/ too.
+    p$image <- pu_url(pu_col(papers, "image"))
+
     # bold my own name however the sheet spells it
     p$authors_html <- gsub("(Patrik(?:\\s+Joslin)?\\s+Kenfack)", "<strong>\\1</strong>",
         pu_esc(p$authors),
@@ -203,7 +239,7 @@ pu_prepare <- function(papers) {
         pu_chip(p$pdf, "bi-file-earmark-pdf", "PDF"),
         pu_chip(pu_col(papers, "code"), "bi-github", "Code"),
         pu_chip(pu_col(papers, "slides"), "bi-easel", "Slides"),
-        pu_chip(pu_col(papers, "poster"), "bi-image", "Poster"),
+        pu_poster_chip(pu_url(pu_col(papers, "poster")), p$title),
         pu_chip(pu_col(papers, "video"), "bi-play-btn", "Video"),
         blog_html
     )
@@ -236,29 +272,84 @@ pu_prepare <- function(papers) {
     p
 }
 
-# The JS behind the Cite chips; identical on both pages.
-pu_cite_script <- function() {
+# The page's behaviour script: the Cite toggles and the poster lightbox.
+# Identical on the listing and on every paper page.
+#
+# Block comments only, never `//`: if anything downstream ever collapses this
+# into one line, a `//` comment would swallow the rest of the script.
+pu_page_script <- function() {
     paste0(
         "<script>\n",
-        'document.addEventListener("click", function (e) {\n',
-        '  const toggle = e.target.closest(".pub-cite");\n',
-        "  if (toggle) {\n",
-        "    const box = document.getElementById(toggle.dataset.target);\n",
-        "    if (box) {\n",
-        "      box.hidden = !box.hidden;\n",
-        '      toggle.setAttribute("aria-expanded", String(!box.hidden));\n',
-        '      toggle.classList.toggle("is-open", !box.hidden);\n',
-        "    }\n    return;\n  }\n",
-        '  const copy = e.target.closest(".pub-copy");\n',
-        "  if (copy) {\n",
-        '    const text = copy.parentElement.querySelector("code").innerText;\n',
-        "    navigator.clipboard.writeText(text).then(function () {\n",
-        "      const original = copy.textContent;\n",
-        '      copy.textContent = "Copied";\n',
-        '      copy.classList.add("is-copied");\n',
-        "      setTimeout(function () {\n",
-        "        copy.textContent = original;\n",
-        '        copy.classList.remove("is-copied");\n',
-        "      }, 1600);\n    });\n  }\n});\n</script>"
+        "(function () {\n",
+        "  /* --- Cite chips ----------------------------------------------- */\n",
+        '  document.addEventListener("click", function (e) {\n',
+        '    const toggle = e.target.closest(".pub-cite");\n',
+        "    if (toggle) {\n",
+        "      const box = document.getElementById(toggle.dataset.target);\n",
+        "      if (box) {\n",
+        "        box.hidden = !box.hidden;\n",
+        '        toggle.setAttribute("aria-expanded", String(!box.hidden));\n',
+        '        toggle.classList.toggle("is-open", !box.hidden);\n',
+        "      }\n      return;\n    }\n",
+        '    const copy = e.target.closest(".pub-copy");\n',
+        "    if (copy) {\n",
+        '      const text = copy.parentElement.querySelector("code").innerText;\n',
+        "      navigator.clipboard.writeText(text).then(function () {\n",
+        "        const original = copy.textContent;\n",
+        '        copy.textContent = "Copied";\n',
+        '        copy.classList.add("is-copied");\n',
+        "        setTimeout(function () {\n",
+        "          copy.textContent = original;\n",
+        '          copy.classList.remove("is-copied");\n',
+        "        }, 1600);\n      });\n    }\n  });\n\n",
+        "  /* --- Poster lightbox ------------------------------------------- */\n",
+        "  /* Only images are intercepted; a PDF poster keeps the plain link. */\n",
+        "  const IMAGE = /\\.(png|jpe?g|gif|webp|avif|svg)(\\?.*)?$/i;\n",
+        "  let box, img, cap, lastFocus;\n\n",
+        "  function build() {\n",
+        '    box = document.createElement("div");\n',
+        '    box.className = "lightbox";\n',
+        '    box.setAttribute("role", "dialog");\n',
+        '    box.setAttribute("aria-modal", "true");\n',
+        '    box.setAttribute("aria-label", "Poster");\n',
+        "    box.hidden = true;\n",
+        "    box.innerHTML =\n",
+        '      \'<button type="button" class="lightbox__close" aria-label="Close poster">&times;</button>\' +\n',
+        "      '<figure class=\"lightbox__figure\"><img alt=\"\"><figcaption></figcaption></figure>';\n",
+        "    document.body.appendChild(box);\n",
+        '    img = box.querySelector("img");\n',
+        '    cap = box.querySelector("figcaption");\n',
+        '    box.addEventListener("click", function (e) {\n',
+        '      if (e.target === box || e.target.closest(".lightbox__close")) close();\n',
+        "    });\n  }\n\n",
+        "  function open(src, title) {\n",
+        "    if (!box) build();\n",
+        "    lastFocus = document.activeElement;\n",
+        "    img.src = src;\n",
+        '    img.alt = title ? "Poster: " + title : "Poster";\n',
+        '    cap.textContent = title || "";\n',
+        "    box.hidden = false;\n",
+        '    document.body.classList.add("lightbox-open");\n',
+        '    box.querySelector(".lightbox__close").focus();\n',
+        "  }\n\n",
+        "  function close() {\n",
+        "    if (!box || box.hidden) return;\n",
+        "    box.hidden = true;\n",
+        '    img.removeAttribute("src");\n',
+        '    document.body.classList.remove("lightbox-open");\n',
+        "    if (lastFocus && lastFocus.focus) lastFocus.focus();\n",
+        "  }\n\n",
+        '  document.addEventListener("click", function (e) {\n',
+        '    const link = e.target.closest(".pub-poster");\n',
+        "    if (!link) return;\n",
+        '    const src = link.dataset.poster || link.getAttribute("href");\n',
+        "    if (!src || !IMAGE.test(src)) return; /* not an image: follow the link */\n",
+        "    e.preventDefault();\n",
+        "    open(src, link.dataset.title);\n",
+        "  });\n\n",
+        '  document.addEventListener("keydown", function (e) {\n',
+        '    if (e.key === "Escape") close();\n',
+        "  });\n",
+        "})();\n</script>"
     )
 }

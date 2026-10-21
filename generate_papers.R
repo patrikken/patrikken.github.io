@@ -16,6 +16,29 @@ cache_dir <- dirname(PU_CACHE)
 # Fetch the whole spreadsheet, once per compile. This happens BEFORE anything
 # is deleted, so a failed fetch aborts the render with the previous pages still
 # on disk rather than wiping them.
+# ---------------------------------------------------------------------------
+# Drop the execute cache for the two pages that read the spreadsheet.
+#
+# Quarto keys a page's cached execute results on the .qmd file. index.qmd and
+# publications.qmd read a live Google Sheet, so their source can be byte-for-byte
+# unchanged while their output must change — and Quarto then replays a stale
+# result. `execute: freeze: false` is set on both pages and project-wide and is
+# still not enough, so the cache entries are removed here instead. This runs
+# before Quarto decides what to re-execute, because it is the pre-render step.
+#
+# Only these two pages are cleared; blog posts keep their cache.
+# ---------------------------------------------------------------------------
+sheet_driven <- c("index", "publications")
+for (base in c(file.path(".quarto", "_freeze"), "_freeze")) {
+    for (page in sheet_driven) {
+        stale <- file.path(base, page)
+        if (dir.exists(stale)) {
+            unlink(stale, recursive = TRUE)
+            message("generate_papers.R: cleared stale execute cache ", stale)
+        }
+    }
+}
+
 message("generate_papers.R: fetching the CV spreadsheet ...")
 sheets <- get_cv_data()
 all_sheets <- sheets(NULL)
@@ -50,6 +73,16 @@ for (i in seq_len(p$n)) {
 
     dir.create(file.path(out_dir, p$slug[i]), recursive = TRUE, showWarnings = FALSE)
 
+    figure_html <- if (nzchar(p$image[i])) {
+        paste0(
+            '<figure class="paper-figure">',
+            '<img src="', pu_esc(p$image[i]), '" alt="', pu_esc(p$title[i]), '" loading="lazy">',
+            "</figure>"
+        )
+    } else {
+        ""
+    }
+
     abstract_html <- if (nzchar(p$abstract[i])) {
         paste0(
             '<section class="paper-abstract">',
@@ -68,11 +101,12 @@ for (i in seq_len(p$n)) {
             paste0('<p class="paper-venue">', p$venue_line[i], "</p>"), ""),
         ifelse(nzchar(p$cat_html[i]) || nzchar(p$award_html[i]),
             paste0('<div class="pub-meta">', p$cat_html[i], p$award_html[i], "</div>"), ""),
+        figure_html,
         abstract_html,
         '<div class="pub-links paper-links">', p$links[i], p$cite_btn[i], "</div>",
         p$cite_box[i],
         "</article>",
-        pu_cite_script()
+        pu_page_script()
     )
 
     lines <- c(
@@ -80,6 +114,8 @@ for (i in seq_len(p$n)) {
         paste0("title: ", yaml_str(p$title[i])),
         paste0("pagetitle: ", yaml_str(paste0(p$title[i], " - Patrik Kenfack"))),
         paste0("description: ", yaml_str(meta_desc(p$abstract[i], p$venue[i]))),
+        # gives this paper its own social-card image instead of the headshot
+        if (nzchar(p$image[i])) paste0("image: ", yaml_str(p$image[i])) else NULL,
         "page-layout: full",
         "toc: false",
         "comments: false",

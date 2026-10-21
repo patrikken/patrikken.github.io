@@ -193,7 +193,7 @@ The header of the job script contains directives to specify the resources your P
 
 ```bash
 #!/bin/bash
-#SBATCH --account=def-someuser
+#SBATCH --account=YOUR-PI-ACCOUNT
 #SBATCH --gpus-per-node=1         # Number of GPU(s) per node
 #SBATCH --node=1         # Number of GPU(s) per node
 #SBATCH --cpus-per-task=4         # CPU cores/threads
@@ -201,11 +201,11 @@ The header of the job script contains directives to specify the resources your P
 #SBATCH --mem=1024M
 ```
 
-- `#SBATCH --account=def-someuser` is the account of your supervisor. To obtain what account you have access to, you can login to [CCDB](https://ccdb.alliancecan.ca/security/login) and click on **My Account -> My Resources and Allocations**
+- `#SBATCH --account=YOUR-PI-ACCOUNT` is the account of your PI, often `def-username`. To obtain what account you have access to, you can login to [CCDB](https://ccdb.alliancecan.ca/security/login) and click on **My Account -> My Resources and Allocations**
 
 
-![This tells you what account you can use on a given cluster. For examples, on `Cedar` I can submit jobs using `#SBATCH --account=def-ebrahimi`.](rap_account.png)
-: The illustration above tells you what account you can use on a given cluster. For example, on `Cedar`, I can submit jobs using `#SBATCH --account=def-ebrahimi`.
+![This tells you what account you can use on a given cluster. For examples, on `Cedar` I can submit jobs using `#SBATCH --account=YOUR-PI-ACCOUNT`.](rap_account.png)
+: The illustration above tells you what account you can use on a given cluster. For example, on `Cedar`, I can submit jobs using `#SBATCH --account=YOUR-PI-ACCOUNT`.
 
 
 - `#SBATCH --gpus-per-node=1` is the number of GPUs per node, in general, you set up 4 GPUs per node. And `#SBATCH --node=1` specifies the number of nodes you want to use.
@@ -234,7 +234,7 @@ Here is an example of a job script that you can use to submit your job:
 
 ```bash
 #!/bin/bash
-#SBATCH --account=def-ebrahimi
+#SBATCH --account=YOUR-PI-ACCOUNT
 #SBATCH --gpus-per-node=1         # Number of GPU(s) per node
 #SBATCH --node=1         # Number of GPU(s) per node
 #SBATCH --cpus-per-task=4         # CPU cores/threads
@@ -292,7 +292,7 @@ Sometimes you want to run a job interactively, for example, to debug your code o
 
 
 ```bash
-salloc --time=00:30:00 --account=def-ebrahimi --mem=48000 --gpus-per-node=4 --cpus-per-task=1
+salloc --time=00:30:00 --account=YOUR-PI-ACCOUNT --mem=48000 --gpus-per-node=4 --cpus-per-task=1
 ```
 
 

@@ -23,7 +23,51 @@ execute:
 </style>
 
 <script type="application/ld+json">
-{"@context":"http://www.schema.org","@type":"person","name":"Patrik Kenfack","jobTitle":"PhD Candidate","gender":"male","description":"Patrik is a PhD Candidate at Mila working at the intersection of Privacy and Fairness.","url":"https://patrikken.github.io","image":"https://patrikken.github.io/img/me.jpg","birthPlace":"Cameroon","memberOf":[{"@type":"Organization","name":"Mila"},{"@type":"Organization","name":"\u00c9TS Montr\u00e9al"}],"nationality":[{"@type":"Country","name":"Cameroon"}]}
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Patrik Kenfack",
+  "alternateName": "Patrik Joslin Kenfack",
+  "jobTitle": "PhD Candidate",
+  "description": "PhD Candidate at ÉTS Montréal and Mila working on algorithmic fairness, responsible AI and foundation models for structured data.",
+  "url": "https://patrikken.github.io",
+  "image": "https://patrikken.github.io/img/me.jpg",
+  "email": "mailto:kenfackjoslin@gmail.com",
+  "affiliation": [
+    {
+      "@type": "Organization",
+      "name": "ÉTS Montréal",
+      "url": "https://www.etsmtl.ca/"
+    },
+    {
+      "@type": "Organization",
+      "name": "Mila – Quebec AI Institute",
+      "url": "https://mila.quebec/"
+    }
+  ],
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "University of Dschang",
+    "url": "https://www.univ-dschang.org/"
+  },
+  "knowsAbout": [
+    "Algorithmic Fairness",
+    "Responsible AI",
+    "Foundation Models for Structured Data",
+    "In-Context Learning",
+    "Privacy-Preserving Machine Learning"
+  ],
+  "sameAs": [
+    "https://scholar.google.com/citations?user=bWvJMcgAAAAJ",
+    "https://github.com/patrikken",
+    "https://www.linkedin.com/in/patrik-kenfack-30a8b933/"
+  ],
+  "birthPlace": "Cameroon",
+  "nationality": {
+    "@type": "Country",
+    "name": "Cameroon"
+  }
+}
 </script>
 
 <div class="hero">
@@ -71,7 +115,12 @@ MSc in Computer Science and a BSc in Mathematics and CS from the
   <span class="interest">Responsible AI</span>
   <span class="interest">Applied Machine Learning</span>
 </div>
+```
+Happy to talk about research or potential collaborations — reach me on
+[LinkedIn](https://www.linkedin.com/in/patrik-kenfack-30a8b933/) or at
+[kenfackjoslin@gmail.com](mailto:kenfackjoslin@gmail.com).
 
+```{=html}
 <h2 class="section-title">News</h2>
 ```
 
@@ -152,19 +201,36 @@ tags_html <- vapply(tags, function(t) {
     )
 }, character(1))
 
-items <- sprintf(
-    paste0(
-        '<li class="news-item" data-type="%s">',
-        '<div class="news-date"><span class="news-month">%s</span>',
-        '<span class="news-year">%s</span></div>',
-        '<div class="news-body">%s<p class="news-text">%s</p></div></li>'
-    ),
+# one entry per sheet row; the dot colour comes from the entry's first tag
+entries <- sprintf(
+    '<div class="news-entry" data-type="%s">%s<p class="news-text">%s</p></div>',
     primary,
-    d$month,
-    d$year,
     tags_html,
     md2html(news$Description)
 )
+
+# everything from the same month shares one date label and one timeline block.
+# Grouping is over *consecutive* rows, so the sheet's own order is preserved.
+month_key <- paste(d$month, d$year)
+grp <- if (length(month_key)) {
+    cumsum(c(TRUE, month_key[-1] != month_key[-length(month_key)]))
+} else {
+    integer(0)
+}
+
+# factor(levels = unique(grp)) keeps the groups in sheet order; a plain split()
+# would sort them as strings and put group 10 before group 2
+by_month <- split(seq_along(entries), factor(grp, levels = unique(grp)))
+
+items <- vapply(by_month, function(idx) {
+    paste0(
+        '<li class="news-item">',
+        '<div class="news-date"><span class="news-month">', d$month[idx[1]], "</span>",
+        '<span class="news-year">', d$year[idx[1]], "</span></div>",
+        '<div class="news-body">', paste(entries[idx], collapse = ""), "</div>",
+        "</li>"
+    )
+}, character(1), USE.NAMES = FALSE)
 
 cat('<div class="news-feed"><div class="news-feed__scroll"><ol class="news-list">',
     paste(items, collapse = ""),
@@ -173,6 +239,4 @@ cat('<div class="news-feed"><div class="news-feed__scroll"><ol class="news-list"
 )
 ```
 
-Happy to talk about research or potential collaborations — reach me on
-[LinkedIn](https://www.linkedin.com/in/patrik-kenfack-30a8b933/) or at
-[kenfackjoslin@gmail.com](mailto:kenfackjoslin@gmail.com).
+

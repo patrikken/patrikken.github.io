@@ -35,8 +35,17 @@ papers <- pu_load_papers()
 
 p <- pu_prepare(papers)
 
+# the teaser thumbnail, when the sheet has an `image` for this paper
+thumb <- ifelse(nzchar(p$image),
+    paste0(
+        '<a class="pub-thumb" href="', p$page_url, '" aria-hidden="true" tabindex="-1">',
+        '<img src="', pu_esc(p$image), '" alt="" loading="lazy"></a>'
+    ), ""
+)
+
 items <- paste0(
-    '<li class="pub-item">',
+    '<li class="pub-item', ifelse(nzchar(p$image), " has-thumb", ""), '">',
+    '<div class="pub-entry">',
     '<div class="pub-meta">', p$cat_html, p$award_html, "</div>",
     '<h3 class="pub-title"><a href="', p$page_url, '">', pu_esc(p$title), "</a></h3>",
     '<p class="pub-authors">', p$authors_html, "</p>",
@@ -45,6 +54,8 @@ items <- paste0(
     ),
     '<div class="pub-links">', p$links, p$cite_btn, "</div>",
     p$cite_box,
+    "</div>",
+    thumb,
     "</li>"
 )
 
@@ -78,5 +89,5 @@ for (y in unique(year_o)) {
 cat("</div>")
 
 cat("</div></div>")
-cat(pu_cite_script())
+cat(pu_page_script())
 ```

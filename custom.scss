@@ -152,8 +152,10 @@
   padding: 0 0 3rem 0;
 }
 
+/* One .news-item is one MONTH: the date is printed once and every entry from
+   that month stacks beside it. The rail and the dots therefore live on
+   .news-entry, not on the month block. */
 .news-item {
-  position: relative;
   display: grid;
   grid-template-columns: 4.25rem 1.5rem 1fr;
   align-items: start;
@@ -166,24 +168,38 @@
   background-color: rgba(0, 0, 0, 0.022);
 }
 
-/* the rail */
-.news-item::before {
+.news-entry {
+  position: relative;
+}
+
+.news-entry + .news-entry {
+  margin-top: 0.85rem;
+}
+
+/* The rail: each entry draws its own segment and they butt together.
+   -0.75rem puts it back over the grid's middle column (4.25 + 1.5 - 5). */
+.news-entry::before {
   content: "";
   position: absolute;
-  left: 5rem;
+  left: -0.75rem;
   top: 0;
-  bottom: 0;
+  bottom: -0.85rem; /* bridges the gap to the next entry */
   width: 2px;
   margin-left: -1px;
   background: var(--news-rail);
 }
 
+/* the last entry of a month also has the month block's padding to bridge */
+.news-entry:last-child::before {
+  bottom: -1.4rem;
+}
+
 /* the dot */
-.news-item::after {
+.news-entry::after {
   content: "";
   position: absolute;
-  left: 5rem;
-  top: 1.35rem;
+  left: -0.75rem;
+  top: 0.65rem;
   width: 9px;
   height: 9px;
   border-radius: 50%;
@@ -192,12 +208,13 @@
   transform: translate(-50%, -50%);
 }
 
-.news-item:first-child::before {
-  top: 1.35rem;
+/* the rail starts at the first dot and stops at the last one */
+.news-item:first-child .news-entry:first-child::before {
+  top: 0.65rem;
 }
-.news-item:last-child::before {
+.news-item:last-child .news-entry:last-child::before {
   bottom: auto;
-  height: 1.35rem;
+  height: 0.65rem;
 }
 
 .news-date {
@@ -262,32 +279,32 @@
 }
 
 /* Per-type accents.
-   The item's data-type (its first tag) colours the timeline dot;
-   each pill carries its own data-type, so an item can mix tags.
+   Each entry's data-type (its first tag) colours that entry's timeline dot;
+   each pill carries its own data-type, so one entry can mix tags.
    To add a tag, copy one pair below and pick new colours. */
 
-.news-item[data-type="paper"]      { --news-dot: #2b6cb0; }
+.news-entry[data-type="paper"]      { --news-dot: #2b6cb0; }
 .news-tag[data-type="paper"]       { --news-tint: #e7f0fa; --news-ink: #1f5286; }
 
-.news-item[data-type="award"]      { --news-dot: #c98a06; }
+.news-entry[data-type="award"]      { --news-dot: #c98a06; }
 .news-tag[data-type="award"]       { --news-tint: #fdf3dc; --news-ink: #8a5f04; }
 
-.news-item[data-type="service"]    { --news-dot: #2f855a; }
+.news-entry[data-type="service"]    { --news-dot: #2f855a; }
 .news-tag[data-type="service"]     { --news-tint: #e6f4ec; --news-ink: #226343; }
 
-.news-item[data-type="talk"]       { --news-dot: #7c4dbe; }
+.news-entry[data-type="talk"]       { --news-dot: #7c4dbe; }
 .news-tag[data-type="talk"]        { --news-tint: #f1eafb; --news-ink: #5b3690; }
 
-.news-item[data-type="internship"] { --news-dot: #0d8b8b; }
+.news-entry[data-type="internship"] { --news-dot: #0d8b8b; }
 .news-tag[data-type="internship"]  { --news-tint: #e2f4f4; --news-ink: #0a6a6a; }
 
 @media (max-width: 575.98px) {
   .news-item {
     grid-template-columns: 3.4rem 1.2rem 1fr;
   }
-  .news-item::before,
-  .news-item::after {
-    left: 4rem;
+  .news-entry::before,
+  .news-entry::after {
+    left: -0.6rem;
   }
   .news-text {
     font-size: 0.9rem;
@@ -544,6 +561,55 @@
   background-color: rgba(0, 0, 0, 0.022);
 }
 
+/* A paper with an `image` in the sheet gets a teaser thumbnail on the right.
+   Without one the entry keeps the plain single-column layout. */
+.pub-item.has-thumb {
+  display: grid;
+  grid-template-columns: 1fr 7.5rem;
+  gap: 1.1rem;
+  align-items: start;
+}
+
+.pub-entry {
+  min-width: 0;
+}
+
+.pub-thumb {
+  display: block;
+  overflow: hidden;
+  border: 1px solid #e9ecef;
+  border-radius: 0.45rem;
+  background: #f8f9fa;
+  line-height: 0;
+}
+
+.pub-thumb img {
+  width: 100%;
+  height: 5.6rem;
+  object-fit: cover;
+  transition: transform 0.25s ease;
+}
+
+.pub-item.has-thumb:hover .pub-thumb img {
+  transform: scale(1.04);
+}
+
+/* the same figure, full width, on the paper's own page */
+.paper-figure {
+  margin: 1.2rem 0 0;
+}
+
+.paper-figure img {
+  display: block;
+  /* fills the column when the teaser is wide, never upscales a small one,
+     and a very tall figure cannot take over the page */
+  max-width: 100%;
+  max-height: 26rem;
+  margin: 0 auto;
+  border: 1px solid #e9ecef;
+  border-radius: 0.5rem;
+}
+
 .pub-meta {
   display: flex;
   flex-wrap: wrap;
@@ -694,6 +760,93 @@
   border-color: #2f855a;
 }
 
+/* ---- poster lightbox ----
+   Opened by the Poster chip. The markup is built by pu_page_script(). */
+
+body.lightbox-open {
+  overflow: hidden;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1080;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.25rem 2rem;
+  background: rgba(16, 18, 20, 0.84);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  animation: lightbox-in 0.16s ease-out;
+}
+
+/* display:flex would otherwise beat the [hidden] attribute */
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox__figure {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0;
+  max-width: min(70rem, 94vw);
+}
+
+.lightbox__figure img {
+  max-width: 100%;
+  max-height: calc(88vh - 3rem);
+  object-fit: contain;
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 12px 44px rgba(0, 0, 0, 0.45);
+}
+
+.lightbox__figure figcaption {
+  color: #e9ecef;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.lightbox__close {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font-size: 1.45rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.lightbox__close:hover,
+.lightbox__close:focus-visible {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes lightbox-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox {
+    animation: none;
+  }
+}
+
 /* category accents — mirrors the news tag colours */
 .pub-tag[data-category="journal"]    { --news-tint: #e7f0fa; --news-ink: #1f5286; }
 .pub-tag[data-category="conference"] { --news-tint: #f1eafb; --news-ink: #5b3690; }
@@ -702,6 +855,16 @@
 .pub-tag[data-category="thesis"]     { --news-tint: #e2f4f4; --news-ink: #0a6a6a; }
 
 @media (max-width: 575.98px) {
+  .pub-item.has-thumb {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+  .pub-thumb {
+    order: -1;
+  }
+  .pub-thumb img {
+    height: 8.5rem;
+  }
   .pub-title {
     font-size: 0.98rem;
   }

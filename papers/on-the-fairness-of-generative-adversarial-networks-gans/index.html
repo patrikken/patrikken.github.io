@@ -46,7 +46,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-8930f97a15303dbc3d477e8bffc318e8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-c39e7cba09b0287e83f1c0df78d92cc4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -74,18 +74,17 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script type="application/ld+json">{"@context":"http://www.schema.org","@type":"person","name":"Patrik Kenfack","jobTitle":"PhD Candidate","gender":"male","description":"Patrik is a PhD Candidate at Mila working at the intersection of Privacy and Fairness.","url":"https://patrikken.github.com","image":"https://patrikken.github.com/img/IMG_0085.jpeg","address":{"@type":"PostalAddress","addressLocality":"Montréal","addressRegion":"QC","postalCode":"H3C0L7","addressCountry":"Canada"},"memberOf":[{"@type":"Organization","name":"ETS Montreal"},{"@type":"Organization","name":"Mila"}],"nationality":[{"@type":"Country","name":"Cameroon"},{"@type":"Country","name":"Cameroon"}]}</script>
 <meta name="google-site-verification" content="M8A4BiKiuitR_uKLIW6mMiwPyXpL1nCneyw04t8F66U">
 
 
 <meta property="og:title" content="On the Fairness of Generative Adversarial Networks (GANs) - Patrik Kenfack">
 <meta property="og:description" content="Generative adversarial networks (GANs) are one of the greatest advances in AI in recent years. With their ability to directly learn the probability distribution of data and then sample synthetic re…">
-<meta property="og:image" content="patrikken.github.com/img/me.jpg">
+<meta property="og:image" content="https://patrikken.github.io/img/me.jpg">
 <meta property="og:site_name" content="Patrik Kenfack">
 <meta property="og:image:alt" content="Patrik Kenfack">
 <meta name="twitter:title" content="On the Fairness of Generative Adversarial Networks (GANs) - Patrik Kenfack">
 <meta name="twitter:description" content="Generative adversarial networks (GANs) are one of the greatest advances in AI in recent years. With their ability to directly learn the probability distribution of data and then sample synthetic re…">
-<meta name="twitter:image" content="patrikken.github.com/img/me.jpg">
+<meta name="twitter:image" content="https://patrikken.github.io/img/me.jpg">
 <meta name="twitter:image:alt" content="Patrik Kenfack">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -174,31 +173,89 @@ ul.task-list li input[type="checkbox"] {
   year={2021},
   organization={IEEE}
 }</code></pre></div></article><script>
-document.addEventListener("click", function (e) {
-  const toggle = e.target.closest(".pub-cite");
-  if (toggle) {
-    const box = document.getElementById(toggle.dataset.target);
-    if (box) {
-      box.hidden = !box.hidden;
-      toggle.setAttribute("aria-expanded", String(!box.hidden));
-      toggle.classList.toggle("is-open", !box.hidden);
+(function () {
+  /* --- Cite chips ----------------------------------------------- */
+  document.addEventListener("click", function (e) {
+    const toggle = e.target.closest(".pub-cite");
+    if (toggle) {
+      const box = document.getElementById(toggle.dataset.target);
+      if (box) {
+        box.hidden = !box.hidden;
+        toggle.setAttribute("aria-expanded", String(!box.hidden));
+        toggle.classList.toggle("is-open", !box.hidden);
+      }
+      return;
     }
-    return;
-  }
-  const copy = e.target.closest(".pub-copy");
-  if (copy) {
-    const text = copy.parentElement.querySelector("code").innerText;
-    navigator.clipboard.writeText(text).then(function () {
-      const original = copy.textContent;
-      copy.textContent = "Copied";
-      copy.classList.add("is-copied");
-      setTimeout(function () {
-        copy.textContent = original;
-        copy.classList.remove("is-copied");
-      }, 1600);
+    const copy = e.target.closest(".pub-copy");
+    if (copy) {
+      const text = copy.parentElement.querySelector("code").innerText;
+      navigator.clipboard.writeText(text).then(function () {
+        const original = copy.textContent;
+        copy.textContent = "Copied";
+        copy.classList.add("is-copied");
+        setTimeout(function () {
+          copy.textContent = original;
+          copy.classList.remove("is-copied");
+        }, 1600);
+      });
+    }
+  });
+
+  /* --- Poster lightbox ------------------------------------------- */
+  /* Only images are intercepted; a PDF poster keeps the plain link. */
+  const IMAGE = /\.(png|jpe?g|gif|webp|avif|svg)(\?.*)?$/i;
+  let box, img, cap, lastFocus;
+
+  function build() {
+    box = document.createElement("div");
+    box.className = "lightbox";
+    box.setAttribute("role", "dialog");
+    box.setAttribute("aria-modal", "true");
+    box.setAttribute("aria-label", "Poster");
+    box.hidden = true;
+    box.innerHTML =
+      '<button type="button" class="lightbox__close" aria-label="Close poster">&times;</button>' +
+      '<figure class="lightbox__figure"><img alt=""><figcaption></figcaption></figure>';
+    document.body.appendChild(box);
+    img = box.querySelector("img");
+    cap = box.querySelector("figcaption");
+    box.addEventListener("click", function (e) {
+      if (e.target === box || e.target.closest(".lightbox__close")) close();
     });
   }
-});
+
+  function open(src, title) {
+    if (!box) build();
+    lastFocus = document.activeElement;
+    img.src = src;
+    img.alt = title ? "Poster: " + title : "Poster";
+    cap.textContent = title || "";
+    box.hidden = false;
+    document.body.classList.add("lightbox-open");
+    box.querySelector(".lightbox__close").focus();
+  }
+
+  function close() {
+    if (!box || box.hidden) return;
+    box.hidden = true;
+    img.removeAttribute("src");
+    document.body.classList.remove("lightbox-open");
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  document.addEventListener("click", function (e) {
+    const link = e.target.closest(".pub-poster");
+    if (!link) return;
+    const src = link.dataset.poster || link.getAttribute("href");
+    if (!src || !IMAGE.test(src)) return; /* not an image: follow the link */
+    e.preventDefault();
+    open(src, link.dataset.title);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") close();
+  });
+})();
 </script>
 </div>
 </div>
@@ -279,7 +336,7 @@ document.addEventListener("click", function (e) {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("patrikken\.github\.com");
+        var filterRegex = new RegExp("https:\/\/patrikken\.github\.io");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

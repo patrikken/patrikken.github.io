@@ -46,7 +46,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-8930f97a15303dbc3d477e8bffc318e8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-c39e7cba09b0287e83f1c0df78d92cc4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -74,19 +74,20 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script type="application/ld+json">{"@context":"http://www.schema.org","@type":"person","name":"Patrik Kenfack","jobTitle":"PhD Candidate","gender":"male","description":"Patrik is a PhD Candidate at Mila working at the intersection of Privacy and Fairness.","url":"https://patrikken.github.com","image":"https://patrikken.github.com/img/IMG_0085.jpeg","address":{"@type":"PostalAddress","addressLocality":"Montréal","addressRegion":"QC","postalCode":"H3C0L7","addressCountry":"Canada"},"memberOf":[{"@type":"Organization","name":"ETS Montreal"},{"@type":"Organization","name":"Mila"}],"nationality":[{"@type":"Country","name":"Cameroon"},{"@type":"Country","name":"Cameroon"}]}</script>
 <meta name="google-site-verification" content="M8A4BiKiuitR_uKLIW6mMiwPyXpL1nCneyw04t8F66U">
 
 
 <meta property="og:title" content="Learning Fair Representations through Uniformly Distributed Sensitive Attributes - Patrik Kenfack">
 <meta property="og:description" content="Machine Learning (ML) models trained on biased data can reproduce and even amplify these biases. Since such models are deployed to make decisions that can affect people’s lives, ensuring their fair…">
-<meta property="og:image" content="patrikken.github.com/img/me.jpg">
+<meta property="og:image" content="https://patrikken.github.io/img/papers/lfr-u.png">
 <meta property="og:site_name" content="Patrik Kenfack">
-<meta property="og:image:alt" content="Patrik Kenfack">
+<meta property="og:image:height" content="842">
+<meta property="og:image:width" content="1074">
 <meta name="twitter:title" content="Learning Fair Representations through Uniformly Distributed Sensitive Attributes - Patrik Kenfack">
 <meta name="twitter:description" content="Machine Learning (ML) models trained on biased data can reproduce and even amplify these biases. Since such models are deployed to make decisions that can affect people’s lives, ensuring their fair…">
-<meta name="twitter:image" content="patrikken.github.com/img/me.jpg">
-<meta name="twitter:image:alt" content="Patrik Kenfack">
+<meta name="twitter:image" content="https://patrikken.github.io/img/papers/lfr-u.png">
+<meta name="twitter:image-height" content="842">
+<meta name="twitter:image-width" content="1074">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -166,7 +167,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="profile-card"><img class="profile-photo" src="../../img/me.jpg" alt="Patrik Kenfack" width="600" height="600"><p class="profile-name">Patrik Kenfack</p><p class="profile-role">PhD Candidate,<br>Computer Science</p><ul class="profile-list"><li><i class="bi bi-geo-alt-fill"></i><span>Montréal QC, Canada</span></li><li><i class="bi bi-building"></i><span><a href="https://www.etsmtl.ca/">ÉTS Montréal</a> &amp; <a href="https://mila.quebec/">Mila</a></span></li><li><i class="bi bi-mortarboard-fill"></i><span><a href="https://scholar.google.com/citations?user=bWvJMcgAAAAJ&amp;hl=fr&amp;oi=ao" target="_blank" rel="noopener">Google Scholar</a></span></li><li><i class="bi bi-linkedin"></i><span><a href="https://www.linkedin.com/in/patrik-kenfack-30a8b933/" target="_blank" rel="noopener">LinkedIn</a></span></li><li><i class="bi bi-github"></i><span><a href="https://github.com/patrikken" target="_blank" rel="noopener">GitHub</a></span></li><li><i class="bi bi-envelope-fill"></i><span><a href="mailto:kenfackjoslin@gmail.com">Email</a></span></li></ul></div>
 </div>
 <div class="page-main">
-<article class="paper"><h1 class="paper-title">Learning Fair Representations through Uniformly Distributed Sensitive Attributes</h1><p class="paper-authors"><strong>Patrik Kenfack</strong>, Adín Ramírez Rivera, Adil Khan, Manuel Mazarra</p><p class="paper-venue">Published in <em>IEEE Conference on Secure and Trustworthy Machine Learning (SaTML)</em>, 2023</p><div class="pub-meta"><span class="pub-tag" data-category="conference">Conference</span></div><section class="paper-abstract"><p>Machine Learning (ML) models trained on biased data can reproduce and even amplify these biases. Since such models are deployed to make decisions that can affect people's lives, ensuring their fairness is critical. One approach to mitigate possible unfairness of ML models is to map the input data into a less-biased new space by means of training the model on fair representations. Several methods based on adversarial learning have been proposed to learn fair representation by fooling an adversary in predicting the sensitive attribute (e.g., gender or race). However, adversarial-based learning can be too difficult to optimize in practice; besides, it penalizes the utility of the representation. Hence, in this research effort we train bias-free representations from the input data by inducing a uniform distribution over the sensitive attributes in the latent space. In particular, we propose a probabilistic framework that learns these representations by enforcing the correct reconstruction of the original data, plus the prediction of the attributes of interest while eliminating the possibility of predicting the sensitive ones. Our method leverages the inability of Deep Neural Networks (DNNs) to generalize when trained on a noisy label space to regularize the latent space. We use a network head that predicts a noisy version of the sensitive attributes in order to increase the uncertainty of their predictions at test time. Our experiments in two datasets demonstrated that the proposed model significantly improves fairness while maintaining the prediction accuracy of downstream tasks.</p></section><div class="pub-links paper-links"><a class="pub-link" href="https://ieeexplore.ieee.org/document/10136151" target="_blank" rel="noopener"><i class="bi bi-link-45deg"></i>Paper</a><a class="pub-link" href="https://openreview.net/pdf?id=iW7r_6LuHwA" target="_blank" rel="noopener"><i class="bi bi-github"></i>Code</a><button type="button" class="pub-link pub-cite" data-target="bib-9" aria-expanded="false"><i class="bi bi-quote"></i>Cite</button></div><div class="pub-bibtex" id="bib-9" hidden=""><button type="button" class="pub-copy">Copy</button><pre><code>@inproceedings{
+<article class="paper"><h1 class="paper-title">Learning Fair Representations through Uniformly Distributed Sensitive Attributes</h1><p class="paper-authors"><strong>Patrik Kenfack</strong>, Adín Ramírez Rivera, Adil Khan, Manuel Mazarra</p><p class="paper-venue">Published in <em>IEEE Conference on Secure and Trustworthy Machine Learning (SaTML)</em>, 2023</p><div class="pub-meta"><span class="pub-tag" data-category="conference">Conference</span></div><figure class="paper-figure figure"><img src="../../img/papers/lfr-u.png" alt="Learning Fair Representations through Uniformly Distributed Sensitive Attributes" loading="lazy" class="figure-img"></figure><section class="paper-abstract"><p>Machine Learning (ML) models trained on biased data can reproduce and even amplify these biases. Since such models are deployed to make decisions that can affect people's lives, ensuring their fairness is critical. One approach to mitigate possible unfairness of ML models is to map the input data into a less-biased new space by means of training the model on fair representations. Several methods based on adversarial learning have been proposed to learn fair representation by fooling an adversary in predicting the sensitive attribute (e.g., gender or race). However, adversarial-based learning can be too difficult to optimize in practice; besides, it penalizes the utility of the representation. Hence, in this research effort we train bias-free representations from the input data by inducing a uniform distribution over the sensitive attributes in the latent space. In particular, we propose a probabilistic framework that learns these representations by enforcing the correct reconstruction of the original data, plus the prediction of the attributes of interest while eliminating the possibility of predicting the sensitive ones. Our method leverages the inability of Deep Neural Networks (DNNs) to generalize when trained on a noisy label space to regularize the latent space. We use a network head that predicts a noisy version of the sensitive attributes in order to increase the uncertainty of their predictions at test time. Our experiments in two datasets demonstrated that the proposed model significantly improves fairness while maintaining the prediction accuracy of downstream tasks.</p></section><div class="pub-links paper-links"><a class="pub-link" href="https://ieeexplore.ieee.org/document/10136151" target="_blank" rel="noopener"><i class="bi bi-link-45deg"></i>Paper</a><a class="pub-link" href="https://openreview.net/pdf?id=iW7r_6LuHwA" target="_blank" rel="noopener"><i class="bi bi-file-earmark-pdf"></i>PDF</a><button type="button" class="pub-link pub-cite" data-target="bib-9" aria-expanded="false"><i class="bi bi-quote"></i>Cite</button></div><div class="pub-bibtex" id="bib-9" hidden=""><button type="button" class="pub-copy">Copy</button><pre><code>@inproceedings{
 kenfack2023learning,
 title={Learning Fair Representations through Uniformly Distributed Sensitive Attributes},
 author={Patrik Joslin Kenfack and Ad{\'\i}n Ram{\'\i}rez Rivera and Adil Khan and Manuel Mazarra},
@@ -174,31 +175,89 @@ booktitle={First IEEE Conference on Secure and Trustworthy Machine Learning},
 year={2023},
 url={https://openreview.net/forum?id=iW7r_6LuHwA}
 }</code></pre></div></article><script>
-document.addEventListener("click", function (e) {
-  const toggle = e.target.closest(".pub-cite");
-  if (toggle) {
-    const box = document.getElementById(toggle.dataset.target);
-    if (box) {
-      box.hidden = !box.hidden;
-      toggle.setAttribute("aria-expanded", String(!box.hidden));
-      toggle.classList.toggle("is-open", !box.hidden);
+(function () {
+  /* --- Cite chips ----------------------------------------------- */
+  document.addEventListener("click", function (e) {
+    const toggle = e.target.closest(".pub-cite");
+    if (toggle) {
+      const box = document.getElementById(toggle.dataset.target);
+      if (box) {
+        box.hidden = !box.hidden;
+        toggle.setAttribute("aria-expanded", String(!box.hidden));
+        toggle.classList.toggle("is-open", !box.hidden);
+      }
+      return;
     }
-    return;
-  }
-  const copy = e.target.closest(".pub-copy");
-  if (copy) {
-    const text = copy.parentElement.querySelector("code").innerText;
-    navigator.clipboard.writeText(text).then(function () {
-      const original = copy.textContent;
-      copy.textContent = "Copied";
-      copy.classList.add("is-copied");
-      setTimeout(function () {
-        copy.textContent = original;
-        copy.classList.remove("is-copied");
-      }, 1600);
+    const copy = e.target.closest(".pub-copy");
+    if (copy) {
+      const text = copy.parentElement.querySelector("code").innerText;
+      navigator.clipboard.writeText(text).then(function () {
+        const original = copy.textContent;
+        copy.textContent = "Copied";
+        copy.classList.add("is-copied");
+        setTimeout(function () {
+          copy.textContent = original;
+          copy.classList.remove("is-copied");
+        }, 1600);
+      });
+    }
+  });
+
+  /* --- Poster lightbox ------------------------------------------- */
+  /* Only images are intercepted; a PDF poster keeps the plain link. */
+  const IMAGE = /\.(png|jpe?g|gif|webp|avif|svg)(\?.*)?$/i;
+  let box, img, cap, lastFocus;
+
+  function build() {
+    box = document.createElement("div");
+    box.className = "lightbox";
+    box.setAttribute("role", "dialog");
+    box.setAttribute("aria-modal", "true");
+    box.setAttribute("aria-label", "Poster");
+    box.hidden = true;
+    box.innerHTML =
+      '<button type="button" class="lightbox__close" aria-label="Close poster">&times;</button>' +
+      '<figure class="lightbox__figure"><img alt=""><figcaption></figcaption></figure>';
+    document.body.appendChild(box);
+    img = box.querySelector("img");
+    cap = box.querySelector("figcaption");
+    box.addEventListener("click", function (e) {
+      if (e.target === box || e.target.closest(".lightbox__close")) close();
     });
   }
-});
+
+  function open(src, title) {
+    if (!box) build();
+    lastFocus = document.activeElement;
+    img.src = src;
+    img.alt = title ? "Poster: " + title : "Poster";
+    cap.textContent = title || "";
+    box.hidden = false;
+    document.body.classList.add("lightbox-open");
+    box.querySelector(".lightbox__close").focus();
+  }
+
+  function close() {
+    if (!box || box.hidden) return;
+    box.hidden = true;
+    img.removeAttribute("src");
+    document.body.classList.remove("lightbox-open");
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  document.addEventListener("click", function (e) {
+    const link = e.target.closest(".pub-poster");
+    if (!link) return;
+    const src = link.dataset.poster || link.getAttribute("href");
+    if (!src || !IMAGE.test(src)) return; /* not an image: follow the link */
+    e.preventDefault();
+    open(src, link.dataset.title);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") close();
+  });
+})();
 </script>
 </div>
 </div>
@@ -279,7 +338,7 @@ document.addEventListener("click", function (e) {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("patrikken\.github\.com");
+        var filterRegex = new RegExp("https:\/\/patrikken\.github\.io");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

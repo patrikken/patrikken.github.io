@@ -6,15 +6,15 @@
       version="2.0">
 <channel>
 <title>Patrik Kenfack</title>
-<link>patrikken.github.com/blog/</link>
-<atom:link href="patrikken.github.com/blog/index.xml" rel="self" type="application/rss+xml"/>
+<link>https://patrikken.github.io/blog/</link>
+<atom:link href="https://patrikken.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Patrik Kenfack is PhD Candidate in Computer Science at Mila/ÉTS Montréal.</description>
 <generator>quarto-1.10.19</generator>
 <lastBuildDate>Thu, 15 Oct 2026 00:00:00 GMT</lastBuildDate>
 <item>
   <title>The “Hidden” Ensemble Inside Tabular Foundation Models</title>
   <dc:creator>Patrik Kenfack</dc:creator>
-  <link>patrikken.github.com/blog/posts/The hidden ensemble in tabular foundation models/</link>
+  <link>https://patrikken.github.io/blog/posts/The hidden ensemble in tabular foundation models/</link>
   <description><![CDATA[ 
 
 
@@ -194,7 +194,7 @@ Table&nbsp;1: Effect of the shipped ensemble versus a single forward pass.
 <div id="fig-gap" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Scatter plots of Elo gain against effect size for binary, multiclass and regression tasks; all configurations fall on one monotone curve.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="patrikken.github.com/blog/posts/The hidden ensemble in tabular foundation models/fig_gap.png" class="img-fluid figure-img" alt="Scatter plots of Elo gain against effect size for binary, multiclass and regression tasks; all configurations fall on one monotone curve.">
+<img src="https://patrikken.github.io/blog/posts/The hidden ensemble in tabular foundation models/fig_gap.png" class="img-fluid figure-img" alt="Scatter plots of Elo gain against effect size for binary, multiclass and regression tasks; all configurations fall on one monotone curve.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Local Elo gain against effect size, for every configuration of both models I ran. Colour is the model. Circles are the native perturbation views (column shuffling, class shuffling, preprocessing, and their combinations), squares are column subsampling (each member sees only some of the columns), and triangles are row subsampling (each member sees only some of the rows). The horizontal axes are symmetric-log.
@@ -224,7 +224,7 @@ Important
 <div id="fig-cost" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Line plots of effect size over a single pass against the number of forward passes. Gains rise over the first four to eight passes and then flatten for both models and all three task types.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cost-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="patrikken.github.com/blog/posts/The hidden ensemble in tabular foundation models/fig_cost_vs_gain.png" class="img-fluid figure-img" alt="Line plots of effect size over a single pass against the number of forward passes. Gains rise over the first four to eight passes and then flatten for both models and all three task types.">
+<img src="https://patrikken.github.io/blog/posts/The hidden ensemble in tabular foundation models/fig_cost_vs_gain.png" class="img-fluid figure-img" alt="Line plots of effect size over a single pass against the number of forward passes. Gains rise over the first four to eight passes and then flatten for both models and all three task types.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cost-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Gain over a single pass against the number of forward passes, for each model’s shipped recipe. Shaded bands are 95% bootstrap CIs over datasets. TabICLv2’s curves stop where its recipe runs out of distinct members.
@@ -235,7 +235,7 @@ Figure&nbsp;2: Gain over a single pass against the number of forward passes, for
 <div id="fig-members" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Line plots of Elo gain over a single pass as the number of ensemble members grows, for TabICLv2 and TabFM across task types.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-members-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="patrikken.github.com/blog/posts/The hidden ensemble in tabular foundation models/fig_elo_vs_M.png" class="img-fluid figure-img" alt="Line plots of Elo gain over a single pass as the number of ensemble members grows, for TabICLv2 and TabFM across task types.">
+<img src="https://patrikken.github.io/blog/posts/The hidden ensemble in tabular foundation models/fig_elo_vs_M.png" class="img-fluid figure-img" alt="Line plots of Elo gain over a single pass as the number of ensemble members grows, for TabICLv2 and TabFM across task types.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-members-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: Local Elo gain over a single pass as the number of members grows. Each line is a different perturbation view: column shuffling, class shuffling, preprocessing, or a combination of them; “default (shipped) mix” is the model’s own default recipe. Top row: TabICLv2. Bottom row: TabFM. Shaded bands are 95% bootstrap CIs.
@@ -293,20 +293,20 @@ Figure&nbsp;3: Local Elo gain over a single pass as the number of members grows.
   <category>foundation models</category>
   <category>ensembling</category>
   <category>TabArena</category>
-  <guid>patrikken.github.com/blog/posts/The hidden ensemble in tabular foundation models/</guid>
+  <guid>https://patrikken.github.io/blog/posts/The hidden ensemble in tabular foundation models/</guid>
   <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-  <media:content url="patrikken.github.com/blog/posts/The hidden ensemble in tabular foundation models/fig_gap.png" medium="image" type="image/png" height="49" width="144"/>
+  <media:content url="https://patrikken.github.io/blog/posts/The hidden ensemble in tabular foundation models/fig_gap.png" medium="image" type="image/png" height="49" width="144"/>
 </item>
 <item>
   <title>Getting Started with Compute Clusters</title>
   <dc:creator>Patrik Kenfack</dc:creator>
-  <link>patrikken.github.com/blog/posts/Getting Started with Compute Clusters/</link>
+  <link>https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/</link>
   <description><![CDATA[ 
 
 
 
 
-<p><img src="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/compute_cluster2.png" class="img-fluid"> ChatGPT generated image</p>
+<p><img src="https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/compute_cluster2.png" class="img-fluid"> ChatGPT generated image</p>
 <section id="digital-research-alliance-of-canada" class="level2">
 <h2 class="anchored" data-anchor-id="digital-research-alliance-of-canada">Digital Research Alliance of Canada</h2>
 <p><a href="https://alliancecan.ca/en">Digital Research Alliance of Canada</a> is a national research infrastructure that provides high-performance computing resources to researchers across Canada. It is a partnership between the Canadian government and the private sector.</p>
@@ -368,7 +368,7 @@ font-style: inherit;">&gt;</span>@beluga.alliancecan.ca</span></code></pre></div
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="login_node.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Example of ssh session on a login node. Login nodes generally have hostnames like beluga1, beluga2, etc."><img src="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/login_node.png" class="img-fluid figure-img" alt="Example of ssh session on a login node. Login nodes generally have hostnames like beluga1, beluga2, etc."></a></p>
+<p><a href="login_node.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Example of ssh session on a login node. Login nodes generally have hostnames like beluga1, beluga2, etc."><img src="https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/login_node.png" class="img-fluid figure-img" alt="Example of ssh session on a login node. Login nodes generally have hostnames like beluga1, beluga2, etc."></a></p>
 <figcaption>Example of ssh session on a login node. Login nodes generally have hostnames like beluga1, beluga2, etc.</figcaption>
 </figure>
 </div>
@@ -382,7 +382,7 @@ font-style: inherit;">&gt;</span>@beluga.alliancecan.ca</span></code></pre></div
 <section id="file-system" class="level2">
 <h2 class="anchored" data-anchor-id="file-system">File System</h2>
 <p>One of the most important thing to know about Compute Canada is the file system. There are three types of file systems with different properties and limitations: <code>home</code>, <code>project</code>, <code>scratch</code></p>
-<p><img src="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/file_system.png" class="img-fluid"> Directory structure on Beluga</p>
+<p><img src="https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/file_system.png" class="img-fluid"> Directory structure on Beluga</p>
 <p>The <code>home</code> directory has small quota, a fixed number of filesystem objects and smaller storage space (generally up to 25 GB) and has dearly backups. The <code>project</code> directory is meant for long-term storage of data that is shared across users linked to a sponsor. The <code>scratch</code> directory is meant for temporary storage of data and has a larger fixed quota per user and a larger storage space (generally above to 2 PB of space).</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -444,7 +444,7 @@ background-color: null;
 font-style: inherit;">#!/bin/bash</span></span>
 <span id="cb5-2"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#SBATCH --account=def-someuser</span></span>
+font-style: inherit;">#SBATCH --account=YOUR-PI-ACCOUNT</span></span>
 <span id="cb5-3"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">#SBATCH --gpus-per-node=1         # Number of GPU(s) per node</span></span>
@@ -461,12 +461,12 @@ font-style: inherit;">#SBATCH --time=00:15:00           # Time limit in hh:mm:ss
 background-color: null;
 font-style: inherit;">#SBATCH --mem=1024M</span></span></code></pre></div></div>
 <ul>
-<li><code>#SBATCH --account=def-someuser</code> is the account of your supervisor. To obtain what account you have access to, you can login to <a href="https://ccdb.alliancecan.ca/security/login">CCDB</a> and click on <strong>My Account -&gt; My Resources and Allocations</strong></li>
+<li><code>#SBATCH --account=YOUR-PI-ACCOUNT</code> is the account of your PI, often <code>def-username</code>. To obtain what account you have access to, you can login to <a href="https://ccdb.alliancecan.ca/security/login">CCDB</a> and click on <strong>My Account -&gt; My Resources and Allocations</strong></li>
 </ul>
 <dl>
-<dt><img src="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/rap_account.png" class="img-fluid" alt="This tells you what account you can use on a given cluster. For examples, on Cedar I can submit jobs using #SBATCH --account=def-ebrahimi."></dt>
+<dt><img src="https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/rap_account.png" class="img-fluid" alt="This tells you what account you can use on a given cluster. For examples, on Cedar I can submit jobs using #SBATCH --account=YOUR-PI-ACCOUNT."></dt>
 <dd>
-The illustration above tells you what account you can use on a given cluster. For example, on <code>Cedar</code>, I can submit jobs using <code>#SBATCH --account=def-ebrahimi</code>.
+The illustration above tells you what account you can use on a given cluster. For example, on <code>Cedar</code>, I can submit jobs using <code>#SBATCH --account=YOUR-PI-ACCOUNT</code>.
 </dd>
 </dl>
 <ul>
@@ -488,7 +488,7 @@ background-color: null;
 font-style: inherit;">#!/bin/bash</span></span>
 <span id="cb6-2"><span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">#SBATCH --account=def-ebrahimi</span></span>
+font-style: inherit;">#SBATCH --account=YOUR-PI-ACCOUNT</span></span>
 <span id="cb6-3"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">#SBATCH --gpus-per-node=1         # Number of GPU(s) per node</span></span>
@@ -574,7 +574,7 @@ font-style: inherit;">=</span>00:30:00 <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">--account</span><span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span>def-ebrahimi <span class="at" style="color: #657422;
+font-style: inherit;">=</span>YOUR-PI-ACCOUNT <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">--mem</span><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -589,7 +589,7 @@ background-color: null;
 font-style: inherit;">=</span>1</span></code></pre></div></div>
 <p>Similarly to job scripts, parameters of the <code>salloc</code> command specify the resources you need for your interactive job session.</p>
 <p>The illustration below shows an interactive job session on the <code>Beluga</code> cluster.</p>
-<p><img src="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/beluga_interactive.png" class="img-fluid"> Interactive job session on the Beluga cluster</p>
+<p><img src="https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/beluga_interactive.png" class="img-fluid"> Interactive job session on the Beluga cluster</p>
 <p>You can see that <code>salloc</code> moved us from a login node (<code>beluga3</code>) to a compute node (<code>bg12103</code>). This compute node has requested resources, i.e., 4 GPUs, 1 CPU core, 48 GB of memory and 30 minutes of time. However, before running your Python program interactively, you need to type commands to load the module and activate the virtual environment.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -618,9 +618,9 @@ font-style: inherit;">=</span>1</span></code></pre></div></div>
   <category>compute</category>
   <category>cluster</category>
   <category>training</category>
-  <guid>patrikken.github.com/blog/posts/Getting Started with Compute Clusters/</guid>
+  <guid>https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/</guid>
   <pubDate>Thu, 22 May 2025 00:00:00 GMT</pubDate>
-  <media:content url="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/compute_cluster.png" medium="image" type="image/png" height="96" width="144"/>
+  <media:content url="https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/compute_cluster.png" medium="image" type="image/png" height="96" width="144"/>
 </item>
 </channel>
 </rss>

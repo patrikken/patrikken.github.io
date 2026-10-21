@@ -46,7 +46,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-8930f97a15303dbc3d477e8bffc318e8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-c39e7cba09b0287e83f1c0df78d92cc4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -74,19 +74,20 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script type="application/ld+json">{"@context":"http://www.schema.org","@type":"person","name":"Patrik Kenfack","jobTitle":"PhD Candidate","gender":"male","description":"Patrik is a PhD Candidate at Mila working at the intersection of Privacy and Fairness.","url":"https://patrikken.github.com","image":"https://patrikken.github.com/img/IMG_0085.jpeg","address":{"@type":"PostalAddress","addressLocality":"Montréal","addressRegion":"QC","postalCode":"H3C0L7","addressCountry":"Canada"},"memberOf":[{"@type":"Organization","name":"ETS Montreal"},{"@type":"Organization","name":"Mila"}],"nationality":[{"@type":"Country","name":"Cameroon"},{"@type":"Country","name":"Cameroon"}]}</script>
 <meta name="google-site-verification" content="M8A4BiKiuitR_uKLIW6mMiwPyXpL1nCneyw04t8F66U">
 
 
 <meta property="og:title" content="Adaptive Group Robust Ensemble Knowledge Distillation - Patrik Kenfack">
 <meta property="og:description" content="Neural networks can learn spurious correlations in the data, often leading to performance degradation for underrepresented subgroups. Studies have demonstrated that the disparity is amplified when …">
-<meta property="og:image" content="patrikken.github.com/img/me.jpg">
+<meta property="og:image" content="https://patrikken.github.io/img/papers/agrekd.png">
 <meta property="og:site_name" content="Patrik Kenfack">
-<meta property="og:image:alt" content="Patrik Kenfack">
+<meta property="og:image:height" content="960">
+<meta property="og:image:width" content="1730">
 <meta name="twitter:title" content="Adaptive Group Robust Ensemble Knowledge Distillation - Patrik Kenfack">
 <meta name="twitter:description" content="Neural networks can learn spurious correlations in the data, often leading to performance degradation for underrepresented subgroups. Studies have demonstrated that the disparity is amplified when …">
-<meta name="twitter:image" content="patrikken.github.com/img/me.jpg">
-<meta name="twitter:image:alt" content="Patrik Kenfack">
+<meta name="twitter:image" content="https://patrikken.github.io/img/papers/agrekd.png">
+<meta name="twitter:image-height" content="960">
+<meta name="twitter:image-width" content="1730">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -166,7 +167,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="profile-card"><img class="profile-photo" src="../../img/me.jpg" alt="Patrik Kenfack" width="600" height="600"><p class="profile-name">Patrik Kenfack</p><p class="profile-role">PhD Candidate,<br>Computer Science</p><ul class="profile-list"><li><i class="bi bi-geo-alt-fill"></i><span>Montréal QC, Canada</span></li><li><i class="bi bi-building"></i><span><a href="https://www.etsmtl.ca/">ÉTS Montréal</a> &amp; <a href="https://mila.quebec/">Mila</a></span></li><li><i class="bi bi-mortarboard-fill"></i><span><a href="https://scholar.google.com/citations?user=bWvJMcgAAAAJ&amp;hl=fr&amp;oi=ao" target="_blank" rel="noopener">Google Scholar</a></span></li><li><i class="bi bi-linkedin"></i><span><a href="https://www.linkedin.com/in/patrik-kenfack-30a8b933/" target="_blank" rel="noopener">LinkedIn</a></span></li><li><i class="bi bi-github"></i><span><a href="https://github.com/patrikken" target="_blank" rel="noopener">GitHub</a></span></li><li><i class="bi bi-envelope-fill"></i><span><a href="mailto:kenfackjoslin@gmail.com">Email</a></span></li></ul></div>
 </div>
 <div class="page-main">
-<article class="paper"><h1 class="paper-title">Adaptive Group Robust Ensemble Knowledge Distillation</h1><p class="paper-authors"><strong>Patrik Kenfack</strong>, Ulrich Aïvodji, Samira Ebrahimi Kahou</p><p class="paper-venue">Published in <em>Transactions on Machine Learning Research | NeurIPS Algorithmic Fairness through the lens of Metrics and Evaluation Workshop</em>, 2025</p><div class="pub-meta"><span class="pub-tag" data-category="journal">Journal</span><span class="pub-tag" data-category="workshop">Workshop</span></div><section class="paper-abstract"><p>Neural networks can learn spurious correlations in the data, often leading to performance degradation for underrepresented subgroups. Studies have demonstrated that the disparity is amplified when knowledge is distilled from a complex teacher model to a relatively ``simple'' student model. Prior work has shown that ensemble deep learning methods can improve the performance of the worst-case subgroups; however, it is unclear if this advantage carries over when distilling knowledge from an ensemble of teachers, especially when the teacher models are debiased. This study demonstrates that traditional ensemble knowledge distillation can significantly drop the performance of the worst-case subgroups in the distilled student model even when the teacher models are debiased. To overcome this, we propose Adaptive Group Robust Ensemble Knowledge Distillation (AGRE-KD), a simple ensembling strategy to ensure that the student model receives knowledge beneficial for unknown underrepresented subgroups. Leveraging an additional biased model, our method selectively chooses teachers whose knowledge would better improve the worst-performing subgroups by upweighting the teachers with gradient directions deviating from the biased model. Our experiments on several datasets demonstrate the superiority of the proposed ensemble distillation technique and show that it can even outperform classic model ensembles based on majority voting.</p></section><div class="pub-links paper-links"><a class="pub-link" href="https://arxiv.org/abs/2411.14984" target="_blank" rel="noopener"><i class="bi bi-link-45deg"></i>Paper</a><a class="pub-link" href="https://arxiv.org/pdf/2411.14984?" target="_blank" rel="noopener"><i class="bi bi-file-earmark-pdf"></i>PDF</a><a class="pub-link" href="https://github.com/patrikken/AGRE-KD" target="_blank" rel="noopener"><i class="bi bi-github"></i>Code</a><a class="pub-link" href="https://nips.cc/virtual/2024/105684" target="_blank" rel="noopener"><i class="bi bi-play-btn"></i>Video</a><button type="button" class="pub-link pub-cite" data-target="bib-5" aria-expanded="false"><i class="bi bi-quote"></i>Cite</button></div><div class="pub-bibtex" id="bib-5" hidden=""><button type="button" class="pub-copy">Copy</button><pre><code>@article{
+<article class="paper"><h1 class="paper-title">Adaptive Group Robust Ensemble Knowledge Distillation</h1><p class="paper-authors"><strong>Patrik Kenfack</strong>, Ulrich Aïvodji, Samira Ebrahimi Kahou</p><p class="paper-venue">Published in <em>Transactions on Machine Learning Research | NeurIPS Algorithmic Fairness through the lens of Metrics and Evaluation Workshop</em>, 2025</p><div class="pub-meta"><span class="pub-tag" data-category="journal">Journal</span><span class="pub-tag" data-category="workshop">Workshop</span></div><figure class="paper-figure figure"><img src="../../img/papers/agrekd.png" alt="Adaptive Group Robust Ensemble Knowledge Distillation" loading="lazy" class="figure-img"></figure><section class="paper-abstract"><p>Neural networks can learn spurious correlations in the data, often leading to performance degradation for underrepresented subgroups. Studies have demonstrated that the disparity is amplified when knowledge is distilled from a complex teacher model to a relatively ``simple'' student model. Prior work has shown that ensemble deep learning methods can improve the performance of the worst-case subgroups; however, it is unclear if this advantage carries over when distilling knowledge from an ensemble of teachers, especially when the teacher models are debiased. This study demonstrates that traditional ensemble knowledge distillation can significantly drop the performance of the worst-case subgroups in the distilled student model even when the teacher models are debiased. To overcome this, we propose Adaptive Group Robust Ensemble Knowledge Distillation (AGRE-KD), a simple ensembling strategy to ensure that the student model receives knowledge beneficial for unknown underrepresented subgroups. Leveraging an additional biased model, our method selectively chooses teachers whose knowledge would better improve the worst-performing subgroups by upweighting the teachers with gradient directions deviating from the biased model. Our experiments on several datasets demonstrate the superiority of the proposed ensemble distillation technique and show that it can even outperform classic model ensembles based on majority voting.</p></section><div class="pub-links paper-links"><a class="pub-link" href="https://arxiv.org/abs/2411.14984" target="_blank" rel="noopener"><i class="bi bi-link-45deg"></i>Paper</a><a class="pub-link" href="https://arxiv.org/pdf/2411.14984?" target="_blank" rel="noopener"><i class="bi bi-file-earmark-pdf"></i>PDF</a><a class="pub-link" href="https://github.com/patrikken/AGRE-KD" target="_blank" rel="noopener"><i class="bi bi-github"></i>Code</a><a class="pub-link pub-poster" href="../../img/posters/agrekd.png" data-poster="/img/posters/agrekd.png" data-title="Adaptive Group Robust Ensemble Knowledge Distillation" target="_blank" rel="noopener"><i class="bi bi-image"></i>Poster</a><a class="pub-link" href="https://nips.cc/virtual/2024/105684" target="_blank" rel="noopener"><i class="bi bi-play-btn"></i>Video</a><button type="button" class="pub-link pub-cite" data-target="bib-5" aria-expanded="false"><i class="bi bi-quote"></i>Cite</button></div><div class="pub-bibtex" id="bib-5" hidden=""><button type="button" class="pub-copy">Copy</button><pre><code>@article{
 kenfack2025adaptive,
 title={Adaptive Group Robust Ensemble Knowledge Distillation},
 author={Patrik Kenfack and Ulrich A{\"\i}vodji and Samira Ebrahimi Kahou},
@@ -176,31 +177,89 @@ year={2025},
 url={https://openreview.net/forum?id=G2BEBaKd8Y},
 note={}
 }</code></pre></div></article><script>
-document.addEventListener("click", function (e) {
-  const toggle = e.target.closest(".pub-cite");
-  if (toggle) {
-    const box = document.getElementById(toggle.dataset.target);
-    if (box) {
-      box.hidden = !box.hidden;
-      toggle.setAttribute("aria-expanded", String(!box.hidden));
-      toggle.classList.toggle("is-open", !box.hidden);
+(function () {
+  /* --- Cite chips ----------------------------------------------- */
+  document.addEventListener("click", function (e) {
+    const toggle = e.target.closest(".pub-cite");
+    if (toggle) {
+      const box = document.getElementById(toggle.dataset.target);
+      if (box) {
+        box.hidden = !box.hidden;
+        toggle.setAttribute("aria-expanded", String(!box.hidden));
+        toggle.classList.toggle("is-open", !box.hidden);
+      }
+      return;
     }
-    return;
-  }
-  const copy = e.target.closest(".pub-copy");
-  if (copy) {
-    const text = copy.parentElement.querySelector("code").innerText;
-    navigator.clipboard.writeText(text).then(function () {
-      const original = copy.textContent;
-      copy.textContent = "Copied";
-      copy.classList.add("is-copied");
-      setTimeout(function () {
-        copy.textContent = original;
-        copy.classList.remove("is-copied");
-      }, 1600);
+    const copy = e.target.closest(".pub-copy");
+    if (copy) {
+      const text = copy.parentElement.querySelector("code").innerText;
+      navigator.clipboard.writeText(text).then(function () {
+        const original = copy.textContent;
+        copy.textContent = "Copied";
+        copy.classList.add("is-copied");
+        setTimeout(function () {
+          copy.textContent = original;
+          copy.classList.remove("is-copied");
+        }, 1600);
+      });
+    }
+  });
+
+  /* --- Poster lightbox ------------------------------------------- */
+  /* Only images are intercepted; a PDF poster keeps the plain link. */
+  const IMAGE = /\.(png|jpe?g|gif|webp|avif|svg)(\?.*)?$/i;
+  let box, img, cap, lastFocus;
+
+  function build() {
+    box = document.createElement("div");
+    box.className = "lightbox";
+    box.setAttribute("role", "dialog");
+    box.setAttribute("aria-modal", "true");
+    box.setAttribute("aria-label", "Poster");
+    box.hidden = true;
+    box.innerHTML =
+      '<button type="button" class="lightbox__close" aria-label="Close poster">&times;</button>' +
+      '<figure class="lightbox__figure"><img alt=""><figcaption></figcaption></figure>';
+    document.body.appendChild(box);
+    img = box.querySelector("img");
+    cap = box.querySelector("figcaption");
+    box.addEventListener("click", function (e) {
+      if (e.target === box || e.target.closest(".lightbox__close")) close();
     });
   }
-});
+
+  function open(src, title) {
+    if (!box) build();
+    lastFocus = document.activeElement;
+    img.src = src;
+    img.alt = title ? "Poster: " + title : "Poster";
+    cap.textContent = title || "";
+    box.hidden = false;
+    document.body.classList.add("lightbox-open");
+    box.querySelector(".lightbox__close").focus();
+  }
+
+  function close() {
+    if (!box || box.hidden) return;
+    box.hidden = true;
+    img.removeAttribute("src");
+    document.body.classList.remove("lightbox-open");
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  document.addEventListener("click", function (e) {
+    const link = e.target.closest(".pub-poster");
+    if (!link) return;
+    const src = link.dataset.poster || link.getAttribute("href");
+    if (!src || !IMAGE.test(src)) return; /* not an image: follow the link */
+    e.preventDefault();
+    open(src, link.dataset.title);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") close();
+  });
+})();
 </script>
 </div>
 </div>
@@ -281,7 +340,7 @@ document.addEventListener("click", function (e) {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("patrikken\.github\.com");
+        var filterRegex = new RegExp("https:\/\/patrikken\.github\.io");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

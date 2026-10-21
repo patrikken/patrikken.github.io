@@ -83,7 +83,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-8930f97a15303dbc3d477e8bffc318e8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-c39e7cba09b0287e83f1c0df78d92cc4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -114,19 +114,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script type="application/ld+json">{"@context":"http://www.schema.org","@type":"person","name":"Patrik Kenfack","jobTitle":"PhD Candidate","gender":"male","description":"Patrik is a PhD Candidate at Mila working at the intersection of Privacy and Fairness.","url":"https://patrikken.github.com","image":"https://patrikken.github.com/img/IMG_0085.jpeg","address":{"@type":"PostalAddress","addressLocality":"Montréal","addressRegion":"QC","postalCode":"H3C0L7","addressCountry":"Canada"},"memberOf":[{"@type":"Organization","name":"ETS Montreal"},{"@type":"Organization","name":"Mila"}],"nationality":[{"@type":"Country","name":"Cameroon"},{"@type":"Country","name":"Cameroon"}]}</script>
 <meta name="google-site-verification" content="M8A4BiKiuitR_uKLIW6mMiwPyXpL1nCneyw04t8F66U">
 
 
 <meta property="og:title" content="Getting Started with Compute Clusters – Patrik Kenfack">
 <meta property="og:description" content="In this post, I will walk you through the steps to get started with compute clusters, with a focus on Compute Canada.">
-<meta property="og:image" content="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/compute_cluster.png">
+<meta property="og:image" content="https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/compute_cluster.png">
 <meta property="og:site_name" content="Patrik Kenfack">
 <meta property="og:image:height" content="1024">
 <meta property="og:image:width" content="1536">
 <meta name="twitter:title" content="Getting Started with Compute Clusters – Patrik Kenfack">
 <meta name="twitter:description" content="In this post, I will walk you through the steps to get started with compute clusters, with a focus on Compute Canada.">
-<meta name="twitter:image" content="patrikken.github.com/blog/posts/Getting Started with Compute Clusters/compute_cluster.png">
+<meta name="twitter:image" content="https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/compute_cluster.png">
 <meta name="twitter:image-height" content="1024">
 <meta name="twitter:image-width" content="1536">
 <meta name="twitter:card" content="summary_large_image">
@@ -356,19 +355,19 @@ Tip
 <h4 class="anchored" data-anchor-id="job-script-directives">Job script directives</h4>
 <p>The header of the job script contains directives to specify the resources your Python program needs. Here is an example of a job script header:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --account=def-someuser</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --account=YOUR-PI-ACCOUNT</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gpus-per-node=1         # Number of GPU(s) per node</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --node=1         # Number of GPU(s) per node</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=4         # CPU cores/threads</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=00:15:00           # Time limit in hh:mm:ss </span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=1024M</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li><code>#SBATCH --account=def-someuser</code> is the account of your supervisor. To obtain what account you have access to, you can login to <a href="https://ccdb.alliancecan.ca/security/login">CCDB</a> and click on <strong>My Account -&gt; My Resources and Allocations</strong></li>
+<li><code>#SBATCH --account=YOUR-PI-ACCOUNT</code> is the account of your PI, often <code>def-username</code>. To obtain what account you have access to, you can login to <a href="https://ccdb.alliancecan.ca/security/login">CCDB</a> and click on <strong>My Account -&gt; My Resources and Allocations</strong></li>
 </ul>
 <dl>
-<dt><img src="rap_account.png" class="img-fluid" alt="This tells you what account you can use on a given cluster. For examples, on Cedar I can submit jobs using #SBATCH --account=def-ebrahimi."></dt>
+<dt><img src="rap_account.png" class="img-fluid" alt="This tells you what account you can use on a given cluster. For examples, on Cedar I can submit jobs using #SBATCH --account=YOUR-PI-ACCOUNT."></dt>
 <dd>
-The illustration above tells you what account you can use on a given cluster. For example, on <code>Cedar</code>, I can submit jobs using <code>#SBATCH --account=def-ebrahimi</code>.
+The illustration above tells you what account you can use on a given cluster. For example, on <code>Cedar</code>, I can submit jobs using <code>#SBATCH --account=YOUR-PI-ACCOUNT</code>.
 </dd>
 </dl>
 <ul>
@@ -386,7 +385,7 @@ The illustration above tells you what account you can use on a given cluster. Fo
 <h2 class="anchored" data-anchor-id="putting-it-all-together">Putting it all together</h2>
 <p>Here is an example of a job script that you can use to submit your job:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --account=def-ebrahimi</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --account=YOUR-PI-ACCOUNT</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gpus-per-node=1         # Number of GPU(s) per node</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --node=1         # Number of GPU(s) per node</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=4         # CPU cores/threads</span></span>
@@ -412,7 +411,7 @@ The illustration above tells you what account you can use on a given cluster. Fo
 <section id="interactive-jobs" class="level2">
 <h2 class="anchored" data-anchor-id="interactive-jobs">Interactive jobs</h2>
 <p>Sometimes you want to run a job interactively, for example, to debug your code or to run a small test. You can do this by running the following command:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">salloc</span> <span class="at">--time</span><span class="op">=</span>00:30:00 <span class="at">--account</span><span class="op">=</span>def-ebrahimi <span class="at">--mem</span><span class="op">=</span>48000 <span class="at">--gpus-per-node</span><span class="op">=</span>4 <span class="at">--cpus-per-task</span><span class="op">=</span>1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">salloc</span> <span class="at">--time</span><span class="op">=</span>00:30:00 <span class="at">--account</span><span class="op">=</span>YOUR-PI-ACCOUNT <span class="at">--mem</span><span class="op">=</span>48000 <span class="at">--gpus-per-node</span><span class="op">=</span>4 <span class="at">--cpus-per-task</span><span class="op">=</span>1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Similarly to job scripts, parameters of the <code>salloc</code> command specify the resources you need for your interactive job session.</p>
 <p>The illustration below shows an interactive job session on the <code>Beluga</code> cluster.</p>
 <p><img src="beluga_interactive.png" class="img-fluid"> Interactive job session on the Beluga cluster</p>
@@ -514,7 +513,7 @@ The illustration above tells you what account you can use on a given cluster. Fo
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("patrikken\.github\.com");
+        var filterRegex = new RegExp("https:\/\/patrikken\.github\.io");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

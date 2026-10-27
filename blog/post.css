@@ -1,0 +1,454 @@
+/* ============================================================
+   Long-form blog post reading styles.
+   Opt in from a post's front matter with  `css: ../../post.css`.
+   Everything is scoped to the article so the navbar, footer and
+   TOC keep the site-wide look.
+   ============================================================ */
+
+:root {
+  --post-ink: #1f2328;
+  --post-body: #2d333a;
+  --post-muted: #66707a;
+  --post-rule: #e4e7eb;
+  --post-accent: #2b6cb0;
+  --post-tint: #f2f6fb;
+  --post-code-bg: #f6f8fa;
+  --post-warn: #b4541a;
+  --post-warn-tint: #fdf4ec;
+}
+
+/* ---- measure & rhythm ------------------------------------- */
+
+main.content {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--post-body);
+}
+
+main.content p {
+  margin-bottom: 1.25rem;
+}
+
+main.content strong {
+  color: var(--post-ink);
+  font-weight: 650;
+}
+
+main.content a:not(.nav-link):not(.quarto-xref) {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+/* ---- title block ------------------------------------------ */
+
+#title-block-header .title {
+  font-size: 2.4rem;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--post-ink);
+  margin-bottom: 0.9rem;
+}
+
+#title-block-header .description {
+  font-size: 1.2rem;
+  line-height: 1.55;
+  color: var(--post-muted);
+  margin: 0.9rem 0 1.4rem;
+}
+
+#title-block-header .quarto-category {
+  border: none;
+  background: var(--post-tint);
+  color: var(--post-accent);
+  border-radius: 999px;
+  padding: 0.2em 0.75em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+#title-block-header .quarto-title-meta {
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--post-rule);
+  margin-bottom: 2.2rem;
+}
+
+/* ---- headings --------------------------------------------- */
+
+main.content h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  color: var(--post-ink);
+  margin-top: 2.8rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+main.content h3 {
+  font-size: 1.22rem;
+  font-weight: 650;
+  color: var(--post-ink);
+  margin-top: 2.4rem;
+  margin-bottom: 0.8rem;
+}
+
+/* ---- lists ------------------------------------------------ */
+
+main.content ul:not(.nav),
+main.content ol {
+  padding-left: 1.4rem;
+  margin-bottom: 1.4rem;
+}
+
+main.content li:not(.nav-item) {
+  margin-bottom: 0.55rem;
+  padding-left: 0.2rem;
+}
+
+main.content li::marker {
+  color: var(--post-accent);
+  font-weight: 600;
+}
+
+/* the recommendations list at the end reads as a set of cards */
+main.content ol > li {
+  margin-bottom: 1rem;
+}
+
+/* ---- inline code & code blocks ---------------------------- */
+
+main.content :not(pre) > code {
+  font-size: 0.86em;
+  color: var(--post-ink);
+  background: var(--post-code-bg);
+  border: 1px solid var(--post-rule);
+  border-radius: 4px;
+  padding: 0.08em 0.35em;
+}
+
+main.content div.sourceCode {
+  background: var(--post-code-bg);
+  border: 1px solid var(--post-rule);
+  border-radius: 8px;
+}
+
+main.content div.sourceCode pre {
+  font-size: 0.84rem;
+  line-height: 1.6;
+  padding: 0.9rem 1.1rem;
+}
+
+/* the TabICLv2 / TabFM tab pair */
+.code-compare.panel-tabset {
+  margin: 1.4rem 0 1.6rem;
+}
+
+.code-compare .nav-tabs {
+  border-bottom: 1px solid var(--post-rule);
+  gap: 0.25rem;
+}
+
+.code-compare .nav-tabs .nav-link {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--post-muted);
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.4rem 0.8rem;
+  margin-bottom: -1px;
+  background: none;
+}
+
+.code-compare .nav-tabs .nav-link.active {
+  color: var(--post-accent);
+  border-bottom-color: var(--post-accent);
+}
+
+.code-compare .nav-tabs {
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.code-compare .tab-content {
+  border: none;
+  padding: 0.6rem 0 0;
+}
+
+.code-compare .tab-content div.sourceCode {
+  margin: 0;
+}
+
+/* ---- callouts --------------------------------------------- */
+
+main.content .callout {
+  border: none;
+  border-left: 4px solid var(--post-accent);
+  border-radius: 6px;
+  background: var(--post-tint);
+  margin: 1.6rem 0;
+  font-size: 1rem;
+}
+
+main.content .callout .callout-header {
+  background: transparent;
+  border: none;
+}
+
+main.content .callout .callout-title-container {
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--post-accent);
+}
+
+main.content .callout .callout-body-container {
+  padding-bottom: 0.3rem;
+  line-height: 1.65;
+  color: var(--post-ink);
+}
+
+main.content .callout-important {
+  border-left-color: var(--post-warn);
+  background: var(--post-warn-tint);
+}
+
+main.content .callout-important .callout-title-container {
+  color: var(--post-warn);
+}
+
+main.content .callout-important .callout-icon::before {
+  filter: hue-rotate(20deg);
+}
+
+/* ---- key numbers strip ------------------------------------ */
+
+.key-numbers {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin: -0.6rem 0 2.6rem;
+}
+
+.key-numbers .kn {
+  border: 1px solid var(--post-rule);
+  border-radius: 8px;
+  padding: 0.85rem 0.9rem 0.8rem;
+  background: #fff;
+}
+
+.key-numbers .kn-value {
+  display: block;
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--post-ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* blue = the setup, green = what the leaderboard says,
+   red = what you actually get */
+.key-numbers .kn.kn-setup {
+  background: #e8f1fb;
+  border-color: #bcd5f0;
+}
+.key-numbers .kn.kn-setup .kn-value { color: #1f5d9e; }
+.key-numbers .kn.kn-setup .kn-label { color: #2f4f73; }
+
+.key-numbers .kn.kn-looks {
+  background: #e8f5ec;
+  border-color: #b7dfc3;
+}
+.key-numbers .kn.kn-looks .kn-value { color: #1e7a3f; }
+.key-numbers .kn.kn-looks .kn-label { color: #2f5e3e; }
+
+.key-numbers .kn.kn-real {
+  background: #fcebea;
+  border-color: #f1c3c0;
+}
+.key-numbers .kn.kn-real .kn-value { color: #b42318; }
+.key-numbers .kn.kn-real .kn-label { color: #7a3a35; }
+
+.key-numbers .kn-label {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--post-muted);
+}
+
+.key-numbers .kn-label code {
+  font-size: 0.92em;
+  padding: 0 0.25em;
+}
+
+@media (max-width: 767.98px) {
+  .key-numbers {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---- tables ----------------------------------------------- */
+
+main.content table {
+  font-size: 0.95rem;
+  margin: 0.4rem 0 0.2rem;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+main.content table thead th {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--post-muted);
+  border-bottom: 2px solid var(--post-rule) !important;
+  border-top: none;
+  padding: 0.55rem 0.75rem;
+}
+
+main.content table tbody td {
+  border-bottom: 1px solid var(--post-rule);
+  padding: 0.65rem 0.75rem;
+  vertical-align: top;
+}
+
+main.content table tbody td:first-child {
+  font-weight: 600;
+  color: var(--post-ink);
+}
+
+main.content table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ---- figures ---------------------------------------------- */
+
+main.content .quarto-figure,
+main.content .quarto-float {
+  margin: 1.6rem 0 1.8rem;
+}
+
+main.content .quarto-float-caption,
+main.content .quarto-float-caption-top,
+main.content figcaption.quarto-float-caption-top {
+  text-align: left !important;
+}
+
+main.content .quarto-figure img {
+  border: 1px solid var(--post-rule);
+  border-radius: 8px;
+  padding: 0.6rem;
+  background: #fff;
+}
+
+main.content figcaption,
+main.content .table-caption,
+main.content caption {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--post-muted);
+  text-align: left;
+  margin-top: 0.7rem;
+}
+
+main.content caption {
+  caption-side: top;
+  margin-bottom: 0.5rem;
+}
+
+/* ---- table of contents ------------------------------------ */
+
+#TOC,
+nav#TOC {
+  font-size: 0.85rem;
+}
+
+#TOC h2,
+#toc-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--post-muted);
+}
+
+#TOC .nav-link {
+  line-height: 1.4;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  color: var(--post-muted);
+}
+
+#TOC .nav-link.active {
+  color: var(--post-accent);
+  font-weight: 600;
+}
+
+/* ---- small screens ---------------------------------------- */
+
+@media (max-width: 575.98px) {
+  main.content {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  #title-block-header .title {
+    font-size: 1.85rem;
+  }
+  #title-block-header .description {
+    font-size: 1.05rem;
+  }
+  main.content h2 {
+    font-size: 1.35rem;
+    margin-top: 2.6rem;
+  }
+  main.content .quarto-figure img {
+    padding: 0.25rem;
+  }
+}
+
+/* ---- footnotes & "Cite this post" appendix ----------------- */
+
+main.content a.footnote-ref sup {
+  font-weight: 600;
+  color: var(--post-accent);
+}
+
+#quarto-appendix.default {
+  margin-top: 3rem;
+  border-top: 1px solid var(--post-rule);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--post-muted);
+}
+
+#quarto-appendix.default .quarto-appendix-heading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--post-muted);
+  border-bottom: none;
+  margin-top: 2rem;
+}
+
+#quarto-appendix.default pre.citation-bibtex,
+#quarto-appendix.default div.citation {
+  font-size: 0.8rem;
+  background: var(--post-code-bg);
+  border: 1px solid var(--post-rule);
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+}
+
+/* the figure zoom: a hint that the figures can be enlarged */
+main.content .quarto-figure a.lightbox img {
+  cursor: zoom-in;
+}

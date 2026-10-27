@@ -761,13 +761,15 @@
 }
 
 /* ---- poster lightbox ----
-   Opened by the Poster chip. The markup is built by pu_page_script(). */
+   Opened by the Poster chip. The markup is built by pu_page_script().
+   Scoped to div.lightbox so it never matches Quarto's own figure
+   lightbox links (a.lightbox), used by `lightbox: true` in blog posts. */
 
 body.lightbox-open {
   overflow: hidden;
 }
 
-.lightbox {
+div.lightbox {
   position: fixed;
   inset: 0;
   z-index: 1080;
@@ -782,7 +784,7 @@ body.lightbox-open {
 }
 
 /* display:flex would otherwise beat the [hidden] attribute */
-.lightbox[hidden] {
+div.lightbox[hidden] {
   display: none;
 }
 
@@ -842,7 +844,7 @@ body.lightbox-open {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .lightbox {
+  div.lightbox {
     animation: none;
   }
 }

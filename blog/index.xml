@@ -14,7 +14,7 @@
 <item>
   <title>The “Hidden” Ensemble Inside Tabular Foundation Models</title>
   <dc:creator>Patrik Kenfack</dc:creator>
-  <link>https://patrikken.github.io/blog/posts/The hidden ensemble in tabular foundation models/</link>
+  <link>https://patrikken.github.io/blog/posts/the-hidden-ensemble-in-tabular-foundation-models/</link>
   <description><![CDATA[ 
 
 
@@ -209,7 +209,7 @@ Table&nbsp;1: Effect of the shipped ensemble versus a single forward pass.
 <div id="fig-gap" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="Scatter plots of Elo gain against effect size for binary, multiclass and regression tasks; all configurations fall on one monotone curve.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-gap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="fig_gap.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Local Elo gain against effect size, for every configuration of both models I ran. Colour is the model. Circles are the native perturbation views (column shuffling, class shuffling, preprocessing, and their combinations), squares are column subsampling (each member sees only some of the columns), and triangles are row subsampling (each member sees only some of the rows). The horizontal axes are symmetric-log."><img src="https://patrikken.github.io/blog/posts/The hidden ensemble in tabular foundation models/fig_gap.png" class="img-fluid figure-img column-page-right" alt="Scatter plots of Elo gain against effect size for binary, multiclass and regression tasks; all configurations fall on one monotone curve."></a>
+<a href="fig_gap.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Local Elo gain against effect size, for every configuration of both models I ran. Colour is the model. Circles are the native perturbation views (column shuffling, class shuffling, preprocessing, and their combinations), squares are column subsampling (each member sees only some of the columns), and triangles are row subsampling (each member sees only some of the rows). The horizontal axes are symmetric-log."><img src="https://patrikken.github.io/blog/posts/the-hidden-ensemble-in-tabular-foundation-models/fig_gap.png" class="img-fluid figure-img column-page-right" alt="Scatter plots of Elo gain against effect size for binary, multiclass and regression tasks; all configurations fall on one monotone curve."></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Local Elo gain against effect size, for every configuration of both models I ran. Colour is the model. Circles are the native perturbation views (column shuffling, class shuffling, preprocessing, and their combinations), squares are column subsampling (each member sees only some of the columns), and triangles are row subsampling (each member sees only some of the rows). The horizontal axes are symmetric-log.
@@ -239,7 +239,7 @@ Important
 <div id="fig-cost" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="Line plots of effect size over a single pass against the number of forward passes. Gains rise over the first four to eight passes and then flatten for both models and all three task types.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-cost-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="fig_cost_vs_gain.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Gain over a single pass against the number of forward passes, for each model’s shipped recipe. Shaded bands are 95% bootstrap CIs over datasets. TabICLv2’s curves stop where its recipe runs out of distinct members."><img src="https://patrikken.github.io/blog/posts/The hidden ensemble in tabular foundation models/fig_cost_vs_gain.png" class="img-fluid figure-img column-page-right" alt="Line plots of effect size over a single pass against the number of forward passes. Gains rise over the first four to eight passes and then flatten for both models and all three task types."></a>
+<a href="fig_cost_vs_gain.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Gain over a single pass against the number of forward passes, for each model’s shipped recipe. Shaded bands are 95% bootstrap CIs over datasets. TabICLv2’s curves stop where its recipe runs out of distinct members."><img src="https://patrikken.github.io/blog/posts/the-hidden-ensemble-in-tabular-foundation-models/fig_cost_vs_gain.png" class="img-fluid figure-img column-page-right" alt="Line plots of effect size over a single pass against the number of forward passes. Gains rise over the first four to eight passes and then flatten for both models and all three task types."></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cost-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Gain over a single pass against the number of forward passes, for each model’s shipped recipe. Shaded bands are 95% bootstrap CIs over datasets. TabICLv2’s curves stop where its recipe runs out of distinct members.
@@ -250,7 +250,7 @@ Figure&nbsp;2: Gain over a single pass against the number of forward passes, for
 <div id="fig-members" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="Line plots of Elo gain over a single pass as the number of ensemble members grows, for TabICLv2 and TabFM across task types.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
 <div aria-describedby="fig-members-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
-<a href="fig_elo_vs_M.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Local Elo gain over a single pass as the number of members grows. Each line is a different perturbation view: column shuffling, class shuffling, preprocessing, or a combination of them; “default (shipped) mix” is the model’s own default recipe. Top row: TabICLv2. Bottom row: TabFM. Shaded bands are 95% bootstrap CIs."><img src="https://patrikken.github.io/blog/posts/The hidden ensemble in tabular foundation models/fig_elo_vs_M.png" class="img-fluid figure-img column-page-right" alt="Line plots of Elo gain over a single pass as the number of ensemble members grows, for TabICLv2 and TabFM across task types."></a>
+<a href="fig_elo_vs_M.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Local Elo gain over a single pass as the number of members grows. Each line is a different perturbation view: column shuffling, class shuffling, preprocessing, or a combination of them; “default (shipped) mix” is the model’s own default recipe. Top row: TabICLv2. Bottom row: TabFM. Shaded bands are 95% bootstrap CIs."><img src="https://patrikken.github.io/blog/posts/the-hidden-ensemble-in-tabular-foundation-models/fig_elo_vs_M.png" class="img-fluid figure-img column-page-right" alt="Line plots of Elo gain over a single pass as the number of ensemble members grows, for TabICLv2 and TabFM across task types."></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-members-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: Local Elo gain over a single pass as the number of members grows. Each line is a different perturbation view: column shuffling, class shuffling, preprocessing, or a combination of them; “default (shipped) mix” is the model’s own default recipe. Top row: TabICLv2. Bottom row: TabFM. Shaded bands are 95% bootstrap CIs.
@@ -361,20 +361,19 @@ Table&nbsp;2: Change versus the shipped recipe when each member sees only part o
   title = {The “{Hidden}” {Ensemble} {Inside} {Tabular} {Foundation}
     {Models}},
   date = {2026-10-15},
-  url = {https://patrikken.github.io/blog/posts/The hidden ensemble in tabular foundation models/},
+  url = {https://patrikken.github.io/blog/posts/the-hidden-ensemble-in-tabular-foundation-models/},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-kenfack2026" class="csl-entry quarto-appendix-citeas">
 Kenfack, Patrik. 2026. <span>“The <span>‘Hidden’</span> Ensemble Inside
-Tabular Foundation Models.”</span> October 15. <a href="https://patrikken.github.io/blog/posts/The hidden ensemble in tabular foundation models/">https://patrikken.github.io/blog/posts/The
-hidden ensemble in tabular foundation models/</a>.
+Tabular Foundation Models.”</span> October 15. <a href="https://patrikken.github.io/blog/posts/the-hidden-ensemble-in-tabular-foundation-models/">https://patrikken.github.io/blog/posts/the-hidden-ensemble-in-tabular-foundation-models/</a>.
 </div></div></section></div> ]]></description>
   <category>tabular foundation models</category>
   <category>ensembling</category>
   <category>TabArena</category>
-  <guid>https://patrikken.github.io/blog/posts/The hidden ensemble in tabular foundation models/</guid>
+  <guid>https://patrikken.github.io/blog/posts/the-hidden-ensemble-in-tabular-foundation-models/</guid>
   <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-  <media:content url="https://patrikken.github.io/blog/posts/The hidden ensemble in tabular foundation models/fig_gap.png" medium="image" type="image/png" height="49" width="144"/>
+  <media:content url="https://patrikken.github.io/blog/posts/the-hidden-ensemble-in-tabular-foundation-models/fig_gap.png" medium="image" type="image/png" height="49" width="144"/>
 </item>
 <item>
   <title>Getting Started with Compute Clusters</title>

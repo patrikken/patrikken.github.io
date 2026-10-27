@@ -4,7 +4,14 @@ description: "Tabular foundation models seemingly average over perturbed copies 
 author: "Patrik Kenfack"
 date: 2026-10-15
 categories: [tabular foundation models, ensembling, TabArena]
-image: fig_gap.png
+image: fig_gap.png          # thumbnail on the blog listing
+# link previews (WhatsApp, LinkedIn, X, Slack…) use a 1200×630 card instead
+open-graph:
+  image: share.png
+  image-alt: "Title card: 8–32 forward passes, +168–230 Elo, about 0.001 AUC, 1.0–1.2 effective members."
+twitter-card:
+  image: share.png
+  card-style: summary_large_image
 draft: false
 toc: true
 toc-title: "On this page"

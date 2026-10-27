@@ -12,6 +12,9 @@ toc-location: left
 css: ../../post.css
 lightbox: true
 citation: true
+# old address (folder name had spaces) redirects here
+aliases:
+  - "/blog/posts/The hidden ensemble in tabular foundation models/index.html"
 ---
 
 A tabular foundation model (TFM) is a transformer-based model that predicts your test labels in one forward pass using your training data as context. The model is frozen, so it does not update its weights on your data. It is a foundation model because it is *pre*-trained on thousands (or millions) of tables, and it is tabular because it takes a table as input. TFMs are the new hotness in tabular machine learning, and they are starting to appear in production.

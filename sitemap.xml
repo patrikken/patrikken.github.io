@@ -2,86 +2,86 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://patrikken.github.io/CV.html</loc>
-    <lastmod>2026-10-27T22:38:29.984Z</lastmod>
+    <lastmod>2026-10-27T22:43:47.999Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/teaching/index.html</loc>
-    <lastmod>2026-10-27T22:38:30.297Z</lastmod>
+    <lastmod>2026-10-27T22:43:48.272Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/papers/survey-on-ai-ethics-a-socio-technical-perspective/index.html</loc>
-    <lastmod>2026-10-27T22:39:49.647Z</lastmod>
+    <lastmod>2026-10-27T22:45:01.639Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/papers/repfair-gan-mitigating-representation-bias-in-gans-using-gradient-clipping/index.html</loc>
-    <lastmod>2026-10-27T22:39:49.649Z</lastmod>
+    <lastmod>2026-10-27T22:45:01.640Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/papers/fairness-under-demographic-scarce-regime/index.html</loc>
-    <lastmod>2026-10-27T22:39:49.648Z</lastmod>
+    <lastmod>2026-10-27T22:45:01.639Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/papers/dp-sgd-vs-pate-which-has-less-disparate-impact-on-model-accuracy/index.html</loc>
-    <lastmod>2026-10-27T22:39:49.650Z</lastmod>
+    <lastmod>2026-10-27T22:45:01.641Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/papers/gradtune-last-layer-fine-tuning-for-group-robustness-without-group-annotation/index.html</loc>
-    <lastmod>2026-10-27T22:39:49.646Z</lastmod>
+    <lastmod>2026-10-27T22:45:01.637Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/papers/on-the-fairness-of-generative-adversarial-networks-gans/index.html</loc>
-    <lastmod>2026-10-27T22:39:49.651Z</lastmod>
+    <lastmod>2026-10-27T22:45:01.641Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/index.html</loc>
-    <lastmod>2026-10-27T22:38:30.296Z</lastmod>
+    <lastmod>2026-10-27T22:43:48.272Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/blog/posts/the-hidden-ensemble-in-tabular-foundation-models/index.html</loc>
-    <lastmod>2026-10-27T22:38:30.016Z</lastmod>
+    <lastmod>2026-10-27T22:43:48.027Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/blog/index.html</loc>
-    <lastmod>2026-10-27T22:38:29.998Z</lastmod>
+    <lastmod>2026-10-27T22:43:48.011Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/index.html</loc>
-    <lastmod>2026-10-27T22:38:30.009Z</lastmod>
+    <lastmod>2026-10-27T22:43:48.020Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/fairtfm.html</loc>
-    <lastmod>2026-10-27T22:38:30.017Z</lastmod>
+    <lastmod>2026-10-27T22:43:48.028Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/papers/impact-of-model-ensemble-on-the-fairness-of-classifiers-in-machine-learning/index.html</loc>
-    <lastmod>2026-10-27T22:39:49.650Z</lastmod>
+    <lastmod>2026-10-27T22:45:01.640Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/papers/a-survey-on-fairness-without-demographics/index.html</loc>
-    <lastmod>2026-10-27T22:39:49.648Z</lastmod>
+    <lastmod>2026-10-27T22:45:01.639Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/papers/learning-fair-representations-through-uniformly-distributed-sensitive-attributes/index.html</loc>
-    <lastmod>2026-10-27T22:39:49.649Z</lastmod>
+    <lastmod>2026-10-27T22:45:01.640Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/papers/adaptive-group-robust-ensemble-knowledge-distillation/index.html</loc>
-    <lastmod>2026-10-27T22:39:49.647Z</lastmod>
+    <lastmod>2026-10-27T22:45:01.638Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/papers/training-fair-tabular-foundation-models/index.html</loc>
-    <lastmod>2026-10-27T22:39:49.635Z</lastmod>
+    <lastmod>2026-10-27T22:45:01.629Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/papers/towards-fair-in-context-learning-with-tabular-foundation-models/index.html</loc>
-    <lastmod>2026-10-27T22:39:49.645Z</lastmod>
+    <lastmod>2026-10-27T22:45:01.637Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/papers/towards-personalized-healthcare-without-harm-via-bias-modulation/index.html</loc>
-    <lastmod>2026-10-27T22:39:49.647Z</lastmod>
+    <lastmod>2026-10-27T22:45:01.638Z</lastmod>
   </url>
   <url>
     <loc>https://patrikken.github.io/publications.html</loc>
-    <lastmod>2026-10-27T22:38:30.296Z</lastmod>
+    <lastmod>2026-10-27T22:43:48.272Z</lastmod>
   </url>
 </urlset>

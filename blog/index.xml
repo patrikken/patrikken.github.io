@@ -9,7 +9,7 @@
 <link>https://patrikken.github.io/blog/</link>
 <atom:link href="https://patrikken.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Patrik Kenfack is PhD Candidate in Computer Science at Mila/ÉTS Montréal.</description>
-<generator>quarto-1.10.19</generator>
+<generator>quarto-1.10.20</generator>
 <lastBuildDate>Thu, 15 Oct 2026 00:00:00 GMT</lastBuildDate>
 <item>
   <title>The “Hidden” Ensemble Inside Tabular Foundation Models</title>
@@ -378,13 +378,13 @@ Tabular Foundation Models.”</span> October 15. <a href="https://patrikken.gith
 <item>
   <title>Getting Started with Compute Clusters</title>
   <dc:creator>Patrik Kenfack</dc:creator>
-  <link>https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/</link>
+  <link>https://patrikken.github.io/blog/posts/getting-started-with-compute-clusters/</link>
   <description><![CDATA[ 
 
 
 
 
-<p><img src="https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/compute_cluster2.png" class="img-fluid"> ChatGPT generated image</p>
+<p><img src="https://patrikken.github.io/blog/posts/getting-started-with-compute-clusters/compute_cluster2.png" class="img-fluid"> ChatGPT generated image</p>
 <section id="digital-research-alliance-of-canada" class="level2">
 <h2 class="anchored" data-anchor-id="digital-research-alliance-of-canada">Digital Research Alliance of Canada</h2>
 <p><a href="https://alliancecan.ca/en">Digital Research Alliance of Canada</a> is a national research infrastructure that provides high-performance computing resources to researchers across Canada. It is a partnership between the Canadian government and the private sector.</p>
@@ -446,7 +446,7 @@ font-style: inherit;">&gt;</span>@beluga.alliancecan.ca</span></code></pre></div
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="login_node.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Example of ssh session on a login node. Login nodes generally have hostnames like beluga1, beluga2, etc."><img src="https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/login_node.png" class="img-fluid figure-img" alt="Example of ssh session on a login node. Login nodes generally have hostnames like beluga1, beluga2, etc."></a></p>
+<p><a href="login_node.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Example of ssh session on a login node. Login nodes generally have hostnames like beluga1, beluga2, etc."><img src="https://patrikken.github.io/blog/posts/getting-started-with-compute-clusters/login_node.png" class="img-fluid figure-img" alt="Example of ssh session on a login node. Login nodes generally have hostnames like beluga1, beluga2, etc."></a></p>
 <figcaption>Example of ssh session on a login node. Login nodes generally have hostnames like beluga1, beluga2, etc.</figcaption>
 </figure>
 </div>
@@ -460,7 +460,7 @@ font-style: inherit;">&gt;</span>@beluga.alliancecan.ca</span></code></pre></div
 <section id="file-system" class="level2">
 <h2 class="anchored" data-anchor-id="file-system">File System</h2>
 <p>One of the most important thing to know about Compute Canada is the file system. There are three types of file systems with different properties and limitations: <code>home</code>, <code>project</code>, <code>scratch</code></p>
-<p><img src="https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/file_system.png" class="img-fluid"> Directory structure on Beluga</p>
+<p><img src="https://patrikken.github.io/blog/posts/getting-started-with-compute-clusters/file_system.png" class="img-fluid"> Directory structure on Beluga</p>
 <p>The <code>home</code> directory has small quota, a fixed number of filesystem objects and smaller storage space (generally up to 25 GB) and has dearly backups. The <code>project</code> directory is meant for long-term storage of data that is shared across users linked to a sponsor. The <code>scratch</code> directory is meant for temporary storage of data and has a larger fixed quota per user and a larger storage space (generally above to 2 PB of space).</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -542,7 +542,7 @@ font-style: inherit;">#SBATCH --mem=1024M</span></span></code></pre></div></div>
 <li><code>#SBATCH --account=YOUR-PI-ACCOUNT</code> is the account of your PI, often <code>def-username</code>. To obtain what account you have access to, you can login to <a href="https://ccdb.alliancecan.ca/security/login">CCDB</a> and click on <strong>My Account -&gt; My Resources and Allocations</strong></li>
 </ul>
 <dl>
-<dt><img src="https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/rap_account.png" class="img-fluid" alt="This tells you what account you can use on a given cluster. For examples, on Cedar I can submit jobs using #SBATCH --account=YOUR-PI-ACCOUNT."></dt>
+<dt><img src="https://patrikken.github.io/blog/posts/getting-started-with-compute-clusters/rap_account.png" class="img-fluid" alt="This tells you what account you can use on a given cluster. For examples, on Cedar I can submit jobs using #SBATCH --account=YOUR-PI-ACCOUNT."></dt>
 <dd>
 The illustration above tells you what account you can use on a given cluster. For example, on <code>Cedar</code>, I can submit jobs using <code>#SBATCH --account=YOUR-PI-ACCOUNT</code>.
 </dd>
@@ -667,7 +667,7 @@ background-color: null;
 font-style: inherit;">=</span>1</span></code></pre></div></div>
 <p>Similarly to job scripts, parameters of the <code>salloc</code> command specify the resources you need for your interactive job session.</p>
 <p>The illustration below shows an interactive job session on the <code>Beluga</code> cluster.</p>
-<p><img src="https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/beluga_interactive.png" class="img-fluid"> Interactive job session on the Beluga cluster</p>
+<p><img src="https://patrikken.github.io/blog/posts/getting-started-with-compute-clusters/beluga_interactive.png" class="img-fluid"> Interactive job session on the Beluga cluster</p>
 <p>You can see that <code>salloc</code> moved us from a login node (<code>beluga3</code>) to a compute node (<code>bg12103</code>). This compute node has requested resources, i.e., 4 GPUs, 1 CPU core, 48 GB of memory and 30 minutes of time. However, before running your Python program interactively, you need to type commands to load the module and activate the virtual environment.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -696,9 +696,9 @@ font-style: inherit;">=</span>1</span></code></pre></div></div>
   <category>compute</category>
   <category>cluster</category>
   <category>training</category>
-  <guid>https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/</guid>
+  <guid>https://patrikken.github.io/blog/posts/getting-started-with-compute-clusters/</guid>
   <pubDate>Thu, 22 May 2025 00:00:00 GMT</pubDate>
-  <media:content url="https://patrikken.github.io/blog/posts/Getting Started with Compute Clusters/compute_cluster.png" medium="image" type="image/png" height="96" width="144"/>
+  <media:content url="https://patrikken.github.io/blog/posts/getting-started-with-compute-clusters/compute_cluster.png" medium="image" type="image/png" height="96" width="144"/>
 </item>
 </channel>
 </rss>

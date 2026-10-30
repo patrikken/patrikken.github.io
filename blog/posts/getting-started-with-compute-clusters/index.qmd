@@ -5,6 +5,8 @@ author: "Patrik Kenfack"
 date: "5/22/2025"
 image: "compute_cluster.png"
 toc: true
+aliases:
+  - "../Getting Started with Compute Clusters/index.html"
 categories:
  - compute
  - cluster

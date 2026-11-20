@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FairTFM Supplementary Results</title>
+<style>
+:root {
+  --bg: #f6f7f9; --panel: #ffffff; --text: #1d2330; --muted: #5d6676; --line: #dfe3ea;
+  --accent: #1f77b4; --accent-soft: #e6f0f8;
+  --done: #2e7d32; --run: #b26a00; --fail: #c62828; --pend: #8a93a3;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14171c; --panel: #1d2128; --text: #e6e9ef; --muted: #9aa3b2; --line: #2f3540;
+    --accent: #5aa7e0; --accent-soft: #1f3243;
+    --done: #66bb6a; --run: #ffb74d; --fail: #ef5350; --pend: #7d8696;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14171c; --panel: #1d2128; --text: #e6e9ef; --muted: #9aa3b2; --line: #2f3540;
+  --accent: #5aa7e0; --accent-soft: #1f3243;
+  --done: #66bb6a; --run: #ffb74d; --fail: #ef5350; --pend: #7d8696;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text);
+  font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+header { background: var(--panel); border-bottom: 1px solid var(--line); padding: 18px 24px 14px; }
+header h1 { margin: 0; font-size: 20px; font-weight: 650; }
+header p { margin: 4px 0 0; color: var(--muted); font-size: 14px; max-width: 980px; }
+.progress { display: flex; align-items: center; gap: 12px; margin-top: 10px; font-size: 13px; color: var(--muted); flex-wrap: wrap; }
+.bar { width: 220px; height: 7px; background: var(--line); border-radius: 4px; overflow: hidden; }
+.bar > div { height: 100%; background: var(--done); width: 0; transition: width .3s; }
+.controls { position: sticky; top: 0; z-index: 5; background: var(--panel); border-bottom: 1px solid var(--line);
+  padding: 10px 24px; display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; }
+.ctl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ctl > label { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 600; }
+select { font: inherit; padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); color: var(--text); max-width: 100%; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; flex-wrap: wrap; }
+.seg button { font: inherit; font-size: 14px; border: 0; background: transparent; color: var(--text); padding: 5px 12px; cursor: pointer; border-right: 1px solid var(--line); }
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+.seg button:disabled { color: var(--pend); cursor: default; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font: inherit; font-size: 13px; border: 1px solid var(--line); background: var(--panel); color: var(--text); border-radius: 999px; padding: 3px 10px; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); }
+.btn { font: inherit; font-size: 13px; border: 1px solid var(--line); background: var(--panel); color: var(--text); border-radius: 6px; padding: 5px 10px; cursor: pointer; }
+.btn:hover, .chip:hover { border-color: var(--accent); }
+main { padding: 18px 24px 40px; max-width: 1500px; margin: 0 auto; }
+h2 { font-size: 18px; margin: 0 0 6px; }
+.units { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 16px; }
+.unit { font-size: 12px; border-radius: 4px; padding: 2px 8px; border: 1px solid var(--line); color: var(--muted); }
+.unit .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; vertical-align: 1px; background: var(--pend); }
+.unit.done .dot { background: var(--done); } .unit.running .dot { background: var(--run); } .unit.failed .dot { background: var(--fail); }
+.unit.failed { color: var(--fail); border-color: var(--fail); }
+.grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.card-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 9px 14px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.card-h strong { font-size: 15px; }
+.card-h .links a { color: var(--accent); text-decoration: none; font-size: 13px; margin-left: 12px; }
+.card-h .links a:hover { text-decoration: underline; }
+.fig { background: #fff; display: block; }
+.fig img { display: block; width: 100%; height: auto; }
+.empty { padding: 42px 16px; text-align: center; color: var(--muted); font-size: 14px; background: var(--panel); }
+.empty.failed { color: var(--fail); }
+details.about { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; }
+details.about summary { cursor: pointer; font-weight: 600; }
+details.about ul { margin: 8px 0 2px; padding-left: 20px; color: var(--muted); font-size: 14px; }
+details.about li { margin: 2px 0; }
+.sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+.muted { color: var(--muted); font-size: 13px; }
+@media (max-width: 640px) {
+  header, .controls, main { padding-left: 16px; padding-right: 16px; }
+  .controls { position: static; }
+  .bar { width: 140px; }
+}
+</style>
+<style>/* public copy: hide build-progress UI */ .progress, .units { display: none !important; }</style>
+</head>
+<body>
+<header>
+  <h1>FairTFM — supplementary results</h1>
+  <p>Fairness–accuracy Pareto fronts of simple in-context interventions on tabular foundation models
+     (group-balanced and uncertainty-based context selection), CR and LAFTR, versus FairTFM — for every
+     dataset and sensitive attribute — plus t-SNE of the learned representations. Choose a task below.</p>
+  <div class="progress"><div class="bar"><div id="bar"></div></div><span id="prog">loading…</span>
+    <button class="btn" id="refresh" title="Reload the list of available results">Refresh</button>
+    <label class="muted"><input type="checkbox" id="auto"> auto-refresh (60 s)</label>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="ctl"><label for="ds">Dataset</label><select id="ds"></select></div>
+  <div class="ctl"><label>Sensitive attribute</label><div class="seg" id="attr"></div></div>
+  <div class="ctl"><label>View</label><div class="seg" id="view">
+    <button data-v="pareto">By base model</button><button data-v="overall">Averaged across datasets</button><button data-v="tsne">t-SNE</button></div></div>
+  <div class="ctl" id="metric-ctl"><label>Metric</label><div class="seg" id="metric">
+    <button data-v="accuracy">Accuracy</button><button data-v="auc">ROC-AUC</button></div></div>
+</div>
+
+<main>
+  <h2 id="task-title"></h2>
+  <div class="units" id="units"></div>
+  <div id="overall-extra">
+    <div class="ctl" style="margin-bottom:12px"><label>Average over</label><div class="seg" id="scope">
+      <button data-v="all">All datasets</button><button data-v="acs">ACS tasks</button><button data-v="other">Other datasets</button></div></div>
+    <details class="about"><summary>What is plotted</summary>
+      <ul>
+        <li>Each point is one configuration (a base model with one intervention setting, e.g. TabPFN + CR at one strength, or one FairTFM checkpoint). Its accuracy (or ROC-AUC) and |DP|, |EOD|, |EOP| differences are <b>averaged over every fully finished task</b> in the chosen group.</li>
+        <li><b>Colour</b> = intervention type, <b>marker</b> = base model. The black line is the single Pareto front over all points; points on it are bold, the others faint.</li>
+        <li>LAFTR: the adversary matches each panel's fairness notion. Tasks still running are left out until all their units finish (the title gives the number of tasks).</li>
+      </ul>
+    </details>
+  </div>
+  <div id="pareto-extra">
+    <div class="ctl" style="margin-bottom:12px"><label>Base models</label><div class="chips" id="bases"></div></div>
+    <details class="about"><summary>What is plotted</summary>
+      <ul>
+        <li>Each figure fixes one <b>base model</b> (TabICLv2, TabPFNv2.5, or a FairTFM model used as the predictor) and shows accuracy (or ROC-AUC) against DP, EOD and EOP differences; the black line is the Pareto front over all points.</li>
+        <li><span class="sw" style="background:#d62728"></span><b>Base model</b> on raw features, full training set as context.</li>
+        <li><span class="sw" style="background:#e377c2"></span><b>+ Group-Balanced</b>: context with equally many examples per sensitive group (Fair-TabICL).</li>
+        <li><span class="sw" style="background:#17becf"></span><b>+ Uncertain</b>: context restricted to examples whose sensitive attribute is uncertain under conformal prediction, swept over the coverage level α (Fair-TabICL).</li>
+        <li><span class="sw" style="background:#2ca02c"></span><b>CR +</b> base model: CorrelationRemover features, swept over its strength.</li>
+        <li><span class="sw" style="background:#8c564b"></span><b>LAFTR +</b> base model: LAFTR encoder features, swept over the adversarial weight γ (DP / EOD / EOP adversary on the matching panel).</li>
+        <li><span class="sw" style="background:#9467bd"></span><b>FairTFM emb. +</b> TabICLv2/TabPFNv2.5: FairTFM embeddings (every checkpoint) as features.</li>
+        <li><span class="sw" style="background:#1f77b4"></span><b>FairTFM</b>: end-to-end FairTFM predictions, every checkpoint of every FairTFM model.</li>
+        <li>Non-ACS datasets are subsampled to 7,000 training / 3,000 test examples (stratified); ACS tasks use 10,000 examples (__ACS__).</li>
+      </ul>
+    </details>
+  </div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<script>
+const CONFIG = {"tasks": [{"id": "acs_income/SEX", "dataset": "acs_income", "attr": "SEX", "acs": true, "title": "ACS Income (AL, 2018) \u00b7 Sex"}, {"id": "acs_income/AGEP", "dataset": "acs_income", "attr": "AGEP", "acs": true, "title": "ACS Income (AL, 2018) \u00b7 Age"}, {"id": "acs_income/RAC1P", "dataset": "acs_income", "attr": "RAC1P", "acs": true, "title": "ACS Income (AL, 2018) \u00b7 Race"}, {"id": "acs_employment/SEX", "dataset": "acs_employment", "attr": "SEX", "acs": true, "title": "ACS Employment (AL, 2018) \u00b7 Sex"}, {"id": "acs_employment/AGEP", "dataset": "acs_employment", "attr": "AGEP", "acs": true, "title": "ACS Employment (AL, 2018) \u00b7 Age"}, {"id": "acs_employment/RAC1P", "dataset": "acs_employment", "attr": "RAC1P", "acs": true, "title": "ACS Employment (AL, 2018) \u00b7 Race"}, {"id": "acs_mobility/SEX", "dataset": "acs_mobility", "attr": "SEX", "acs": true, "title": "ACS Mobility (AL, 2018) \u00b7 Sex"}, {"id": "acs_mobility/AGEP", "dataset": "acs_mobility", "attr": "AGEP", "acs": true, "title": "ACS Mobility (AL, 2018) \u00b7 Age"}, {"id": "acs_mobility/RAC1P", "dataset": "acs_mobility", "attr": "RAC1P", "acs": true, "title": "ACS Mobility (AL, 2018) \u00b7 Race"}, {"id": "acs_public_coverage/SEX", "dataset": "acs_public_coverage", "attr": "SEX", "acs": true, "title": "ACS Public Coverage (AL, 2018) \u00b7 Sex"}, {"id": "acs_public_coverage/AGEP", "dataset": "acs_public_coverage", "attr": "AGEP", "acs": true, "title": "ACS Public Coverage (AL, 2018) \u00b7 Age"}, {"id": "acs_public_coverage/RAC1P", "dataset": "acs_public_coverage", "attr": "RAC1P", "acs": true, "title": "ACS Public Coverage (AL, 2018) \u00b7 Race"}, {"id": "acs_travel_time/SEX", "dataset": "acs_travel_time", "attr": "SEX", "acs": true, "title": "ACS Travel Time (AL, 2018) \u00b7 Sex"}, {"id": "acs_travel_time/AGEP", "dataset": "acs_travel_time", "attr": "AGEP", "acs": true, "title": "ACS Travel Time (AL, 2018) \u00b7 Age"}, {"id": "acs_travel_time/RAC1P", "dataset": "acs_travel_time", "attr": "RAC1P", "acs": true, "title": "ACS Travel Time (AL, 2018) \u00b7 Race"}, {"id": "german/SEX", "dataset": "german", "attr": "SEX", "acs": false, "title": "German Credit \u00b7 Sex"}, {"id": "german/AGE", "dataset": "german", "attr": "AGE", "acs": false, "title": "German Credit \u00b7 Age"}, {"id": "celeba/Blond_Hair", "dataset": "celeba", "attr": "Blond_Hair", "acs": false, "title": "CelebA \u00b7 Blond hair"}, {"id": "celeba/Smiling", "dataset": "celeba", "attr": "Smiling", "acs": false, "title": "CelebA \u00b7 Smiling"}, {"id": "diabetes/RACE", "dataset": "diabetes", "attr": "RACE", "acs": false, "title": "Diabetes \u00b7 Race"}, {"id": "diabetes/SEX", "dataset": "diabetes", "attr": "SEX", "acs": false, "title": "Diabetes \u00b7 Sex"}, {"id": "lsac/RACE", "dataset": "lsac", "attr": "RACE", "acs": false, "title": "LSAC \u00b7 Race"}, {"id": "lsac/SEX", "dataset": "lsac", "attr": "SEX", "acs": false, "title": "LSAC \u00b7 Sex"}, {"id": "adult_income/SEX", "dataset": "adult_income", "attr": "SEX", "acs": false, "title": "Adult \u00b7 Sex"}, {"id": "adult_income/AGE", "dataset": "adult_income", "attr": "AGE", "acs": false, "title": "Adult \u00b7 Age"}, {"id": "adult_income/RACE", "dataset": "adult_income", "attr": "RACE", "acs": false, "title": "Adult \u00b7 Race"}, {"id": "compas/RACE", "dataset": "compas", "attr": "RACE", "acs": false, "title": "COMPAS \u00b7 Race"}], "datasets": {"acs_income": "ACS Income", "acs_employment": "ACS Employment", "acs_mobility": "ACS Mobility", "acs_public_coverage": "ACS Public Coverage", "acs_travel_time": "ACS Travel Time", "adult_income": "Adult", "german": "German Credit", "compas": "COMPAS", "lsac": "LSAC", "diabetes": "Diabetes", "celeba": "CelebA"}, "attrs": {"SEX": "Sex", "AGEP": "Age", "RAC1P": "Race", "AGE": "Age", "RACE": "Race", "Blond_Hair": "Blond hair", "Smiling": "Smiling"}, "bases": [{"label": "TabICLv2", "slug": "TabICL", "kind": "tfm"}, {"label": "TabPFNv2.5", "slug": "TabPFN", "kind": "tfm"}, {"label": "FairTFM-0.1", "slug": "FairTFM-0.1", "kind": "fairtfm"}, {"label": "FairTFM-0.7", "slug": "FairTFM-0.7", "kind": "fairtfm"}, {"label": "FairTFM-10", "slug": "FairTFM-10", "kind": "fairtfm"}, {"label": "FairTFM-25", "slug": "FairTFM-25", "kind": "fairtfm"}, {"label": "FairTFM-0.1 (scaled)", "slug": "FairTFM-0.1-scaled", "kind": "fairtfm"}], "units": ["select__TabICL", "embedding__TabICL", "select__TabPFN", "embedding__TabPFN", "select__FairTFM-0.1", "select__FairTFM-0.7", "select__FairTFM-10", "select__FairTFM-25", "select__FairTFM-0.1-scaled", "e2e", "tsne"], "acs": "AL, 2018"};
+const STATE = { task: null, view: "pareto", metric: "accuracy", scope: "all", bases: new Set(CONFIG.bases.map(b => b.slug)) };
+let M = { tasks: {} };
+const $ = id => document.getElementById(id);
+document.querySelector('details.about ul').innerHTML = document.querySelector('details.about ul').innerHTML.replace('__ACS__', CONFIG.acs);
+
+const datasets = [...new Set(CONFIG.tasks.map(t => t.dataset))];
+const tasksOf = ds => CONFIG.tasks.filter(t => t.dataset === ds);
+const unitLabel = u => u === "e2e" ? "FairTFM end-to-end" : u === "tsne" ? "t-SNE"
+  : u.replace("select__", "").replace("embedding__", "FairTFM emb. → ").replace("-scaled", " (scaled)")
+  .replace(/\bTabICL\b/, "TabICLv2").replace(/\bTabPFN\b/, "TabPFNv2.5");
+
+function loadManifest(cb) {
+  const s = document.createElement("script");
+  s.src = "manifest.js?t=" + Date.now();
+  s.onload = () => { M = window.SUPP_MANIFEST || { tasks: {} }; s.remove(); cb && cb(); };
+  s.onerror = () => { s.remove(); cb && cb(); };
+  document.head.appendChild(s);
+}
+
+function unitState(taskId, u) {
+  const st = ((M.tasks[taskId] || {}).status || {})[u];
+  return st ? st.state : "pending";
+}
+
+function buildDatasetSelect() {
+  const sel = $("ds"); sel.innerHTML = "";
+  for (const [label, acs] of [["ACS (" + CONFIG.acs + ")", true], ["Other fairness datasets", false]]) {
+    const g = document.createElement("optgroup"); g.label = label;
+    datasets.filter(d => tasksOf(d)[0].acs === acs).forEach(d => {
+      const o = document.createElement("option"); o.value = d; o.textContent = CONFIG.datasets[d] || d; g.appendChild(o);
+    });
+    sel.appendChild(g);
+  }
+  sel.onchange = () => { const t = tasksOf(sel.value)[0]; setTask(t.id); };
+}
+
+function renderProgress() {
+  let done = 0, total = 0, complete = 0;
+  for (const t of CONFIG.tasks) {
+    const states = CONFIG.units.map(u => unitState(t.id, u));
+    done += states.filter(s => s === "done").length; total += states.length;
+    if (states.every(s => s === "done")) complete++;
+  }
+  $("bar").style.width = (100 * done / total).toFixed(1) + "%";
+  $("prog").textContent = `${done}/${total} units done · ${complete}/${CONFIG.tasks.length} tasks complete` +
+    (M.generated ? ` · updated ${M.generated}` : " · no results yet");
+}
+
+function figure(taskId, file, title, emptyState) {
+  const files = (M.tasks[taskId] || {}).files || {};
+  const dir = taskId + "/";
+  const card = document.createElement("div"); card.className = "card";
+  const pdf = file.replace(/\.png$/, ".pdf");
+  const has = file in files;
+  card.innerHTML = `<div class="card-h"><strong>${title}</strong><span class="links">` +
+    (has ? `<a href="${dir}${file}?v=${files[file]}" target="_blank">PNG</a>` : "") +
+    (pdf in files ? `<a href="${dir}${pdf}?v=${files[pdf]}" target="_blank">PDF</a>` : "") + `</span></div>`;
+  if (has) {
+    const a = document.createElement("a"); a.className = "fig"; a.href = dir + file + "?v=" + files[file]; a.target = "_blank";
+    const img = document.createElement("img"); img.loading = "lazy"; img.alt = title; img.src = dir + file + "?v=" + files[file];
+    a.appendChild(img); card.appendChild(a);
+  } else {
+    const e = document.createElement("div"); e.className = "empty" + (emptyState === "failed" ? " failed" : "");
+    e.textContent = { running: "Running — the figure will appear when this unit finishes.",
+                      failed: "This unit failed (see the status above).",
+                      pending: "Not started yet." }[emptyState] || "Not available yet.";
+    card.appendChild(e);
+  }
+  return card;
+}
+
+function overallFigure(file, title) {
+  const files = M.overall || {}, pdf = file.replace(/\.png$/, ".pdf");
+  const card = document.createElement("div"); card.className = "card";
+  card.innerHTML = `<div class="card-h"><strong>${title}</strong><span class="links">` +
+    (file in files ? `<a href="${file}?v=${files[file]}" target="_blank">PNG</a>` : "") +
+    (pdf in files ? `<a href="${pdf}?v=${files[pdf]}" target="_blank">PDF</a>` : "") + `</span></div>` +
+    (file in files ? `<a class="fig" href="${file}?v=${files[file]}" target="_blank"><img alt="${title}" src="${file}?v=${files[file]}"></a>`
+                   : `<div class="empty">Not available yet (needs at least one fully finished task).</div>`);
+  return card;
+}
+
+function render() {
+  const t = CONFIG.tasks.find(x => x.id === STATE.task);
+  $("ds").value = t.dataset;
+  const attrBox = $("attr"); attrBox.innerHTML = "";
+  tasksOf(t.dataset).forEach(x => {
+    const b = document.createElement("button"); b.textContent = CONFIG.attrs[x.attr] || x.attr;
+    b.setAttribute("aria-pressed", x.id === t.id); b.onclick = () => setTask(x.id); attrBox.appendChild(b);
+  });
+  document.querySelectorAll("#view button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === STATE.view));
+  document.querySelectorAll("#metric button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === STATE.metric));
+  $("metric-ctl").style.display = STATE.view !== "tsne" ? "" : "none";
+  const ov = STATE.view === "overall";
+  $("overall-extra").style.display = ov ? "" : "none";
+  document.querySelectorAll("#scope button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === STATE.scope));
+  $("task-title").style.visibility = $("units").style.visibility = ov ? "hidden" : "";
+  $("ds").disabled = ov; $("attr").style.opacity = ov ? 0.4 : 1; $("attr").style.pointerEvents = ov ? "none" : "";
+  $("pareto-extra").style.display = STATE.view === "pareto" ? "" : "none";
+  $("task-title").textContent = t.title;
+
+  const units = $("units"); units.innerHTML = "";
+  CONFIG.units.forEach(u => {
+    const s = unitState(t.id, u), info = ((M.tasks[t.id] || {}).status || {})[u];
+    const el = document.createElement("span"); el.className = "unit " + s;
+    el.innerHTML = `<span class="dot"></span>${unitLabel(u)}`;
+    el.title = s + (info ? ` · ${info.time}` + (info.error ? `\n${info.error}` : "") : "");
+    units.appendChild(el);
+  });
+
+  const chips = $("bases"); chips.innerHTML = "";
+  CONFIG.bases.forEach(b => {
+    const c = document.createElement("button"); c.className = "chip"; c.textContent = b.label;
+    c.setAttribute("aria-pressed", STATE.bases.has(b.slug));
+    c.onclick = () => { STATE.bases.has(b.slug) ? STATE.bases.delete(b.slug) : STATE.bases.add(b.slug); render(); };
+    chips.appendChild(c);
+  });
+
+  const grid = $("grid"); grid.innerHTML = "";
+  if (STATE.view === "tsne") {
+    grid.appendChild(figure(t.id, "tsne.png", "t-SNE of test-set representations (top: coloured by sensitive group, bottom: by label)", unitState(t.id, "tsne")));
+  } else if (STATE.view === "overall") {
+    grid.appendChild(overallFigure(`across_datasets_${STATE.scope}_${STATE.metric}.png`,
+      "Averaged across " + { all: "all datasets", acs: "ACS tasks", other: "other fairness datasets" }[STATE.scope]));
+  } else {
+    CONFIG.bases.filter(b => STATE.bases.has(b.slug)).forEach(b => {
+      const st = unitState(t.id, "select__" + b.slug);
+      grid.appendChild(figure(t.id, `pareto_${b.slug}_${STATE.metric}.png`, "Base model: " + b.label, st));
+    });
+    if (!grid.children.length) grid.innerHTML = '<p class="muted">Select at least one base model.</p>';
+  }
+  renderProgress();
+  const hash = `#${t.id}/${STATE.view}/${STATE.metric}` + (STATE.view === "overall" ? `/${STATE.scope}` : "");
+  if (location.hash !== hash) history.replaceState(null, "", hash);
+}
+
+function setTask(id) { STATE.task = id; render(); }
+document.querySelectorAll("#view button").forEach(b => b.onclick = () => { STATE.view = b.dataset.v; render(); });
+document.querySelectorAll("#scope button").forEach(b => b.onclick = () => { STATE.scope = b.dataset.v; render(); });
+document.querySelectorAll("#metric button").forEach(b => b.onclick = () => { STATE.metric = b.dataset.v; render(); });
+$("refresh").onclick = () => loadManifest(render);
+let timer = null;
+$("auto").onchange = e => { clearInterval(timer); if (e.target.checked) timer = setInterval(() => loadManifest(render), 60000); };
+
+function fromHash() {
+  const parts = decodeURIComponent(location.hash.slice(1)).split("/");
+  const id = parts.slice(0, 2).join("/");
+  if (CONFIG.tasks.some(t => t.id === id)) STATE.task = id;
+  if (["pareto", "overall", "tsne"].includes(parts[2])) STATE.view = parts[2];
+  if (["all", "acs", "other"].includes(parts[4])) STATE.scope = parts[4];
+  if (["accuracy", "auc"].includes(parts[3])) STATE.metric = parts[3];
+}
+STATE.task = CONFIG.tasks[0].id;
+fromHash();
+window.addEventListener("hashchange", () => { fromHash(); render(); });
+buildDatasetSelect();
+loadManifest(render);
+</script>
+</body>
+</html>

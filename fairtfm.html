@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.20">
+<meta name="generator" content="quarto-1.11.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -73,14 +73,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="./">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-17888a1159294d3eb470f19f6f52f5a5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9a9524da841478890ad76d7a8decf0b6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-e0e0bf318eaca6fdc578b45dd5caff53.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -120,14 +121,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="twitter:card" content="summary">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed fullcontent quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
       <div class="navbar-container container-fluid">
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -154,6 +154,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
+            <div id="quarto-search" class="" title="Search"></div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -163,7 +164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content" tabindex="-1"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
@@ -173,157 +174,81 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre>Collecting fairtfm
-
   Downloading fairtfm-1.0.0-py3-none-any.whl.metadata (5.3 kB)
-
 Collecting torch&gt;=2.9 (from fairtfm)
-
   Downloading torch-2.14.0-cp310-cp310-macosx_14_0_arm64.whl.metadata (38 kB)
-
 Requirement already satisfied: numpy&gt;=1.24.0 in ./.venv/lib/python3.10/site-packages (from fairtfm) (2.2.6)
-
 Requirement already satisfied: pandas&gt;=2.0.0 in ./.venv/lib/python3.10/site-packages (from fairtfm) (2.3.0)
-
 Requirement already satisfied: scikit-learn&gt;=1.3.0 in ./.venv/lib/python3.10/site-packages (from fairtfm) (1.6.1)
-
 Collecting fairlearn&gt;=0.13.0 (from fairtfm)
-
   Downloading fairlearn-0.14.0-py3-none-any.whl.metadata (7.3 kB)
-
 Collecting huggingface_hub&gt;=0.20 (from fairtfm)
-
   Downloading huggingface_hub-1.30.0-py3-none-any.whl.metadata (16 kB)
-
 Collecting narwhals&gt;=1.14.0 (from fairlearn&gt;=0.13.0-&gt;fairtfm)
-
   Downloading narwhals-2.26.0-py3-none-any.whl.metadata (15 kB)
-
 Requirement already satisfied: scipy&gt;=1.9.3 in ./.venv/lib/python3.10/site-packages (from fairlearn&gt;=0.13.0-&gt;fairtfm) (1.15.3)
-
 Collecting click&lt;9.0.0,&gt;=8.4.2 (from huggingface_hub&gt;=0.20-&gt;fairtfm)
-
   Using cached click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
-
 Collecting filelock&gt;=3.10.0 (from huggingface_hub&gt;=0.20-&gt;fairtfm)
-
   Downloading filelock-3.32.6-py3-none-any.whl.metadata (2.0 kB)
-
 Collecting fsspec&gt;=2023.5.0 (from huggingface_hub&gt;=0.20-&gt;fairtfm)
-
   Using cached fsspec-2026.7.0-py3-none-any.whl.metadata (10 kB)
-
 Collecting hf-xet&lt;2.0.0,&gt;=1.5.2 (from huggingface_hub&gt;=0.20-&gt;fairtfm)
-
   Using cached hf_xet-1.6.0-cp38-abi3-macosx_11_0_arm64.whl.metadata (4.9 kB)
-
 Requirement already satisfied: httpx&lt;1,&gt;=0.23.0 in ./.venv/lib/python3.10/site-packages (from huggingface_hub&gt;=0.20-&gt;fairtfm) (0.28.1)
-
 Requirement already satisfied: packaging&gt;=20.9 in ./.venv/lib/python3.10/site-packages (from huggingface_hub&gt;=0.20-&gt;fairtfm) (25.0)
-
 Requirement already satisfied: pyyaml&gt;=5.1 in ./.venv/lib/python3.10/site-packages (from huggingface_hub&gt;=0.20-&gt;fairtfm) (6.0.2)
-
 Collecting tqdm&gt;=4.42.1 (from huggingface_hub&gt;=0.20-&gt;fairtfm)
-
   Using cached tqdm-4.70.0-py3-none-any.whl.metadata (57 kB)
-
 Requirement already satisfied: typing-extensions&gt;=4.1.0 in ./.venv/lib/python3.10/site-packages (from huggingface_hub&gt;=0.20-&gt;fairtfm) (4.14.0)
-
 Requirement already satisfied: anyio in ./.venv/lib/python3.10/site-packages (from httpx&lt;1,&gt;=0.23.0-&gt;huggingface_hub&gt;=0.20-&gt;fairtfm) (4.9.0)
-
 Requirement already satisfied: certifi in ./.venv/lib/python3.10/site-packages (from httpx&lt;1,&gt;=0.23.0-&gt;huggingface_hub&gt;=0.20-&gt;fairtfm) (2025.4.26)
-
 Requirement already satisfied: httpcore==1.* in ./.venv/lib/python3.10/site-packages (from httpx&lt;1,&gt;=0.23.0-&gt;huggingface_hub&gt;=0.20-&gt;fairtfm) (1.0.9)
-
 Requirement already satisfied: idna in ./.venv/lib/python3.10/site-packages (from httpx&lt;1,&gt;=0.23.0-&gt;huggingface_hub&gt;=0.20-&gt;fairtfm) (3.10)
-
 Requirement already satisfied: h11&gt;=0.16 in ./.venv/lib/python3.10/site-packages (from httpcore==1.*-&gt;httpx&lt;1,&gt;=0.23.0-&gt;huggingface_hub&gt;=0.20-&gt;fairtfm) (0.16.0)
-
 Requirement already satisfied: python-dateutil&gt;=2.8.2 in ./.venv/lib/python3.10/site-packages (from pandas&gt;=2.0.0-&gt;fairtfm) (2.9.0.post0)
-
 Requirement already satisfied: pytz&gt;=2020.1 in ./.venv/lib/python3.10/site-packages (from pandas&gt;=2.0.0-&gt;fairtfm) (2025.2)
-
 Requirement already satisfied: tzdata&gt;=2022.7 in ./.venv/lib/python3.10/site-packages (from pandas&gt;=2.0.0-&gt;fairtfm) (2025.2)
-
 Requirement already satisfied: six&gt;=1.5 in ./.venv/lib/python3.10/site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas&gt;=2.0.0-&gt;fairtfm) (1.17.0)
-
 Requirement already satisfied: joblib&gt;=1.2.0 in ./.venv/lib/python3.10/site-packages (from scikit-learn&gt;=1.3.0-&gt;fairtfm) (1.5.1)
-
 Requirement already satisfied: threadpoolctl&gt;=3.1.0 in ./.venv/lib/python3.10/site-packages (from scikit-learn&gt;=1.3.0-&gt;fairtfm) (3.6.0)
-
 Collecting setuptools&gt;=77.0.3 (from torch&gt;=2.9-&gt;fairtfm)
-
   Using cached setuptools-84.0.0-py3-none-any.whl.metadata (6.6 kB)
-
 Collecting sympy&gt;=1.13.3 (from torch&gt;=2.9-&gt;fairtfm)
-
   Using cached sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
-
 Collecting networkx&gt;=2.5.1 (from torch&gt;=2.9-&gt;fairtfm)
-
   Using cached networkx-3.4.2-py3-none-any.whl.metadata (6.3 kB)
-
 Requirement already satisfied: jinja2 in ./.venv/lib/python3.10/site-packages (from torch&gt;=2.9-&gt;fairtfm) (3.1.6)
-
 Collecting mpmath&lt;1.4,&gt;=1.1.0 (from sympy&gt;=1.13.3-&gt;torch&gt;=2.9-&gt;fairtfm)
-
   Using cached mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
-
 Requirement already satisfied: exceptiongroup&gt;=1.0.2 in ./.venv/lib/python3.10/site-packages (from anyio-&gt;httpx&lt;1,&gt;=0.23.0-&gt;huggingface_hub&gt;=0.20-&gt;fairtfm) (1.3.0)
-
 Requirement already satisfied: sniffio&gt;=1.1 in ./.venv/lib/python3.10/site-packages (from anyio-&gt;httpx&lt;1,&gt;=0.23.0-&gt;huggingface_hub&gt;=0.20-&gt;fairtfm) (1.3.1)
-
 Requirement already satisfied: MarkupSafe&gt;=2.0 in ./.venv/lib/python3.10/site-packages (from jinja2-&gt;torch&gt;=2.9-&gt;fairtfm) (3.0.2)
-
 Downloading fairtfm-1.0.0-py3-none-any.whl (15 kB)
-
 Downloading fairlearn-0.14.0-py3-none-any.whl (135 kB)
-
 Downloading huggingface_hub-1.30.0-py3-none-any.whl (796 kB)
-
    <span class="ansi-bright-black-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-green-fg">796.8/796.8 kB</span> <span class="ansi-red-fg">3.9 MB/s</span> eta <span class="ansi-cyan-fg">0:00:00</span>
-
 Using cached click-8.5.0-py3-none-any.whl (125 kB)
-
 Using cached hf_xet-1.6.0-cp38-abi3-macosx_11_0_arm64.whl (3.9 MB)
-
 Downloading filelock-3.32.6-py3-none-any.whl (100 kB)
-
 Using cached fsspec-2026.7.0-py3-none-any.whl (206 kB)
-
 Downloading narwhals-2.26.0-py3-none-any.whl (474 kB)
-
 Downloading torch-2.14.0-cp310-cp310-macosx_14_0_arm64.whl (127.2 MB)
-
    <span class="ansi-bright-black-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-green-fg">127.2/127.2 MB</span> <span class="ansi-red-fg">9.4 MB/s</span> eta <span class="ansi-cyan-fg">0:00:00</span>00:0100:01
-
 Using cached networkx-3.4.2-py3-none-any.whl (1.7 MB)
-
 Using cached setuptools-84.0.0-py3-none-any.whl (818 kB)
-
 Using cached sympy-1.14.0-py3-none-any.whl (6.3 MB)
-
 Using cached mpmath-1.3.0-py3-none-any.whl (536 kB)
-
 Using cached tqdm-4.70.0-py3-none-any.whl (80 kB)
-
 Installing collected packages: mpmath, tqdm, sympy, setuptools, networkx, narwhals, hf-xet, fsspec, filelock, click, torch, fairlearn, huggingface_hub, fairtfm
-
   Attempting uninstall: setuptools━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class="ansi-green-fg"> 2/14</span> [sympy]
-
     Found existing installation: setuptools 57.4.0━━━━━━━━━━━━ <span class="ansi-green-fg"> 2/14</span> [sympy]
-
     Uninstalling setuptools-57.4.0:━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class="ansi-green-fg"> 2/14</span> [sympy]
-
       Successfully uninstalled setuptools-57.4.0━━━━━━━━━━━━━━━━━━ <span class="ansi-green-fg"> 3/14</span> [setuptools]
-
    <span class="ansi-bright-black-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-green-fg">14/14</span> [fairtfm]2/14 [huggingface_hub]
-
 Successfully installed click-8.5.0 fairlearn-0.14.0 fairtfm-1.0.0 filelock-3.32.6 fsspec-2026.7.0 hf-xet-1.6.0 huggingface_hub-1.30.0 mpmath-1.3.0 narwhals-2.26.0 networkx-3.4.2 setuptools-84.0.0 sympy-1.14.0 torch-2.14.0 tqdm-4.70.0
 
-
-
 <span class="ansi-bold">[</span><span class="ansi-blue-fg">notice</span><span class="ansi-bold">]</span> A new release of pip is available: <span class="ansi-red-fg">25.1.1</span> -&gt; <span class="ansi-green-fg">26.2.1</span>
-
 <span class="ansi-bold">[</span><span class="ansi-blue-fg">notice</span><span class="ansi-bold">]</span> To update, run: <span class="ansi-green-fg">pip install --upgrade pip</span>
 </pre>
 </div>
@@ -596,7 +521,8 @@ AUC: 0.8661</code></pre>
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
       // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
       for (var i=0; i<links.length; i++) {
         const link = links[i];
         if (!isInternal(link.href)) {
@@ -605,8 +531,69 @@ AUC: 0.8661</code></pre>
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+          if (!link.classList.contains('no-external-icon')) {
+          }
         }
       }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
       const config = {
         allowHTML: true,
@@ -620,6 +607,7 @@ AUC: 0.8661</code></pre>
         interactiveBorder: 10,
         theme: 'quarto',
         placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
       };
       if (contentFn) {
         config.content = contentFn;
@@ -782,44 +770,54 @@ AUC: 0.8661</code></pre>
           const lineIds = lines.map((line) => {
             return targetCell + "-" + line;
           })
-          let top = null;
-          let height = null;
-          let parent = null;
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
           if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
             }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
             }
+            placeBand(gutterDiv, el, lastEl);
             selectedAnnoteEl = annoteEl;
           }
         };
@@ -917,6 +915,9 @@ AUC: 0.8661</code></pre>
       }
     }
   });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
   </script>
 </div> <!-- /content -->
 <footer class="footer">

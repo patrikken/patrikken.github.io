@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Patrik Kenfack">
+<meta name="dcterms.date" content="2026-11-17">
+<meta name="description" content="A tabular foundation model never trains on your data, so the context is the only thing you control. We tried three ways of building a fairer context. Two of the obvious ones fail; the one that works hides the sensitive attribute.">
+
+<title>Can You Make a Tabular Foundation Model Fairer by Choosing Its Context? – Patrik Kenfack</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-461db138dff11861648052134e63ae91.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="google-site-verification" content="M8A4BiKiuitR_uKLIW6mMiwPyXpL1nCneyw04t8F66U">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../post.css">
+<meta property="og:title" content="Can You Make a Tabular Foundation Model Fairer by Choosing Its Context? – Patrik Kenfack">
+<meta property="og:description" content="A tabular foundation model never trains on your data, so the context is the only thing you control. We tried three ways of building a fairer context. Two of the obvious ones fail; the one that works hides the sensitive attribute.">
+<meta property="og:image" content="https://patrikken.github.io/blog/posts/fair-in-context-learning/share.png">
+<meta property="og:site_name" content="Patrik Kenfack">
+<meta property="og:image:alt" content="Title card: Can you make a tabular foundation model fairer by choosing its context?">
+<meta property="og:image:height" content="630">
+<meta property="og:image:width" content="1200">
+<meta name="twitter:title" content="Can You Make a Tabular Foundation Model Fairer by Choosing Its Context? – Patrik Kenfack">
+<meta name="twitter:description" content="A tabular foundation model never trains on your data, so the context is the only thing you control. We tried three ways of building a fairer context. Two of the obvious ones fail; the one that works hides the sensitive attribute.">
+<meta name="twitter:image" content="https://patrikken.github.io/blog/posts/fair-in-context-learning/share.png">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="floating nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../publications.html"> 
+<span class="menu-text">Publications</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../CV.html"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../blog"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+            <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Section">
+    <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-setup" id="toc-the-setup" class="nav-link active" data-scroll-target="#the-setup">The setup</a></li>
+  <li><a href="#three-ways-to-build-a-fairer-context" id="toc-three-ways-to-build-a-fairer-context" class="nav-link" data-scroll-target="#three-ways-to-build-a-fairer-context">Three ways to build a fairer context</a></li>
+  <li><a href="#how-to-read-the-plots" id="toc-how-to-read-the-plots" class="nav-link" data-scroll-target="#how-to-read-the-plots">How to read the plots</a></li>
+  <li><a href="#what-we-found" id="toc-what-we-found" class="nav-link" data-scroll-target="#what-we-found">What we found</a>
+  <ul class="collapse">
+  <li><a href="#picking-uncertain-rows-works-the-other-two-dont" id="toc-picking-uncertain-rows-works-the-other-two-dont" class="nav-link" data-scroll-target="#picking-uncertain-rows-works-the-other-two-dont">Picking uncertain rows works; the other two don’t</a></li>
+  <li><a href="#why-correlation-removal-backfires" id="toc-why-correlation-removal-backfires" class="nav-link" data-scroll-target="#why-correlation-removal-backfires">Why correlation removal backfires</a></li>
+  <li><a href="#does-the-choice-of-tfm-matter" id="toc-does-the-choice-of-tfm-matter" class="nav-link" data-scroll-target="#does-the-choice-of-tfm-matter">Does the choice of TFM matter?</a></li>
+  </ul></li>
+  <li><a href="#takeaways" id="toc-takeaways" class="nav-link" data-scroll-target="#takeaways">Takeaways</a></li>
+  <li><a href="#paper-and-code" id="toc-paper-and-code" class="nav-link" data-scroll-target="#paper-and-code">Paper and code</a></li>
+  
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Can You Make a Tabular Foundation Model Fairer by Choosing Its Context?</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">tabular foundation models</div>
+    <div class="quarto-category">fairness</div>
+    <div class="quarto-category">in-context learning</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    A tabular foundation model never trains on your data, so the context is the only thing you control. We tried three ways of building a fairer context. Two of the obvious ones fail; the one that works hides the sensitive attribute.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Patrik Kenfack </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 17, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Tabular foundation models (TFMs) such as <a href="https://github.com/PriorLabs/TabPFN">TabPFN</a>, <a href="https://github.com/soda-inria/tabicl">TabICL</a> and <a href="https://github.com/layer6ai-labs/TabDPT-inference">TabDPT</a> don’t train on your data. You pass your labelled rows in as <em>context</em>, and the model predicts the labels of new rows in a single forward pass. Its weights never change.</p>
+<p>That is convenient, and it is a problem for fairness. Most bias-mitigation methods need a training loop: they add a fairness penalty to the loss, reweight the training examples, or train an adversary. A TFM has no training loop on your data. <strong>The only thing you control is the context.</strong></p>
+<p>So in <a href="https://openreview.net/forum?id=AsBhwD0sqo"><em>Towards Fair In-Context Learning with Tabular Foundation Models</em></a> (TMLR 2026, with Samira Ebrahimi Kahou and Ulrich Aïvodji), we asked a simple question: can choosing or transforming the context rows make a TFM’s predictions fairer?</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>TL;DR
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Yes, but not in the obvious ways. Removing correlations with the sensitive attribute made predictions <em>less</em> fair, and balancing the groups in the context barely changed anything. What worked was keeping only the context rows whose sensitive attribute is hard to guess.</p>
+</div>
+</div>
+<section id="the-setup" class="level2">
+<h2 class="anchored" data-anchor-id="the-setup">The setup</h2>
+<p>The running example throughout this post is <strong>ACSIncome</strong>, a task from the <a href="https://github.com/socialfoundations/folktables">folktables</a> library, which builds prediction tasks from US Census data (the American Community Survey). The goal is to predict whether a person earns more than $50,000 a year, among people over 16 who worked at least one hour a week in the past year and earned at least $100. The sensitive attribute is sex, and we use the 2018 data for Alabama, one of the states with the largest fairness gaps in folktables. The paper repeats every experiment on seven more datasets (four more folktables tasks, Diabetes, German Credit and CelebA) with TabPFNv2, TabICL and TabDPT, and the conclusions hold across them.</p>
+<p>We measure fairness with three group metrics, each reported as a gap between groups in percentage points (0 means parity):</p>
+<ul>
+<li><strong>Demographic parity (DP):</strong> do women and men get positive predictions at the same rate?</li>
+<li><strong>Equal opportunity (EOP):</strong> among people who truly earn more than $50,000, are women and men recognised at the same rate?</li>
+<li><strong>Equalized odds (EOD):</strong> are both the true-positive and false-positive rates equal across the two groups?</li>
+</ul>
+<p>Out of the box, TFMs are not fair. On ACSIncome, TabPFNv2 reaches about 81% accuracy with a demographic-parity gap of about 14 points: it predicts “earns more than $50,000” for one sex 14 points more often than for the other.</p>
+</section>
+<section id="three-ways-to-build-a-fairer-context" class="level2">
+<h2 class="anchored" data-anchor-id="three-ways-to-build-a-fairer-context">Three ways to build a fairer context</h2>
+<p>We tried three pre-processing interventions. All three change only the context, so they work with any TFM without retraining it.</p>
+<ol type="1">
+<li><strong>Correlation removal.</strong> Transform the features so they are no longer linearly correlated with the sensitive attribute. This is a classic method, available in <a href="https://fairlearn.org">Fairlearn</a> as <a href="https://fairlearn.org/main/api_reference/generated/fairlearn.preprocessing.CorrelationRemover.html"><code>CorrelationRemover</code></a>. The standard recipe transforms both the context and the test rows, and a parameter <span class="math inline">\(\alpha\)</span> sets how much correlation to remove.</li>
+<li><strong>Group-balanced context.</strong> Sample the context so women and men contribute the same number of rows.</li>
+<li><strong>Uncertainty-based context (ours).</strong> Train a small classifier to predict sex from the other features, then keep in the context only the rows where that classifier is <em>unsure</em>.</li>
+</ol>
+<p>The third method needs a word on “unsure”. We use <a href="https://arxiv.org/abs/2107.07511">conformal prediction</a> (through the <a href="https://github.com/scikit-learn-contrib/MAPIE">MAPIE</a> library). Instead of a single guess, a conformal predictor returns a <em>set</em> of plausible groups, with a guarantee that the true group is in the set at least <span class="math inline">\(1-\epsilon\)</span> of the time. A row whose set contains both groups is one where the features don’t give the person’s sex away, and those are the rows we keep. The coverage parameter <span class="math inline">\(\epsilon\)</span> becomes a dial: the smaller it is, the stricter the selection. We tried two classifiers for this step, a logistic regression and TabPFN itself.</p>
+<p>The intuition: a TFM picks up bias from the context by learning how the features that reveal sex relate to income. <strong>If the context rows don’t reveal sex, there’s much less of that shortcut to learn.</strong></p>
+</section>
+<section id="how-to-read-the-plots" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-read-the-plots">How to read the plots</h2>
+<p>Every result below is a <strong>fairness–accuracy plot</strong> (<a href="#fig-howto" class="quarto-xref">Figure&nbsp;1</a>). Each dot is one configuration: one method at one setting of its parameter, averaged over three random splits of the data. Accuracy is on the vertical axis (higher is better) and the fairness gap is on the horizontal axis (lower is better), so <strong>the best place to be is the top-left corner.</strong></p>
+<div id="fig-howto" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Schematic scatter plot of accuracy against fairness gap, with a Pareto front line running from a red star at the top right towards the left, and grey dominated points below it.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-howto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="fig_how_to_read.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: How to read a fairness–accuracy plot. This one is a made-up illustration, not real results."><img src="fig_how_to_read.png" class="img-fluid figure-img" style="width:80.0%" alt="Schematic scatter plot of accuracy against fairness gap, with a Pareto front line running from a red star at the top right towards the left, and grey dominated points below it."></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-howto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: How to read a fairness–accuracy plot. This one is a made-up illustration, not real results.
+</figcaption>
+</figure>
+</div>
+<p>Fairness and accuracy usually pull against each other, so there is rarely a single best configuration. Instead, we look for configurations that can’t be beaten on both at once:</p>
+<ul>
+<li>A configuration is <strong>dominated</strong> if some other configuration is both fairer <em>and</em> at least as accurate. There’s no reason to ever pick it.</li>
+<li>The configurations that aren’t dominated form the <strong>Pareto front</strong>: the line of best available trade-offs. Moving along the front, you can only gain fairness by giving up some accuracy, and the other way round.</li>
+<li>A method with a parameter (<span class="math inline">\(\epsilon\)</span>, <span class="math inline">\(\alpha\)</span>) traces its own front as the parameter varies. A method with no parameter, like the unmodified model or the group-balanced context, is a single point, drawn as a star.</li>
+</ul>
+<p>To compare two methods, compare their fronts. <strong>If one front lies above and to the left of another, that method gives a better trade-off at every level of fairness.</strong> In the paper’s plots, faded dots are dominated configurations and solid lines with bold markers are each method’s front. There are three panels per figure, one per fairness metric.</p>
+</section>
+<section id="what-we-found" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="what-we-found">What we found</h2>
+<section id="picking-uncertain-rows-works-the-other-two-dont" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="picking-uncertain-rows-works-the-other-two-dont">Picking uncertain rows works; the other two don’t</h3>
+<p><a href="#fig-tradeoff" class="quarto-xref">Figure&nbsp;2</a> shows all five approaches on ACSIncome with TabPFN.</p>
+<div id="fig-tradeoff" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="Three panels of accuracy against fairness violation for demographic parity, equal opportunity and equalized odds. Uncertainty-based selection curves run left from the unmodified model; correlation removal sits far to the right at much higher violation.">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-tradeoff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="fig_tradeoff_acsincome.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Fairness–accuracy plot on ACSIncome with TabPFN. Stars: the unmodified model (blue) and the group-balanced context (red). Lines: the Pareto front of each method as its parameter varies. Top-left is better."><img src="fig_tradeoff_acsincome.png" class="img-fluid figure-img column-page-right" alt="Three panels of accuracy against fairness violation for demographic parity, equal opportunity and equalized odds. Uncertainty-based selection curves run left from the unmodified model; correlation removal sits far to the right at much higher violation."></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tradeoff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Fairness–accuracy plot on ACSIncome with TabPFN. Stars: the unmodified model (blue) and the group-balanced context (red). Lines: the Pareto front of each method as its parameter varies. Top-left is better.
+</figcaption>
+</figure>
+</div>
+<p>Start with the blue star, the unmodified model: about 81% accuracy and a 14-point demographic-parity gap. Then look at each method relative to it.</p>
+<ul>
+<li><strong>Uncertainty-based selection (purple and orange lines) is the only method whose front extends to the left of the star.</strong> As <span class="math inline">\(\epsilon\)</span> shrinks, the front moves from the star down and to the left, reaching a gap of about 1 point at about 77% accuracy. Every point along that line is a trade-off you can pick by setting <span class="math inline">\(\epsilon\)</span>. In the equal-opportunity and equalized-odds panels, the fronts are nearly flat: the gap falls from about 6 points to about 1 point or less, while accuracy drops by about one point.</li>
+<li><strong>Using TabPFN to measure uncertainty (purple) beats logistic regression (orange).</strong> In the demographic-parity panel, the purple front goes further left than the orange one.</li>
+<li><strong>Group balancing (red star) lands almost on top of the unmodified model.</strong> On ACSIncome that’s partly expected, since the data are already nearly balanced by sex (about 52% women). But in the paper, balancing barely helps even where it changes the context a lot, which suggests the bias isn’t just about who is under-represented.</li>
+<li><strong>Correlation removal (the blue cluster on the far right) is dominated by the unmodified model itself.</strong> It keeps the accuracy but pushes the demographic-parity gap from about 14 points to more than 20. Applying it is strictly worse than doing nothing.</li>
+</ul>
+</section>
+<section id="why-correlation-removal-backfires" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="why-correlation-removal-backfires">Why correlation removal backfires</h3>
+<p>To understand the last result, we asked the TFM itself to predict the sensitive attribute in context. On the raw ACSIncome features, TabPFN recovers a person’s sex with 77% accuracy. <strong>After correlation removal, it recovers it with 100% accuracy.</strong> The transformation modifies every feature using the sensitive attribute, and the model learns to read that signal back out. Instead of hiding sex, correlation removal hands the model a perfect proxy for it, and the model uses it.</p>
+<p>The fix is simple: transform only the context rows and leave the test rows alone. Reconstruction accuracy then drops to 54%, close to a coin flip. <a href="#fig-cr" class="quarto-xref">Figure&nbsp;3</a> shows what that does to the trade-off.</p>
+<div id="fig-cr" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="Three panels of accuracy against fairness violation. Blue S1 points sit far to the right of the unmodified model; the orange S2 front sits to its left.">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-cr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="fig_cr_leak.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Two ways of applying correlation removal on ACSIncome with TabPFN. S1 (blue) transforms the context and the test rows, the standard recipe. S2 (orange) transforms only the context. The red star is the unmodified model. Top-left is better."><img src="fig_cr_leak.png" class="img-fluid figure-img column-page-right" alt="Three panels of accuracy against fairness violation. Blue S1 points sit far to the right of the unmodified model; the orange S2 front sits to its left."></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Two ways of applying correlation removal on ACSIncome with TabPFN. S1 (blue) transforms the context and the test rows, the standard recipe. S2 (orange) transforms only the context. The red star is the unmodified model. Top-left is better.
+</figcaption>
+</figure>
+</div>
+<p>The standard recipe (S1, blue) sits far to the right of the star in every panel: much less fair, for no real gain in accuracy. The fixed version (S2, orange) forms a front to the <em>left</em> of the star, so it improves fairness for less than two points of accuracy. Same method, opposite result, just from not touching the test rows.</p>
+<p>By comparison, uncertainty-based selection with TabPFN brings reconstruction accuracy on ACSIncome down to 51%. The context it selects says almost nothing about the sensitive attribute, which is exactly the point.</p>
+</section>
+<section id="does-the-choice-of-tfm-matter" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="does-the-choice-of-tfm-matter">Does the choice of TFM matter?</h3>
+<p><a href="#fig-models" class="quarto-xref">Figure&nbsp;4</a> runs uncertainty-based selection with three different TFMs on ACSIncome.</p>
+<div id="fig-models" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="Three panels of accuracy against fairness violation with fronts for TabICL, TabPFN and TabDPT; TabPFN and TabDPT fronts lie above TabICL.">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="fig_models_acsincome.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Uncertainty-based selection with three TFMs on ACSIncome. Stars: each model with no intervention. Lines: each model’s Pareto front as \epsilon varies. Top-left is better."><img src="fig_models_acsincome.png" class="img-fluid figure-img column-page-right" alt="Three panels of accuracy against fairness violation with fronts for TabICL, TabPFN and TabDPT; TabPFN and TabDPT fronts lie above TabICL."></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Uncertainty-based selection with three TFMs on ACSIncome. Stars: each model with no intervention. Lines: each model’s Pareto front as <span class="math inline">\(\epsilon\)</span> varies. Top-left is better.
+</figcaption>
+</figure>
+</div>
+<p>Without intervention (the stars), the three models sit close together, with gaps of 13 to 14 points in demographic parity. TabDPT, which is pretrained on real data, is not more biased than the two models pretrained on synthetic data. With the intervention, <strong>all three fronts reach small gaps</strong>, so the method works regardless of the model. The fronts of TabPFN (orange) and TabDPT (purple) lie above TabICL’s (blue): at the same level of fairness, they are about one point more accurate.</p>
+<p>One more result from the paper: a larger context improves accuracy, but unfairness levels off once the context has about 700 rows. <strong>More data in the context doesn’t fix bias on its own.</strong></p>
+</section>
+</section>
+<section id="takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="takeaways">Takeaways</h2>
+<ul>
+<li><strong>Check fairness when you use a TFM.</strong> Its accuracy doesn’t come with fairness built in.</li>
+<li><strong>Don’t apply correlation removal to your test rows.</strong> With a TFM, it leaks the sensitive attribute and amplifies bias. Transform the context only, if you use it at all.</li>
+<li><strong>Try uncertainty-based context selection.</strong> It works with any TFM, needs no retraining, and gives you one parameter to set the trade-off.</li>
+</ul>
+<p>It has limits. You need the sensitive attribute for the context rows (though not for the person being scored), dropping rows costs some accuracy, and <span class="math inline">\(\epsilon\)</span> has to be tuned for each task. That raises the obvious next question: can the model learn fairness during pretraining instead, so none of this is needed? That’s the subject of my next post.</p>
+</section>
+<section id="paper-and-code" class="level2">
+<h2 class="anchored" data-anchor-id="paper-and-code">Paper and code</h2>
+<p><strong>Towards Fair In-Context Learning with Tabular Foundation Models.</strong> Patrik Kenfack, Samira Ebrahimi Kahou, Ulrich Aïvodji. <em>Transactions on Machine Learning Research</em>, 2026. <a href="https://openreview.net/forum?id=AsBhwD0sqo">Paper</a> · <a href="https://github.com/tisl-lab/FairTabICL">Code</a> · <a href="https://youtu.be/dLMC1IbR4LA">Talk</a> · <a href="#citation">BibTeX</a></p>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="citation" class="level2 appendix"><h2 class="anchored quarto-appendix-heading">Citation</h2><div class="quarto-appendix-contents">
+
+<p>If you use this work, please cite the paper:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bibtex code-with-copy"><code class="sourceCode bibtex"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">kenfack2026towards</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>={Towards Fair In-Context Learning with Tabular Foundation Models},</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>={Patrik Kenfack and Samira Ebrahimi Kahou and Ulrich A{<span class="ch">\"\i</span>}vodji},</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span>={Transactions on Machine Learning Research},</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">issn</span>={2835-8856},</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>={2026},</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">url</span>={https://openreview.net/forum?id=AsBhwD0sqo}</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/patrikken\.github\.io");
+      const newWindowLabel = "(opens in a new tab)";
+      const newWindowNoteId = "quarto-ext-newwindow-label";
+      // Links reference one hidden label through aria-describedby, so the
+      // announcement never changes their accessible name.
+      var describeNewWindow = (link) => {
+        if (!window.document.getElementById(newWindowNoteId)) {
+          var newWindowNote = window.document.createElement("span");
+          newWindowNote.id = newWindowNoteId;
+          newWindowNote.hidden = true;
+          newWindowNote.textContent = newWindowLabel;
+          window.document.body.appendChild(newWindowNote);
+        }
+        var describedBy = (link.getAttribute("aria-describedby") || "").split(/\s+/).filter(Boolean);
+        if (!describedBy.includes(newWindowNoteId)) {
+          describedBy.push(newWindowNoteId);
+          link.setAttribute("aria-describedby", describedBy.join(" "));
+        }
+      }
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            describeNewWindow(link);
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Built with Quarto.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

@@ -9,8 +9,187 @@
 <link>https://patrikken.github.io/blog/</link>
 <atom:link href="https://patrikken.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Patrik Kenfack is PhD Candidate in Computer Science at Mila/ÉTS Montréal.</description>
-<generator>quarto-1.10.20</generator>
-<lastBuildDate>Thu, 15 Oct 2026 00:00:00 GMT</lastBuildDate>
+<generator>quarto-1.11.9</generator>
+<lastBuildDate>Tue, 17 Nov 2026 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Can You Make a Tabular Foundation Model Fairer by Choosing Its Context?</title>
+  <dc:creator>Patrik Kenfack</dc:creator>
+  <link>https://patrikken.github.io/blog/posts/fair-in-context-learning/</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>Tabular foundation models (TFMs) such as <a href="https://github.com/PriorLabs/TabPFN">TabPFN</a>, <a href="https://github.com/soda-inria/tabicl">TabICL</a> and <a href="https://github.com/layer6ai-labs/TabDPT-inference">TabDPT</a> don’t train on your data. You pass your labelled rows in as <em>context</em>, and the model predicts the labels of new rows in a single forward pass. Its weights never change.</p>
+<p>That is convenient, and it is a problem for fairness. Most bias-mitigation methods need a training loop: they add a fairness penalty to the loss, reweight the training examples, or train an adversary. A TFM has no training loop on your data. <strong>The only thing you control is the context.</strong></p>
+<p>So in <a href="https://openreview.net/forum?id=AsBhwD0sqo"><em>Towards Fair In-Context Learning with Tabular Foundation Models</em></a> (TMLR 2026, with Samira Ebrahimi Kahou and Ulrich Aïvodji), we asked a simple question: can choosing or transforming the context rows make a TFM’s predictions fairer?</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>TL;DR
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Yes, but not in the obvious ways. Removing correlations with the sensitive attribute made predictions <em>less</em> fair, and balancing the groups in the context barely changed anything. What worked was keeping only the context rows whose sensitive attribute is hard to guess.</p>
+</div>
+</div>
+<section id="the-setup" class="level2">
+<h2 class="anchored" data-anchor-id="the-setup">The setup</h2>
+<p>The running example throughout this post is <strong>ACSIncome</strong>, a task from the <a href="https://github.com/socialfoundations/folktables">folktables</a> library, which builds prediction tasks from US Census data (the American Community Survey). The goal is to predict whether a person earns more than $50,000 a year, among people over 16 who worked at least one hour a week in the past year and earned at least $100. The sensitive attribute is sex, and we use the 2018 data for Alabama, one of the states with the largest fairness gaps in folktables. The paper repeats every experiment on seven more datasets (four more folktables tasks, Diabetes, German Credit and CelebA) with TabPFNv2, TabICL and TabDPT, and the conclusions hold across them.</p>
+<p>We measure fairness with three group metrics, each reported as a gap between groups in percentage points (0 means parity):</p>
+<ul>
+<li><strong>Demographic parity (DP):</strong> do women and men get positive predictions at the same rate?</li>
+<li><strong>Equal opportunity (EOP):</strong> among people who truly earn more than $50,000, are women and men recognised at the same rate?</li>
+<li><strong>Equalized odds (EOD):</strong> are both the true-positive and false-positive rates equal across the two groups?</li>
+</ul>
+<p>Out of the box, TFMs are not fair. On ACSIncome, TabPFNv2 reaches about 81% accuracy with a demographic-parity gap of about 14 points: it predicts “earns more than $50,000” for one sex 14 points more often than for the other.</p>
+</section>
+<section id="three-ways-to-build-a-fairer-context" class="level2">
+<h2 class="anchored" data-anchor-id="three-ways-to-build-a-fairer-context">Three ways to build a fairer context</h2>
+<p>We tried three pre-processing interventions. All three change only the context, so they work with any TFM without retraining it.</p>
+<ol type="1">
+<li><strong>Correlation removal.</strong> Transform the features so they are no longer linearly correlated with the sensitive attribute. This is a classic method, available in <a href="https://fairlearn.org">Fairlearn</a> as <a href="https://fairlearn.org/main/api_reference/generated/fairlearn.preprocessing.CorrelationRemover.html"><code>CorrelationRemover</code></a>. The standard recipe transforms both the context and the test rows, and a parameter <img src="https://latex.codecogs.com/png.latex?%5Calpha"> sets how much correlation to remove.</li>
+<li><strong>Group-balanced context.</strong> Sample the context so women and men contribute the same number of rows.</li>
+<li><strong>Uncertainty-based context (ours).</strong> Train a small classifier to predict sex from the other features, then keep in the context only the rows where that classifier is <em>unsure</em>.</li>
+</ol>
+<p>The third method needs a word on “unsure”. We use <a href="https://arxiv.org/abs/2107.07511">conformal prediction</a> (through the <a href="https://github.com/scikit-learn-contrib/MAPIE">MAPIE</a> library). Instead of a single guess, a conformal predictor returns a <em>set</em> of plausible groups, with a guarantee that the true group is in the set at least <img src="https://latex.codecogs.com/png.latex?1-%5Cepsilon"> of the time. A row whose set contains both groups is one where the features don’t give the person’s sex away, and those are the rows we keep. The coverage parameter <img src="https://latex.codecogs.com/png.latex?%5Cepsilon"> becomes a dial: the smaller it is, the stricter the selection. We tried two classifiers for this step, a logistic regression and TabPFN itself.</p>
+<p>The intuition: a TFM picks up bias from the context by learning how the features that reveal sex relate to income. <strong>If the context rows don’t reveal sex, there’s much less of that shortcut to learn.</strong></p>
+</section>
+<section id="how-to-read-the-plots" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-read-the-plots">How to read the plots</h2>
+<p>Every result below is a <strong>fairness–accuracy plot</strong> (Figure&nbsp;1). Each dot is one configuration: one method at one setting of its parameter, averaged over three random splits of the data. Accuracy is on the vertical axis (higher is better) and the fairness gap is on the horizontal axis (lower is better), so <strong>the best place to be is the top-left corner.</strong></p>
+<div id="fig-howto" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Schematic scatter plot of accuracy against fairness gap, with a Pareto front line running from a red star at the top right towards the left, and grey dominated points below it.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-howto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="fig_how_to_read.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: How to read a fairness–accuracy plot. This one is a made-up illustration, not real results."><img src="https://patrikken.github.io/blog/posts/fair-in-context-learning/fig_how_to_read.png" class="img-fluid figure-img" style="width:80.0%" alt="Schematic scatter plot of accuracy against fairness gap, with a Pareto front line running from a red star at the top right towards the left, and grey dominated points below it."></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-howto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: How to read a fairness–accuracy plot. This one is a made-up illustration, not real results.
+</figcaption>
+</figure>
+</div>
+<p>Fairness and accuracy usually pull against each other, so there is rarely a single best configuration. Instead, we look for configurations that can’t be beaten on both at once:</p>
+<ul>
+<li>A configuration is <strong>dominated</strong> if some other configuration is both fairer <em>and</em> at least as accurate. There’s no reason to ever pick it.</li>
+<li>The configurations that aren’t dominated form the <strong>Pareto front</strong>: the line of best available trade-offs. Moving along the front, you can only gain fairness by giving up some accuracy, and the other way round.</li>
+<li>A method with a parameter (<img src="https://latex.codecogs.com/png.latex?%5Cepsilon">, <img src="https://latex.codecogs.com/png.latex?%5Calpha">) traces its own front as the parameter varies. A method with no parameter, like the unmodified model or the group-balanced context, is a single point, drawn as a star.</li>
+</ul>
+<p>To compare two methods, compare their fronts. <strong>If one front lies above and to the left of another, that method gives a better trade-off at every level of fairness.</strong> In the paper’s plots, faded dots are dominated configurations and solid lines with bold markers are each method’s front. There are three panels per figure, one per fairness metric.</p>
+</section>
+<section id="what-we-found" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="what-we-found">What we found</h2>
+<section id="picking-uncertain-rows-works-the-other-two-dont" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="picking-uncertain-rows-works-the-other-two-dont">Picking uncertain rows works; the other two don’t</h3>
+<p>Figure&nbsp;2 shows all five approaches on ACSIncome with TabPFN.</p>
+<div id="fig-tradeoff" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="Three panels of accuracy against fairness violation for demographic parity, equal opportunity and equalized odds. Uncertainty-based selection curves run left from the unmodified model; correlation removal sits far to the right at much higher violation.">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-tradeoff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="fig_tradeoff_acsincome.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Fairness–accuracy plot on ACSIncome with TabPFN. Stars: the unmodified model (blue) and the group-balanced context (red). Lines: the Pareto front of each method as its parameter varies. Top-left is better."><img src="https://patrikken.github.io/blog/posts/fair-in-context-learning/fig_tradeoff_acsincome.png" class="img-fluid figure-img column-page-right" alt="Three panels of accuracy against fairness violation for demographic parity, equal opportunity and equalized odds. Uncertainty-based selection curves run left from the unmodified model; correlation removal sits far to the right at much higher violation."></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tradeoff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Fairness–accuracy plot on ACSIncome with TabPFN. Stars: the unmodified model (blue) and the group-balanced context (red). Lines: the Pareto front of each method as its parameter varies. Top-left is better.
+</figcaption>
+</figure>
+</div>
+<p>Start with the blue star, the unmodified model: about 81% accuracy and a 14-point demographic-parity gap. Then look at each method relative to it.</p>
+<ul>
+<li><strong>Uncertainty-based selection (purple and orange lines) is the only method whose front extends to the left of the star.</strong> As <img src="https://latex.codecogs.com/png.latex?%5Cepsilon"> shrinks, the front moves from the star down and to the left, reaching a gap of about 1 point at about 77% accuracy. Every point along that line is a trade-off you can pick by setting <img src="https://latex.codecogs.com/png.latex?%5Cepsilon">. In the equal-opportunity and equalized-odds panels, the fronts are nearly flat: the gap falls from about 6 points to about 1 point or less, while accuracy drops by about one point.</li>
+<li><strong>Using TabPFN to measure uncertainty (purple) beats logistic regression (orange).</strong> In the demographic-parity panel, the purple front goes further left than the orange one.</li>
+<li><strong>Group balancing (red star) lands almost on top of the unmodified model.</strong> On ACSIncome that’s partly expected, since the data are already nearly balanced by sex (about 52% women). But in the paper, balancing barely helps even where it changes the context a lot, which suggests the bias isn’t just about who is under-represented.</li>
+<li><strong>Correlation removal (the blue cluster on the far right) is dominated by the unmodified model itself.</strong> It keeps the accuracy but pushes the demographic-parity gap from about 14 points to more than 20. Applying it is strictly worse than doing nothing.</li>
+</ul>
+</section>
+<section id="why-correlation-removal-backfires" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="why-correlation-removal-backfires">Why correlation removal backfires</h3>
+<p>To understand the last result, we asked the TFM itself to predict the sensitive attribute in context. On the raw ACSIncome features, TabPFN recovers a person’s sex with 77% accuracy. <strong>After correlation removal, it recovers it with 100% accuracy.</strong> The transformation modifies every feature using the sensitive attribute, and the model learns to read that signal back out. Instead of hiding sex, correlation removal hands the model a perfect proxy for it, and the model uses it.</p>
+<p>The fix is simple: transform only the context rows and leave the test rows alone. Reconstruction accuracy then drops to 54%, close to a coin flip. Figure&nbsp;3 shows what that does to the trade-off.</p>
+<div id="fig-cr" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="Three panels of accuracy against fairness violation. Blue S1 points sit far to the right of the unmodified model; the orange S2 front sits to its left.">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-cr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="fig_cr_leak.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Two ways of applying correlation removal on ACSIncome with TabPFN. S1 (blue) transforms the context and the test rows, the standard recipe. S2 (orange) transforms only the context. The red star is the unmodified model. Top-left is better."><img src="https://patrikken.github.io/blog/posts/fair-in-context-learning/fig_cr_leak.png" class="img-fluid figure-img column-page-right" alt="Three panels of accuracy against fairness violation. Blue S1 points sit far to the right of the unmodified model; the orange S2 front sits to its left."></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Two ways of applying correlation removal on ACSIncome with TabPFN. S1 (blue) transforms the context and the test rows, the standard recipe. S2 (orange) transforms only the context. The red star is the unmodified model. Top-left is better.
+</figcaption>
+</figure>
+</div>
+<p>The standard recipe (S1, blue) sits far to the right of the star in every panel: much less fair, for no real gain in accuracy. The fixed version (S2, orange) forms a front to the <em>left</em> of the star, so it improves fairness for less than two points of accuracy. Same method, opposite result, just from not touching the test rows.</p>
+<p>By comparison, uncertainty-based selection with TabPFN brings reconstruction accuracy on ACSIncome down to 51%. The context it selects says almost nothing about the sensitive attribute, which is exactly the point.</p>
+</section>
+<section id="does-the-choice-of-tfm-matter" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="does-the-choice-of-tfm-matter">Does the choice of TFM matter?</h3>
+<p>Figure&nbsp;4 runs uncertainty-based selection with three different TFMs on ACSIncome.</p>
+<div id="fig-models" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="Three panels of accuracy against fairness violation with fronts for TabICL, TabPFN and TabDPT; TabPFN and TabDPT fronts lie above TabICL.">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<a href="fig_models_acsincome.png" class="lightbox page-columns page-full" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Uncertainty-based selection with three TFMs on ACSIncome. Stars: each model with no intervention. Lines: each model’s Pareto front as \epsilon varies. Top-left is better."><img src="https://patrikken.github.io/blog/posts/fair-in-context-learning/fig_models_acsincome.png" class="img-fluid figure-img column-page-right" alt="Three panels of accuracy against fairness violation with fronts for TabICL, TabPFN and TabDPT; TabPFN and TabDPT fronts lie above TabICL."></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Uncertainty-based selection with three TFMs on ACSIncome. Stars: each model with no intervention. Lines: each model’s Pareto front as <img src="https://latex.codecogs.com/png.latex?%5Cepsilon"> varies. Top-left is better.
+</figcaption>
+</figure>
+</div>
+<p>Without intervention (the stars), the three models sit close together, with gaps of 13 to 14 points in demographic parity. TabDPT, which is pretrained on real data, is not more biased than the two models pretrained on synthetic data. With the intervention, <strong>all three fronts reach small gaps</strong>, so the method works regardless of the model. The fronts of TabPFN (orange) and TabDPT (purple) lie above TabICL’s (blue): at the same level of fairness, they are about one point more accurate.</p>
+<p>One more result from the paper: a larger context improves accuracy, but unfairness levels off once the context has about 700 rows. <strong>More data in the context doesn’t fix bias on its own.</strong></p>
+</section>
+</section>
+<section id="takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="takeaways">Takeaways</h2>
+<ul>
+<li><strong>Check fairness when you use a TFM.</strong> Its accuracy doesn’t come with fairness built in.</li>
+<li><strong>Don’t apply correlation removal to your test rows.</strong> With a TFM, it leaks the sensitive attribute and amplifies bias. Transform the context only, if you use it at all.</li>
+<li><strong>Try uncertainty-based context selection.</strong> It works with any TFM, needs no retraining, and gives you one parameter to set the trade-off.</li>
+</ul>
+<p>It has limits. You need the sensitive attribute for the context rows (though not for the person being scored), dropping rows costs some accuracy, and <img src="https://latex.codecogs.com/png.latex?%5Cepsilon"> has to be tuned for each task. That raises the obvious next question: can the model learn fairness during pretraining instead, so none of this is needed? That’s the subject of my next post.</p>
+</section>
+<section id="paper-and-code" class="level2">
+<h2 class="anchored" data-anchor-id="paper-and-code">Paper and code</h2>
+<p><strong>Towards Fair In-Context Learning with Tabular Foundation Models.</strong> Patrik Kenfack, Samira Ebrahimi Kahou, Ulrich Aïvodji. <em>Transactions on Machine Learning Research</em>, 2026. <a href="https://openreview.net/forum?id=AsBhwD0sqo">Paper</a> · <a href="https://github.com/tisl-lab/FairTabICL">Code</a> · <a href="https://youtu.be/dLMC1IbR4LA">Talk</a> · BibTeX</p>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="citation" class="level2 appendix"><h2 class="anchored quarto-appendix-heading">Citation</h2><div class="quarto-appendix-contents">
+
+<p>If you use this work, please cite the paper:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bibtex code-with-copy"><code class="sourceCode bibtex"><span id="cb1-1"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">@article</span>{<span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">kenfack2026towards</span>,</span>
+<span id="cb1-2">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">title</span>={Towards Fair In-Context Learning with Tabular Foundation Models},</span>
+<span id="cb1-3">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">author</span>={Patrik Kenfack and Samira Ebrahimi Kahou and Ulrich A{<span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\"\i</span>}vodji},</span>
+<span id="cb1-4">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">journal</span>={Transactions on Machine Learning Research},</span>
+<span id="cb1-5">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">issn</span>={2835-8856},</span>
+<span id="cb1-6">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">year</span>={2026},</span>
+<span id="cb1-7">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">url</span>={https://openreview.net/forum?id=AsBhwD0sqo}</span>
+<span id="cb1-8">}</span></code></pre></div></div>
+
+
+</div></section></div> ]]></description>
+  <category>tabular foundation models</category>
+  <category>fairness</category>
+  <category>in-context learning</category>
+  <guid>https://patrikken.github.io/blog/posts/fair-in-context-learning/</guid>
+  <pubDate>Tue, 17 Nov 2026 00:00:00 GMT</pubDate>
+  <media:content url="https://patrikken.github.io/blog/posts/fair-in-context-learning/fig_tradeoff_acsincome.png" medium="image" type="image/png" height="58" width="144"/>
+</item>
 <item>
   <title>The “Hidden” Ensemble Inside Tabular Foundation Models</title>
   <dc:creator>Patrik Kenfack</dc:creator>
@@ -356,7 +535,7 @@ Table&nbsp;2: Change versus the shipped recipe when each member sees only part o
 <li id="fn1"><p>I count cost in forward passes: 32 members means 32 times the model evaluations of a single pass. Wall-clock time depends on the implementation.↩︎</p></li>
 <li id="fn2"><p>With 16 members and half the columns each, the chance that a given column is missed by every member is <img src="https://latex.codecogs.com/png.latex?0.5%5E%7B16%7D">, about 1.5 in 100,000.↩︎</p></li>
 </ol>
-</section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{kenfack2026,
+</section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><div class="code-copy-outer-scaffold"><pre class="sourceCode quarto-appendix-bibtex code-with-copy"><code class="sourceCode bibtex">@online{kenfack2026,
   author = {Kenfack, Patrik},
   title = {The “{Hidden}” {Ensemble} {Inside} {Tabular} {Foundation}
     {Models}},
@@ -364,7 +543,7 @@ Table&nbsp;2: Change versus the shipped recipe when each member sees only part o
   url = {https://patrikken.github.io/blog/posts/the-hidden-ensemble-in-tabular-foundation-models/},
   langid = {en}
 }
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-kenfack2026" class="csl-entry quarto-appendix-citeas">
+</code></pre></div><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-kenfack2026" class="csl-entry quarto-appendix-citeas">
 Kenfack, Patrik. 2026. <span>“The <span>‘Hidden’</span> Ensemble Inside
 Tabular Foundation Models.”</span> October 15. <a href="https://patrikken.github.io/blog/posts/the-hidden-ensemble-in-tabular-foundation-models/">https://patrikken.github.io/blog/posts/the-hidden-ensemble-in-tabular-foundation-models/</a>.
 </div></div></section></div> ]]></description>

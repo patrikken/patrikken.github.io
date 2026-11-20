@@ -2,6 +2,7 @@
   {
     "listing": "/blog/index.html",
     "items": [
+      "/blog/posts/fair-in-context-learning/index.html",
       "/blog/posts/the-hidden-ensemble-in-tabular-foundation-models/index.html",
       "/blog/posts/getting-started-with-compute-clusters/index.html"
     ]
